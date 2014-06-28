@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Transit.Tips</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44599252-2', 'transit.tips');
+      ga('send', 'pageview');
+
+    </script>
+    <script src="js/stops.js"></script>
+    <script>
+      function displayTransitInfo(transitInfo) {
+        var length = transitInfo.length;
+        for (var i = 0; i < length; i = i+1) {
+          var itemInfo = transitInfo[i]
+
+          // Route information
+          routeInfoDiv = getRouteDiv(itemInfo.route.title)
+
+          // Schedule
+          var scheduleTableBody = routeInfoDiv.find('table.table tbody');
+          var scheduleLength = itemInfo['values'].length;
+          for (var j = 0; j < scheduleLength; j = j+1) {
+            var bus = itemInfo['values'][j]
+            var busRow = $('<tr />', {});
+            busRow.appendTo(scheduleTableBody);
+
+            // Direction
+            $('<td />', {
+              'text': bus.direction.title,
+            }).appendTo(busRow);
+
+            // Arrival time in minutes
+            arrivalTime = bus.minutes > 0 ? bus.minutes : 'now';
+            $('<td />', {
+              'text': arrivalTime
+            }).appendTo(busRow);
+          }
+          routeDiv.appendTo('#transit-info');
+        }
+        hideWelcomeSpan();
+      };
+
+      function hideWelcomeSpan() {
+        $('#welcome').hide();
+      };
+
+      function getRouteDiv(title) {
+        routeDiv = $('<div />', {
+          'class': 'panel panel-default'
+          });
+        routeDiv.append($('<div />', {
+          'class': 'panel-heading'
+        }).append($('<h3 />', {
+          'class': 'panel-title',
+          'text': title
+        })));
+
+        routeDiv.append($('<div />', {
+          'class': 'panel-body'
+        }));
+
+        routeDiv.append($('<table />', {
+          'class': 'table'
+        }).append(
+          '<thead>' +
+            '<tr>' +
+              '<th>Direction</th>' +
+              '<th>Arrival (in minutes)</th>' +
+            '</tr>' +
+          '</thead>').
+        append($('<tbody />', {})));
+
+        return routeDiv;
+      };
+
+      function getStops(latitude, longitude) {
+        myStops = stops({
+          'latitude': latitude,
+          'longitude': longitude,
+          'displayStops': displayTransitInfo
+        });
+        myStops.populate();
+      }
+
+      function getLocation() {
+        navigator.geolocation.getCurrentPosition(showLocation);
+      }
+
+      function showLocation(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        $('span#latitude').text(latitude);
+        $('span#longitude').text(longitude);
+
+        getStops(latitude, longitude);
+      }
+
+      $(document).ready(function() {
+        getLocation();
+      });
+  </script>
+  </head>
+  <body>
+    <h1 id='url'>Transit.Tips</h1>
+    <h2 id='welcome'>Searching for nearest transit information</h2>
+
+    <div id='transit-info'></div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
