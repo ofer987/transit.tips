@@ -35,32 +35,34 @@
   </script>
   </head>
   <body>
-    <h1 id='url'>Transit.Tips</h1>
-    <h2 id='welcome'>Searching for nearest transit information</h2>
+    <div class="container">
+      <h1 id='url'>Transit.Tips</h1>
+      <h2 id='welcome'>Searching for nearest transit information</h2>
 
-    <div id='transit-info' ng-controller="TransitController">
-      <div ng-repeat="route in routes" class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">{{route.name}}</h3>
+      <div id='transit-info' ng-controller="TransitController">
+        <div ng-repeat="route in routes" class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{route.name}}</h3>
+          </div>
+
+          <div class="panel-body">
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Direction</th>
+                <th>Arrival (in minutes)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="bus in route.buses">
+                <td>{{bus.name}}</td>
+                <td>{{bus.arrivalTime}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <div class="panel-body">
-        </div>
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Direction</th>
-              <th>Arrival (in minutes)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="bus in route.buses">
-              <td>{{bus.name}}</td>
-              <td>{{bus.arrivalTime}}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
 
