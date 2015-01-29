@@ -37,7 +37,7 @@
       that.stops = data;
       that.routes = getTransitInfo(data);
 
-      deferred();
+      deferred.resolve(that.routes);
     };
 
     var getTransitInfo = function(transitInfo) {
