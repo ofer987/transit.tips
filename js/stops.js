@@ -41,14 +41,14 @@
     };
 
     var getTransitInfo = function(transitInfo) {
-      var routes = {};
+      var routes = [];
 
       var length = transitInfo.length;
       for (var i = 0; i < length; i = i+1) {
         var itemInfo = transitInfo[i]
 
         var route = {};
-        route['title'] = itemInfo.route.title;
+        route['name'] = itemInfo.route.title;
         route['buses'] = [];
 
         // Schedule
@@ -58,10 +58,10 @@
           var unprocessedBus = itemInfo['values'][j]
 
           // Name of bus or direction
-          bus['title'] = unprocessedBus.direction.title;
+          bus['name'] = unprocessedBus.direction.title;
 
           // Arrival time in minutes
-          arrivalTime = unprocessedBus.minutes > 0 ? unprocessedBus.minutes : 'now';
+          bus['arrivalTime'] = unprocessedBus.minutes > 0 ? unprocessedBus.minutes : 'now';
 
           route['buses'].push(bus);
         }

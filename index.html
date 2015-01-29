@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="transitTipsApp" lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,105 +32,14 @@
     <script src="js/stops.js"></script>
     <script src="js/transit-tips.js"></script>
     <script>
-      // function displayTransitInfo(routes) {
-      //   var length = transitInfo.length;
-      //   for (var i = 0; i < length; i = i+1) {
-      //     var itemInfo = transitInfo[i]
-      //
-      //     // Route information
-      //     routeInfoDiv = getRouteDiv(itemInfo.route.title)
-      //
-      //     // Schedule
-      //     var scheduleTableBody = routeInfoDiv.find('table.table tbody');
-      //     var scheduleLength = itemInfo['values'].length;
-      //     for (var j = 0; j < scheduleLength; j = j+1) {
-      //       var bus = itemInfo['values'][j]
-      //       var busRow = $('<tr />', {});
-      //       busRow.appendTo(scheduleTableBody);
-      //
-      //       // Direction
-      //       $('<td />', {
-      //         'text': bus.direction.title,
-      //       }).appendTo(busRow);
-      //
-      //       // Arrival time in minutes
-      //       arrivalTime = bus.minutes > 0 ? bus.minutes : 'now';
-      //       $('<td />', {
-      //         'text': arrivalTime
-      //       }).appendTo(busRow);
-      //     }
-      //     routeDiv.appendTo('#transit-info');
-      //   }
-      //   hideWelcomeSpan();
-      // };
-      //
-      // function hideWelcomeSpan() {
-      //   $('#welcome').hide();
-      // };
-      //
-      // function getRouteDiv(title) {
-      //   routeDiv = $('<div />', {
-      //     'class': 'panel panel-default'
-      //     });
-      //   routeDiv.append($('<div />', {
-      //     'class': 'panel-heading'
-      //   }).append($('<h3 />', {
-      //     'class': 'panel-title',
-      //     'text': title
-      //   })));
-      //
-      //   routeDiv.append($('<div />', {
-      //     'class': 'panel-body'
-      //   }));
-      //
-      //   routeDiv.append($('<table />', {
-      //     'class': 'table'
-      //   }).append(
-      //     '<thead>' +
-      //       '<tr>' +
-      //         '<th>Direction</th>' +
-      //         '<th>Arrival (in minutes)</th>' +
-      //       '</tr>' +
-      //     '</thead>').
-      //   append($('<tbody />', {})));
-      //
-      //   return routeDiv;
-      // };
-      //
-      // function getStops(latitude, longitude) {
-      //   myStops = stops({
-      //     'latitude': latitude,
-      //     'longitude': longitude,
-      //     'displayStops': displayTransitInfo
-      //   });
-      //   myStops.populate();
-      // }
-      //
-      // function getLocation() {
-      //   navigator.geolocation.getCurrentPosition(showLocation);
-      // }
-      //
-      // function showLocation(position) {
-      //   var latitude = position.coords.latitude;
-      //   var longitude = position.coords.longitude;
-      //
-      //   $('span#latitude').text(latitude);
-      //   $('span#longitude').text(longitude);
-      //
-      //   getStops(latitude, longitude);
-      // }
-
-      // $(document).ready(function() {
-      //   getLocation();
-      // });
   </script>
   </head>
   <body>
     <h1 id='url'>Transit.Tips</h1>
     <h2 id='welcome'>Searching for nearest transit information</h2>
 
-    <div id='transit-info' ng-controller="TransitController as transitInfo">
-      <div ng-repeat="route in transitInfo.routes" class="panel panel-default">
+    <div id='transit-info' ng-controller="TransitController">
+      <div ng-repeat="route in routes" class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">{{route.name}}</h3>
         </div>
@@ -146,9 +55,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="direction in route.directions">
-              <td>{{direction.name}}</td>
-              <td>{{direction.arrivalTime}}</td>
+            <tr ng-repeat="bus in route.buses">
+              <td>{{bus.name}}</td>
+              <td>{{bus.arrivalTime}}</td>
             </tr>
           </tbody>
         </table>
