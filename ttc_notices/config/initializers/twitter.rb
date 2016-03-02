@@ -1,5 +1,5 @@
 module Twitter
-  CLIENT = Twitter::Streaming::Client.new do |config|
+  CLIENT = Twitter::REST::Client.new do |config|
     config.consumer_key        = 'hV1JBfUJ9RVF8ylpeowXDvtQj'
     config.consumer_secret     = 'v69EdxjYYVZ1YAgVdBzGp6ooFMkPxzWPyLqYnVT5xyzcatc1ya'
     config.access_token        = '803725628-5tsKPyz3T9jDIBt5DpvsIWPkL9fJ5S91keikbjFn'

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Line:</strong>
+  <%= @status.line %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @status.type %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @status.description %>
+</p>
+
+<p>
+  <strong>Tweeted at:</strong>
+  <%= @status.tweeted_at %>
+</p>
+
+<%= link_to 'Edit', edit_status_path(@status) %> |
+<%= link_to 'Back', statuses_path %>
