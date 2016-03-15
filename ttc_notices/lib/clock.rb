@@ -3,7 +3,10 @@ require 'clockwork'
 
 module Clockwork
   environment = ENV['RAILS_ENV'] || 'development'
-  logger = ::Logger.new("log/#{environment}.log")
+
+  log_file = "#{File.dirname(__FILE__)}/../log/#{environment}.log"
+  logger = ::Logger.new(log_file)
+
   twitter_job = 'twitter:poll'
 
   handler do |job|
@@ -12,7 +15,7 @@ module Clockwork
 
   begin
     every(1.minute, twitter_job) do
-      `rake #{twitter_job}`
+      `cd #{File.dirname(__FILE__)}/.. && rake #{twitter_job}`
     end
   rescue => e
     message =
