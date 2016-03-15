@@ -1,7 +1,7 @@
 class CreateStatuses < ActiveRecord::Migration
   def change
     create_table :statuses do |t|
-      t.integer :tweet_id, null: false
+      t.bigint :tweet_id, null: false
       t.integer :line_id, null: false
       t.string :line_type, null: false
       t.text :description, null: false
@@ -9,7 +9,7 @@ class CreateStatuses < ActiveRecord::Migration
 
       t.timestamps null: false
 
-      t.index :tweet_id, unique: true
+      t.index [:tweet_id, :line_id], unique: true
     end
   end
 end

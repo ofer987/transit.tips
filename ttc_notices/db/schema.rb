@@ -17,15 +17,15 @@ ActiveRecord::Schema.define(version: 20160224151143) do
   enable_extension "plpgsql"
 
   create_table "statuses", force: :cascade do |t|
-    t.integer  "tweet_id",    null: false
-    t.integer  "line_id",     null: false
-    t.string   "line_type",   null: false
-    t.text     "description", null: false
-    t.datetime "tweeted_at",  null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "tweet_id",    limit: 8, null: false
+    t.integer  "line_id",               null: false
+    t.string   "line_type",             null: false
+    t.text     "description",           null: false
+    t.datetime "tweeted_at",            null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
-  add_index "statuses", ["tweet_id"], name: "index_statuses_on_tweet_id", unique: true, using: :btree
+  add_index "statuses", ["tweet_id", "line_id"], name: "index_statuses_on_tweet_id_and_line_id", unique: true, using: :btree
 
 end

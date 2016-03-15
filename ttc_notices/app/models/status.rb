@@ -9,14 +9,19 @@ class Status < ActiveRecord::Base
   # updated_at, datetime, NOT NULL
 
   class << self
-    def bulk_insert(statuses)
-      Array(statuses).each do |status|
+    def bulk_insert!(statuses)
+      Array(statuses).each_with_object(0) do |status, count|
         begin
           Status.create!(status)
-        rescue ActiveRecord::StatementInvalid => ex
+          count.next!
+        rescue => ex
           logger.warn("Error storing the row:\n#{status}\nDetails:#{ex.message}")
         end
       end
+    end
+
+    def last_status
+      Status.last || Nil::Status.new
     end
   end
 end

@@ -1,5 +1,14 @@
 class Status
   class Constructor
+    class << self
+      def insert_latest_statuses!(account)
+        tweets = Poller::Tweet.new(account).fetch(Status.last_status.tweet_id)
+        statuses = new(tweets).build
+
+        Status.bulk_insert!(statuses)
+      end
+    end
+
     attr_reader :tweets
 
     def initialize(tweets)
@@ -12,7 +21,7 @@ class Status
           {
             tweet_id: tweet[:id],
             line_id: line_id,
-            type: get_type(line_id),
+            line_type: get_line_type(line_id),
             description: tweet[:text],
             tweeted_at: get_time(tweet[:created_at]).utc
           }
@@ -26,7 +35,7 @@ class Status
       description.scan(/\d+/).map(&:to_i)
     end
 
-    def get_type(line_id)
+    def get_line_type(line_id)
       case line_id
       when 1..4
         'Train'
