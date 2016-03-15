@@ -11,7 +11,7 @@ module Clockwork
   end
 
   begin
-    every(1.minute, twitter_job, at: '**:**') do
+    every(1.minute, twitter_job) do
       `rake #{twitter_job}`
     end
   rescue => e
