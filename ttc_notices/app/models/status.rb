@@ -10,14 +10,17 @@ class Status < ActiveRecord::Base
 
   class << self
     def bulk_insert!(statuses)
-      Array(statuses).each_with_object(0) do |status, count|
+      count = 0
+      Array(statuses).each do |status|
         begin
           Status.create!(status)
-          count.next!
+          count += 1
         rescue => ex
           logger.warn("Error storing the row:\n#{status}\nDetails:#{ex.message}")
         end
       end
+
+      count
     end
 
     def last_status
