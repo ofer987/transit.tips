@@ -1,0 +1,6 @@
+.tmp/
+coverage/
+dist/
+output/
+node_modules/
+typings/
