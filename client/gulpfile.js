@@ -20,15 +20,9 @@ function watch(done) {
   done();
 }
 
-gulp.task('default', gulp.series('rebuild'));
-gulp.task('clean', gulp.series('build:clean'));
-gulp.task('build', gulp.series('build:compile'));
-gulp.task('rebuild', gulp.series('build:rebuild'));
-
 gulp.task('test', gulp.series('karma:single-run'));
 gulp.task('test:auto', gulp.series('karma:auto-run'));
 
-gulp.task('serve', gulp.series('webpack:watch', 'watch', 'browsersync'));
-gulp.task('serve:dist', gulp.series('webpack:dist', 'browsersync:dist'));
+gulp.task('serve', gulp.series('webpack:dist', 'browsersync:dist'));
 
 gulp.task('watch', watch);

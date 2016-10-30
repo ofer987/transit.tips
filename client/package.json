@@ -63,10 +63,7 @@
     "webpack-hot-middleware": "^2.6.0"
   },
   "scripts": {
-    "rebuild": "gulp dist:rebuild",
-    "build": "gulp",
     "serve": "gulp serve",
-    "serve:dist": "gulp serve:dist",
     "test": "gulp test",
     "test:auto": "gulp test:auto"
   },
