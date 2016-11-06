@@ -30,5 +30,18 @@ RSpec.describe LinesController, type: :controller do
         expect(response).to have_http_status(404)
       end
     end
+
+    context 'there are 500 statuses' do
+      let!(:statuses) do
+        create_list(:status, 500, line_id: 5)
+      end
+
+      it 'limit = 300 returns 300 statuses' do
+        get :show, { id: 5, limit: 300 }
+
+        actual = JSON.parse(response.body)['statuses']
+        expect(actual.count).to equal(300)
+      end
+    end
   end
 end

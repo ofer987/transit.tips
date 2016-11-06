@@ -20,6 +20,48 @@ describe Line do
       it 'returns two statuses' do
         expect(subject.count).to eq(2)
       end
+
+      context 'of an ancient history' do
+        let!(:statuses) do
+          [
+            create(:status, line_id: 4, tweeted_at: DateTime.now),
+            create(:status, line_id: 4, tweeted_at: DateTime.now.yesterday),
+            create(:status, line_id: 4, tweeted_at: DateTime.now.last_week),
+            create(:status, line_id: 4, tweeted_at: DateTime.now.last_month + 1.second)
+          ]
+        end
+        let!(:excluded_statuses) do
+          [
+            create(:status, line_id: 4, tweeted_at: DateTime.now.tomorrow),
+            create(:status, line_id: 4, tweeted_at: DateTime.now.last_year),
+            create(:status, line_id: 5, tweeted_at: DateTime.now.last_week)
+          ]
+        end
+
+        subject do
+          described_class
+            .find_statuses(line_id, { tweeted_by: DateTime.now.last_month })
+        end
+
+        it 'returns statuses as far back as one month ago' do
+          expect(subject.to_a).to eq(statuses)
+        end
+      end
+
+      context 'of a long history' do
+        let!(:statuses) do
+          create_list(:status, 200, line_id: 4, tweeted_at: DateTime.now)
+        end
+
+        subject do
+          described_class
+            .find_statuses(line_id, { limit: 100 })
+        end
+
+        it 'returns 100 statuses' do
+          expect(subject.count).to eq(100)
+        end
+      end
     end
   end
 
