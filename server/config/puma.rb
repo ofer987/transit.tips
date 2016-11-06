@@ -1,29 +1,55 @@
-workers Integer(ENV['WEB_CONCURRENCY'] || 1)
-threads_count = Integer(ENV['MAX_THREADS'] || 1)
-threads threads_count, threads_count
+# binding.pry
+# return if Rails.env.development?
 
-app_dir = File.expand_path("../..", __FILE__)
-shared_dir = "#{app_dir}/shared"
+APP_DIR = File.expand_path("../..", __FILE__)
+SHARED_DIR = "#{APP_DIR}/shared"
+LOG_DIR = "#{SHARED_DIR}/log"
+LOG = "#{LOG_DIR}/puma.stdout.log"
+ERROR = "#{LOG_DIR}/puma.stderr.log"
 
-# Set up socket location
-bind "unix://#{shared_dir}/sockets/puma.sock"
+PIDS_DIR = "#{SHARED_DIR}/pids"
+PID = "#{PIDS_DIR}/puma.pid"
+STATE = "#{PIDS_DIR}/puma.state"
 
-# Logging
-stdout_redirect "#{shared_dir}/log/puma.stdout.log", "#{shared_dir}/log/puma.stderr.log", true
+def setup
+  workers Integer(ENV['WEB_CONCURRENCY'] || 1)
+  threads_count = Integer(ENV['MAX_THREADS'] || 1)
+  threads threads_count, threads_count
 
-# Set master PID and state locations
-pidfile "#{shared_dir}/pids/puma.pid"
-state_path "#{shared_dir}/pids/puma.state"
-activate_control_app
+  create_files
 
-preload_app!
+  # Set up socket location
+  bind "unix://#{SHARED_DIR}/sockets/puma.sock"
 
-rails_env = ENV['RAILS_ENV'] || 'development'
-environment rails_env
+  # Logging
+  stdout_redirect LOG, ERROR, true
 
-on_worker_boot do
-  require "active_record"
-  ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
-  ActiveRecord::Base.establish_connection(
-    YAML.load_file("#{app_dir}/config/database.yml")[rails_env])
+  # Set master PID and state locations
+  pidfile PID
+  state_path STATE
+  activate_control_app
+
+  preload_app!
+  environment Rails.env
+
+  on_worker_boot do
+    require "active_record"
+
+    ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
+    ActiveRecord::Base.establish_connection(
+      YAML.load_file("#{APP_DIR}/config/database.yml")[rails_env])
+  end
 end
+
+def create_files
+  FileUtils.mkdir_p(SHARED_DIR) unless Dir.exists?(SHARED_DIR)
+  FileUtils.mkdir_p(LOG_DIR) unless Dir.exists?(LOG_DIR)
+  FileUtils.touch(LOG) unless File.exists?(LOG)
+  FileUtils.touch(ERROR) unless File.exists?(ERROR)
+
+  FileUtils.mkdir_p(PIDS_DIR) unless Dir.exists?(PIDS_DIR)
+  FileUtils.touch(PID) unless File.exists?(PID)
+  FileUtils.touch(STATE) unless File.exists?(STATE)
+end
+
+setup
