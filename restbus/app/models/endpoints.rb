@@ -2,8 +2,8 @@ class Endpoints
   BASE_URL = 'http://restbus.info/api'.freeze
 
   def initialize(longitude, latitude)
-    @longitude = longitude
-    @latitude = latitude
+    @longitude = longitude.to_f
+    @latitude = latitude.to_f
   end
 
   def nearby_locations
