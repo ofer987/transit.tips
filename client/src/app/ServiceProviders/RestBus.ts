@@ -24,8 +24,7 @@ export class RestBus {
   }
 
   private stopsUrl(x, y) {
-    return "http://restbus.info/api/locations/" +
-    x + "," + y + "/predictions";
+    return "https://restbus.transit.tips/nearby?longitude=${x}&latitude=${y}";
   }
 
   private parseResponse(data) : Array<Route> {
