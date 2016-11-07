@@ -37,7 +37,7 @@ def setup
 
     ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
     ActiveRecord::Base.establish_connection(
-      YAML.load_file("#{APP_DIR}/config/database.yml")[rails_env])
+      YAML.load_file("#{APP_DIR}/config/database.yml")[Rails.env])
   end
 end
 
