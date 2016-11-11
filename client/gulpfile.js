@@ -26,3 +26,7 @@ gulp.task('test:auto', gulp.series('karma:auto-run'));
 gulp.task('serve', gulp.series('webpack:dist', 'browsersync:dist'));
 
 gulp.task('watch', watch);
+
+gulp.task('dev', gulp.series('dev:build', 'dev:server'))
+gulp.task('dev:build', gulp.series('webpack:dev'))
+gulp.task('dev:server', gulp.series('browsersync:dev'))

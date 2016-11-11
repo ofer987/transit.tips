@@ -2,20 +2,20 @@ const gulp = require('gulp');
 const browserSync = require('browser-sync');
 const spa = require('browser-sync-spa');
 
-const browserSyncConf = require('../conf/browsersync.conf');
+const browserSyncDevConf = require('../conf/browsersync-dev.conf');
 const browserSyncDistConf = require('../conf/browsersync-dist.conf');
 
 browserSync.use(spa());
 
-gulp.task('browsersync', browserSyncServe);
-gulp.task('browsersync:dist', browserSyncDist);
+gulp.task('browsersync:dev', browserSyncDevServe);
+gulp.task('browsersync:dist', browserSyncDistServe);
 
-function browserSyncServe(done) {
-  browserSync.init(browserSyncConf());
+function browserSyncDevServe(done) {
+  browserSync.init(browserSyncDevConf());
   done();
 }
 
-function browserSyncDist(done) {
+function browserSyncDistServe(done) {
   browserSync.init(browserSyncDistConf());
   done();
 }
