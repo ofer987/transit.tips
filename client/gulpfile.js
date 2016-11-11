@@ -31,4 +31,7 @@ gulp.task('prod', gulp.series('prod:build', 'prod:server'));
 gulp.task('prod:build', gulp.series('webpack:prod'));
 gulp.task('prod:server', gulp.series('browsersync:prod'));
 
+// gulp spec:build
+gulp.task('spec', gulp.series('dev:build', 'spec:build'))
+
 gulp.task('watch', watch);

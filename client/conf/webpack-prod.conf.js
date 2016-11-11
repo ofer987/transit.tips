@@ -76,7 +76,7 @@ module.exports = {
     app: `./${conf.path.src('index')}`
   },
   ts: {
-    configFileName: 'tsconfig.json'
+    configFileName: 'tsconfig/prod.json'
   },
   tslint: {
     configuration: require('../tslint.json')
