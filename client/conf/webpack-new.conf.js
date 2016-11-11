@@ -3,6 +3,7 @@ const conf = require('./gulp.conf');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -16,7 +17,9 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loaders: ['css']
+        loaders: ExtractTextPlugin.extract({
+          loader: 'css'
+        })
       },
       {
         test: /\.tsx?$/,
@@ -29,18 +32,15 @@ module.exports = {
       }
     ]
   },
+  debug: true,
+  devtool: 'source-map',
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({
       template: conf.path.src('index.html'),
       inject: true
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new ExtractTextPlugin('index-[contenthash].css')
   ],
-  postcss: () => [autoprefixer],
-  debug: true,
-  devtool: 'cheap-module-eval-source-map',
   output: {
     path: path.join(process.cwd(), conf.paths.build),
     filename: 'index.js'
@@ -56,8 +56,6 @@ module.exports = {
     ]
   },
   entry: [
-    'webpack/hot/dev-server',
-    'webpack-hot-middleware/client',
     `./${conf.path.src('index')}`
   ],
   ts: {

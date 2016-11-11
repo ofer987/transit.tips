@@ -5,6 +5,9 @@ import * as TestUtils from 'react-addons-test-utils';
 import { ScheduleComponent } from '../../app/Components/Schedule';
 
 describe('schedule component', () => {
+  it('is true', () => {
+    expect(true).toBe(true);
+  });
   // const schedules = TestUtils.renderIntoDocument(<Schedules/>);
   //
   // it('should fetch the latest schedules', () => {

@@ -1,6 +1,8 @@
 import { Arrival } from '../Models/Arrival';
 import { Route } from '../Models/Route';
 import { Schedule } from '../Models/Schedule';
+import { Config } from '../Config';
+
 import $ = require('jquery');
 
 export class RestBus {
@@ -24,13 +26,18 @@ export class RestBus {
   }
 
   private stopsUrl(x, y) {
-    return `https://restbus.transit.tips/nearby/index?longitude=${x}&latitude=${y}`;
+    return `${Config.url}/nearby/index?longitude=${x}&latitude=${y}`;
+    // return `https://restbus.transit.tips/nearby/index?longitude=${x}&latitude=${y}`;
   }
 
   private parseResponse(data) : Array<Route> {
     let routes = [];
 
     for (let item of data) {
+      if (!item.route) {
+        continue;
+      }
+
       let route = new Route(item.route.title, []);
 
       // Schedule

@@ -4,7 +4,6 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -75,7 +74,6 @@ module.exports = {
   },
   entry: {
     app: `./${conf.path.src('index')}`
-    // vendor: Object.keys(pkg.dependencies)
   },
   ts: {
     configFileName: 'tsconfig.json'
