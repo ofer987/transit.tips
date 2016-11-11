@@ -15,10 +15,10 @@
     "!src/spec/**",
     "!typings/**",
     "!node_modules/**",
-    "!dist"
+    "!build/**"
   ],
   "exclude": [
-    "dist",
+    "build",
     "typings",
     "node_modules"
   ]
