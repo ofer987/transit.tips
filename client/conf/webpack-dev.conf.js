@@ -42,7 +42,7 @@ module.exports = {
     new ExtractTextPlugin('index-[contenthash].css')
   ],
   output: {
-    path: path.join(process.cwd(), conf.paths.build),
+    path: path.join(process.cwd(), conf.paths.build.dev),
     filename: 'index.js'
   },
   resolve: {

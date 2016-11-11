@@ -23,10 +23,12 @@ function watch(done) {
 gulp.task('test', gulp.series('karma:single-run'));
 gulp.task('test:auto', gulp.series('karma:auto-run'));
 
-gulp.task('serve', gulp.series('webpack:dist', 'browsersync:dist'));
-
-gulp.task('watch', watch);
-
 gulp.task('dev', gulp.series('dev:build', 'dev:server'))
 gulp.task('dev:build', gulp.series('webpack:dev'))
 gulp.task('dev:server', gulp.series('browsersync:dev'))
+
+gulp.task('prod', gulp.series('prod:build', 'prod:server'));
+gulp.task('prod:build', gulp.series('webpack:prod'));
+gulp.task('prod:server', gulp.series('browsersync:prod'));
+
+gulp.task('watch', watch);
