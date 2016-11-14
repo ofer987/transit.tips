@@ -14,7 +14,7 @@ RSpec.describe StatusesController, type: :controller do
     it 'returns 100 responses' do
       get :index, { from_datetime: from_datetime }, valid_session
 
-      statuses = JSON.parse response.body
+      statuses = JSON.parse(response.body)['data']
       expect(statuses.count).to eq(100)
     end
 
@@ -24,7 +24,7 @@ RSpec.describe StatusesController, type: :controller do
       it 'returns the last 100 responses' do
         get :index, { from_datetime: from_datetime }, valid_session
 
-        statuses = JSON.parse response.body
+        statuses = JSON.parse(response.body)['data']
         expect(statuses.count).to eq(100)
       end
     end
@@ -35,7 +35,7 @@ RSpec.describe StatusesController, type: :controller do
       it 'returns the last 100 responses' do
         get :index, {}, valid_session
 
-        statuses = JSON.parse response.body
+        statuses = JSON.parse(response.body)['data']
         expect(statuses.count).to eq(100)
       end
     end
@@ -44,7 +44,8 @@ RSpec.describe StatusesController, type: :controller do
       it 'only returns relevant stauses ' do
         get :index, { line_id: 70, from_datetime: from_datetime }, valid_session
 
-        line_ids = JSON.parse(response.body).map { |status| status['line_id'] }
+        json = JSON.parse(response.body)['data']
+        line_ids = json.map { |item| item['attributes']['line-id'] }
 
         expect(line_ids.uniq.count).to eq(1)
         expect(line_ids.uniq.first).to eq(70)

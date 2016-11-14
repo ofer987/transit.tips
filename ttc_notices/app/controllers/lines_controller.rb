@@ -1,13 +1,11 @@
 class LinesController < ApplicationController
   def show
-    statuses = Line.find_statuses(params[:id], options)
+    line = Line.find(params[:id], options)
 
-    if statuses.empty?
+    if line.nil?
       render json: {}, status: 404
     else
-      render json: {
-        statuses: statuses
-      }
+      render json: line
     end
   end
 

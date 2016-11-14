@@ -10,10 +10,10 @@ RSpec.describe LinesController, type: :controller do
       it 'returns related statuses' do
         get :show, { id: 4 }
 
-        actual = JSON.parse(response.body)
+        statuses =
+          JSON.parse(response.body)['data']['relationships']['statuses']['data']
 
-        expect(actual).to have_key('statuses')
-        expect(actual['statuses'].count).to eq(2)
+        expect(statuses.count).to eq(2)
       end
 
       it "returns http success" do
@@ -39,7 +39,7 @@ RSpec.describe LinesController, type: :controller do
       it 'limit = 300 returns 300 statuses' do
         get :show, { id: 5, limit: 300 }
 
-        actual = JSON.parse(response.body)['statuses']
+        actual = JSON.parse(response.body)['data']['relationships']['statuses']['data']
         expect(actual.count).to equal(300)
       end
     end

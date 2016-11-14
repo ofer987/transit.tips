@@ -6,19 +6,19 @@ describe Line do
   end
 
   subject do
-    described_class.find_statuses(line_id)
+    described_class.find(line_id)
   end
 
   context 'line_id exists' do
     let(:line_id) { 4 }
 
-    context '#find_statuses' do
+    context '#find' do
       it 'returns the expected statuses' do
-        expect(subject).to eq(statuses)
+        expect(subject.statuses).to eq(statuses)
       end
 
       it 'returns two statuses' do
-        expect(subject.count).to eq(2)
+        expect(subject.statuses.count).to eq(2)
       end
 
       context 'of an ancient history' do
@@ -39,12 +39,11 @@ describe Line do
         end
 
         subject do
-          described_class
-            .find_statuses(line_id, { tweeted_by: DateTime.now.last_month })
+          described_class.find(line_id, { tweeted_by: DateTime.now.last_month })
         end
 
         it 'returns statuses as far back as one month ago' do
-          expect(subject.to_a).to eq(statuses)
+          expect(subject.statuses.to_a).to eq(statuses)
         end
       end
 
@@ -54,12 +53,11 @@ describe Line do
         end
 
         subject do
-          described_class
-            .find_statuses(line_id, { limit: 100 })
+          described_class.find(line_id, { limit: 100 })
         end
 
         it 'returns 100 statuses' do
-          expect(subject.count).to eq(100)
+          expect(subject.statuses.count).to eq(100)
         end
       end
     end
@@ -68,9 +66,9 @@ describe Line do
   context 'line_id does not exist' do
     let(:line_id) { 8 }
 
-    context '#find_statuses' do
-      it 'returns an empty array' do
-        expect(subject).to be_empty
+    context '#find' do
+      it 'returns a nil object' do
+        expect(subject).to be_nil
       end
     end
   end
