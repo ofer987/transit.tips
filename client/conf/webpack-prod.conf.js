@@ -23,17 +23,15 @@ module.exports = {
         })
       },
       {
-        test: /\.(css)$/,
+        test: /\.(scss|css)$/,
         loaders: ExtractTextPlugin.extract({
-          loader: 'css?minimize!postcss'
+          loader: 'css?minimize!postcss!sass'
         })
       },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loaders: [
-          'ts'
-        ]
+        loaders: ['ts']
       },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
@@ -69,7 +67,8 @@ module.exports = {
       '.web.js',
       '.js',
       '.ts',
-      '.tsx'
+      '.tsx',
+      '.scss'
     ]
   },
   entry: {
