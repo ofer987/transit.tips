@@ -30,8 +30,8 @@ export class RouteComponent extends React.Component<IRouteProps, Route> {
         <table className='table'>
           <thead>
             <tr>
-              <th>Direction</th>
-              <th>Arrival (in minutes)</th>
+              <th id="direction">Direction</th>
+              <th id="arrival">Arrival (in minutes)</th>
             </tr>
           </thead>
 
