@@ -16,9 +16,9 @@ module.exports = {
         ]
       },
       {
-        test: /\.css$/,
+        test: /\.(scss|css)$/,
         loaders: ExtractTextPlugin.extract({
-          loader: 'css'
+          loader: 'css!sass'
         })
       },
       {
@@ -52,7 +52,8 @@ module.exports = {
       '.web.js',
       '.js',
       '.ts',
-      '.tsx'
+      '.tsx',
+      '.scss'
     ]
   },
   entry: [
