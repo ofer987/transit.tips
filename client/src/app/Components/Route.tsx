@@ -20,31 +20,18 @@ export class RouteComponent extends React.Component<IRouteProps, Route> {
 
   render() {
     return (
-      <div className='panel-heading'>
-        <h3 className='panel-title'>{this.state.title}</h3>
-
-        <div className='panel-body'>
-          {this.state.name}
-        </div>
-
-        <table className='table'>
-          <thead>
-            <tr>
-              <th id="direction">Direction</th>
-              <th id="arrival">Arrival (in minutes)</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {this.arrivalComponents(this.state.arrivals)}
-          </tbody>
-        </table>
-      </div>
+      <tbody className="route-body">
+        <tr>
+          <td><span className="route-name">{this.state.name}</span></td>
+        </tr>
+        {this.arrivalComponents(this.state.arrivals)}
+      </tbody>
     )
   }
 
   private arrivalComponents(arrivals : Array<Arrival>) {
     let components = [];
+
     for (let index in arrivals) {
       components.push(<ArrivalComponent key={'route_' + index} arrival={arrivals[index]} />);
     }

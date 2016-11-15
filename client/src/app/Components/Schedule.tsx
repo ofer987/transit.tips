@@ -34,9 +34,15 @@ export class ScheduleComponent extends React.Component<IScheduleProps, Schedule>
 
   render() {
     return (
-      <div id='schedules'>
+      <table className='table' id="schedules">
+        <thead>
+          <tr>
+            <th id="direction">Direction</th>
+            <th id="arrival">Arrival (in minutes)</th>
+          </tr>
+        </thead>
         {this.routeComponents(this.state.routes)}
-      </div>
+      </table>
     )
   }
 
