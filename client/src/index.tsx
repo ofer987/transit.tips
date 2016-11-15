@@ -7,13 +7,9 @@ import { Router, Route, browserHistory } from 'react-router';
 import { ScheduleComponent } from './app/Components/Schedule'
 
 import 'bootstrap/dist/css/bootstrap.css';
-
-// import './index.styl';
+import './styles.scss';
 
 ReactDOM.render(
-  // <Router history={browserHistory}>
-  //   <Route path='/' component={Hello}/>
-  // </Router>,
   <ScheduleComponent />,
   document.getElementById('root')
 );
