@@ -2,21 +2,25 @@ class ReportController < ApplicationController
   before_action :set_line, only: [:index]
 
   def index
-    report = Report.new({ statuses: @line.statuses })
+    report = @line.report
 
-    render json: report
+    if report.nil?
+      render json: {}, status: :not_found
+    else
+      render json: report
+    end
   end
 
   private
 
   def set_line
-    @line = Line.find(params[:line_id], {
+    @line = Line.find(params[:line_id].to_i, {
       tweeted_by: twenty_minutes_ago,
       limit: 20
     })
   end
 
   def twenty_minutes_ago
-    DateTime.now.utc - 20.minutes
+    20.minutes.ago
   end
 end

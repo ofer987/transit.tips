@@ -7,5 +7,8 @@ class Line
     def statuses
       []
     end
+
+    def report
+    end
   end
 end

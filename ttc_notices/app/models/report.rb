@@ -10,7 +10,7 @@ class Report < ActiveModelSerializers::Model
   end
 
   def condition
-    Array(statuses).each do |status|
+    statuses.each do |status|
       return :red unless Analyser.new.smooth_road?(status.description)
     end
 

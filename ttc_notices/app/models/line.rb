@@ -1,6 +1,7 @@
 class Line < ActiveModelSerializers::Model
   class << self
     def find(id, options = {})
+      id = id.to_i
       statuses = Status.where(line_id: id)
 
       if options.has_key?(:tweeted_by)
@@ -26,6 +27,10 @@ class Line < ActiveModelSerializers::Model
   attr_accessor :id, :statuses
 
   alias :read_attribute_for_serialization :send
+
+  def report
+    Report.new({ statuses: statuses })
+  end
 
   def empty?
     statuses.empty?
