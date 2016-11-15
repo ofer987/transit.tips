@@ -1,9 +1,18 @@
+// export interface IArrival {
+//   public name : string;
+//   public time : number;
+// }
+
 export class Arrival {
-  public name : string;
+  protected _name : string;
   public time : number;
 
   constructor(name : string, time : number) {
-    this.name = name;
+    this._name = name;
     this.time = time;
+  }
+
+  get name() : string {
+    return this._name;
   }
 }

@@ -1,4 +1,5 @@
 import { Arrival } from '../Models/Arrival';
+import { Ttc } from '../Models/Arrival/Ttc';
 import { Route } from '../Models/Route';
 import { Schedule } from '../Models/Schedule';
 import { Config } from '../Config';
@@ -48,8 +49,13 @@ export class RestBus {
         // Arrival time in minutes
         let time = value.minutes > 0 ? value.minutes : 'now';
 
-        let arrival = new Arrival(name, time);
-        route.arrivals.push(arrival);
+        if (item.agency.id === 'ttc') {
+          let arrival = new Ttc(name, time);
+          route.arrivals.push(arrival);
+        } else {
+          let arrival = new Arrival(name, time);
+          route.arrivals.push(arrival);
+        }
       }
 
       routes.push(route);
