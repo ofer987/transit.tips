@@ -24,9 +24,18 @@ export class RouteComponent extends React.Component<IRouteProps, Route> {
         <tr>
           <td><span className="route-name">{this.state.name}</span></td>
         </tr>
+        {this.renderCondition()}
         {this.arrivalComponents(this.state.arrivals)}
       </tbody>
     )
+  }
+
+  private renderCondition() {
+    if (!this.state.condition()) {
+      return (
+        <tr className="condition">Bad</div>
+      )
+    }
   }
 
   private arrivalComponents(arrivals : Array<Arrival>) {
