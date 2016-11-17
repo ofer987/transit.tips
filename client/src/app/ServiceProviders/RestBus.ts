@@ -43,16 +43,16 @@ export class RestBus {
       // Schedule
       let values = item.values;
       for (let value of values) {
-        // Name of arrival or direction
-        let name = value.direction.title;
+        // Title of arrival or direction
+        let title = value.direction.title;
         // Arrival time in minutes
         let time = value.minutes > 0 ? value.minutes : 'now';
 
         if (item.agency.id === 'ttc') {
-          let arrival = new Ttc(name, time);
+          let arrival = new Ttc(title, time);
           route.arrivals.push(arrival);
         } else {
-          let arrival = new Arrival(name, time);
+          let arrival = new Arrival(title, time);
           route.arrivals.push(arrival);
         }
       }

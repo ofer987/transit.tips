@@ -20,7 +20,7 @@ export class ArrivalComponent extends React.Component<IArrivalProps, models.Arri
     return (
       <tr>
         <td>
-          {this.state.name}
+          {this.state.title}
         </td>
         <td>
           {this.state.time}

@@ -22,7 +22,7 @@ export class RouteComponent extends React.Component<IRouteProps, Route> {
     return (
       <tbody className="route-body">
         <tr>
-          <td><span className="route-name">{this.state.name}</span></td>
+          <td><span className="route-title">{this.state.title}</span></td>
         </tr>
         {this.renderCondition()}
         {this.arrivalComponents(this.state.arrivals)}

@@ -1,13 +1,13 @@
 import { Arrival } from "../Arrival";
 
 export class Ttc extends Arrival {
-  constructor(name : string, time : number) {
-    super(name, time);
+  constructor(title : string, time : number) {
+    super(title, time);
   }
 
-  get name() : string {
+  get title() : string {
     for (let regex of this.regexes()) {
-      let matches = regex.exec(this._name)
+      let matches = regex.exec(this._title)
 
       if (matches !== null && matches.length >= 2) {
         let direction = matches[1];
@@ -17,7 +17,7 @@ export class Ttc extends Arrival {
       }
     }
 
-    return this._name;
+    return this._title;
   }
 
   private regexes() : Array<RegExp> {
