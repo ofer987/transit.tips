@@ -5,25 +5,34 @@ import $ = require('jquery');
 
 export class Route {
   public title : string;
-  public name : string;
+  public id : string;
   public arrivals : Array<Arrival>;
 
-  constructor(name, arrivals) {
-    this.name = name;
-    this.arrivals = arrivals;
+  private _condition : boolean;
+  public get condition() : boolean {
+    return this._condition;
   }
 
-  condition(id : number) {
+  constructor(id : string, title : string, arrivals : Array<Arrival>) {
+    this.id = id;
+    this.title = title;
+    this.arrivals = arrivals;
+    this._condition = true;
+  }
+
+  updateCondition() {
     $
-    .ajax(this.reportUrl(id))
+    .ajax(this.reportUrl(this.id))
     .done((data) => {
       let condition = data.attributes.condition;
 
-      return condition !== 'red'
+      this._condition = condition !== 'red'
+    }).fail(() => {
+      this._condition = true;
     });
   }
 
-  private reportUrl(id : number) : string {
+  private reportUrl(id : string) : string {
     return `${Config.ttcNoticesUrl}/lines/${id}/report`;
   }
 }

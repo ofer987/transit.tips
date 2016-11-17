@@ -38,7 +38,7 @@ export class RestBus {
         continue;
       }
 
-      let route = new Route(item.route.title, []);
+      let route = new Route(item.route.id, item.route.title, []);
 
       // Schedule
       let values = item.values;

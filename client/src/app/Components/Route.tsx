@@ -4,6 +4,8 @@ import { Route } from '../Models/Route';
 import { Arrival } from '../Models/Arrival';
 import { ArrivalComponent } from './Arrival';
 
+import $ = require('jquery');
+
 export interface IRouteProps {
   route : Route;
 }
@@ -16,6 +18,8 @@ export class RouteComponent extends React.Component<IRouteProps, Route> {
   }
 
   componentDidMount() {
+    this.state.updateCondition();
+    this.forceUpdate();
   }
 
   render() {
@@ -31,11 +35,17 @@ export class RouteComponent extends React.Component<IRouteProps, Route> {
   }
 
   private renderCondition() {
-    if (!this.state.condition()) {
-      return (
-        <tr className="condition">Bad</div>
-      )
+    let text = "Good";
+    if (!this.state.condition) {
+      text = "Bad";
     }
+
+    return (
+      <tr className="condition">
+        <td>{text}</td>
+        <td></td>
+      </tr>
+    )
   }
 
   private arrivalComponents(arrivals : Array<Arrival>) {

@@ -1,8 +1,3 @@
-// export interface IArrival {
-//   public name : string;
-//   public time : number;
-// }
-
 export class Arrival {
   protected _title : string;
   public time : number;
