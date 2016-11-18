@@ -20,15 +20,19 @@ export class Route {
     this._condition = true;
   }
 
-  updateCondition() {
+  updateCondition(done) {
     $
     .ajax(this.reportUrl(this.id))
     .done((data) => {
       let condition = data.attributes.condition;
 
       this._condition = condition !== 'red'
+
+      done();
     }).fail(() => {
       this._condition = true;
+
+      done();
     });
   }
 

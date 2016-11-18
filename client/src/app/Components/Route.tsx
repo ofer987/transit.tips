@@ -18,8 +18,9 @@ export class RouteComponent extends React.Component<IRouteProps, Route> {
   }
 
   componentDidMount() {
-    this.state.updateCondition();
-    this.forceUpdate();
+    this.state.updateCondition(() => {
+      this.forceUpdate();
+    });
   }
 
   render() {
@@ -35,17 +36,16 @@ export class RouteComponent extends React.Component<IRouteProps, Route> {
   }
 
   private renderCondition() {
-    let text = "Good";
     if (!this.state.condition) {
-      text = "Bad";
-    }
+      let text = "Bad";
 
-    return (
-      <tr className="condition">
-        <td>{text}</td>
-        <td></td>
-      </tr>
-    )
+      return (
+        <tr className="condition">
+          <td>{text}</td>
+          <td></td>
+        </tr>
+      )
+    }
   }
 
   private arrivalComponents(arrivals : Array<Arrival>) {
