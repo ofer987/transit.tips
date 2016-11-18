@@ -15,14 +15,16 @@ export class RestBus {
     this.y = y;
   }
 
-  public fetchSchedule(callback) {
+  public routes(callback) {
     $
     .ajax(this.stopsUrl(this.x, this.y))
     .done((data) => {
       let routes = this.parseResponse(data);
-      let schedule = new Schedule(this.x, this.y, routes)
 
-      callback(schedule);
+      callback(routes);
+      // let schedule = new Schedule(this.x, this.y, routes)
+      //
+      // callback(schedule);
     });
   }
 

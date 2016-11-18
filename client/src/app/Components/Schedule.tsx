@@ -1,35 +1,27 @@
 import * as React from 'react';
 
 import { RouteComponent } from './Route'
-import * as Null from '../Models/Null/Schedule';
 import { Schedule } from '../Models/Schedule';
 import { Route } from '../Models/Route';
 import { RestBus } from '../ServiceProviders/RestBus';
 
 export interface IScheduleProps {
+  schedule : Schedule;
 }
 
 export class ScheduleComponent extends React.Component<IScheduleProps, Schedule> {
   constructor(props: IScheduleProps, context) {
     super(props, context);
 
-    this.state = new Null.Schedule();
-    ;
+    this.state = props.schedule;
   }
 
   componentDidMount() {
-    this.getPosition((position) =>{
-      let x = position.coords.latitude;
-      let y = position.coords.longitude;
+    let schedule = new Schedule();
 
-      new RestBus(x, y)
-      .fetchSchedule((schedules) => {
-        // reload the state
-        // so that the controller re-renders
-        this.setState(schedules);
-      });
+    schedule.initialize(() => {
+      this.setState(schedule);
     });
-
   }
 
   render() {
@@ -53,9 +45,5 @@ export class ScheduleComponent extends React.Component<IScheduleProps, Schedule>
     }
 
     return components;
-  }
-
-  private getPosition(callback) {
-    navigator.geolocation.getCurrentPosition(callback);
   }
 }
