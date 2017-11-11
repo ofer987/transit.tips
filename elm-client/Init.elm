@@ -5,7 +5,8 @@ import Model exposing (..)
 
 init : Model
 init =
-    { locationX = 0.0
-    , locationY = 0.0
-    , schedule = []
+    { locationX = 0
+    , locationY = 0
+    , schedule =
+        { routes = [] }
     }

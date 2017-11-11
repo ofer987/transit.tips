@@ -1,11 +1,14 @@
 module View.Schedule exposing (view)
 
-import Model exposing (..)
 import List
+import Html exposing (Html, div)
+import Model exposing (..)
 import View.Route
+import Model.Schedule exposing (Schedule)
 
 
 view : Schedule -> Html Msg
 view schedule =
-    schedule.routes
-        |> List.map View.Route.view
+    div
+        []
+        (List.map View.Route.view schedule.routes)

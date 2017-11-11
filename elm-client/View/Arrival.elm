@@ -1,10 +1,11 @@
 module View.Arrival exposing (view)
 
-import Html exposing (tr, td, text)
+import Html exposing (Html, tr, td, text)
+import Model exposing (..)
 import Model.Arrival exposing (Arrival)
 
-view : Route -> Html Msg
-view route =
+view : Arrival -> Html Msg
+view arrival =
     tr
         []
         [ column arrival.title

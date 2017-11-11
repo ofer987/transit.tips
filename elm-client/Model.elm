@@ -5,6 +5,7 @@ import Model.Schedule exposing (..)
 
 type Msg
     = None
+    | SetLocation
 
 
 type alias Model =

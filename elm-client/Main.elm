@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Html
 import Init
-import Model exposing (..)
+import Model exposing (Model, Msg)
 import Update exposing (update)
 import View exposing (view)
 
@@ -13,16 +13,11 @@ import View exposing (view)
 main : Program Never Model Msg
 main =
     Html.program
-        { init = init
+        { init = ( Init.init, Cmd.none )
         , update = update
         , subscriptions = subscriptions
         , view = view
         }
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( Init.init, Cmd.none )
 
 
 

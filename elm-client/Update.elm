@@ -1,8 +1,13 @@
-module Update exposing ()
+module Update exposing (update)
 
-type Msg
-    = SetLocation
+import Model exposing (..)
 
-update : Model -> Msg -> (Model, Msg)
-update model msg =
-    SetLocation
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        SetLocation ->
+            ( model, Cmd.none )
+
+        None ->
+            ( model, Cmd.none )
