@@ -1,15 +1,18 @@
 module Model exposing (..)
 
+import Geolocation exposing (Error, Location)
 import Model.Schedule exposing (..)
 
 
 type Msg
     = None
-    | SetLocation
+    | GetLocation Int
+    | SetLocation Location
+    | NoLocation Error
 
 
 type alias Model =
-    { locationX : Float
-    , locationY : Float
+    { locationLatitude : Float
+    , locationLongitude : Float
     , schedule : Schedule
     }

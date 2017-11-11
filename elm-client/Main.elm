@@ -13,7 +13,7 @@ import View exposing (view)
 main : Program Never Model Msg
 main =
     Html.program
-        { init = ( Init.init, Cmd.none )
+        { init = Init.init
         , update = update
         , subscriptions = subscriptions
         , view = view
