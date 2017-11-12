@@ -6,11 +6,15 @@ import Model exposing (..)
 
 init : ( Model, Cmd Msg )
 init =
-    ( { locationLatitude = 0.0
-      , locationLongitude = 0.0
-      , schedule =
-            { routes = [] }
-      }
-    -- TODO: How to ignore 42?
-    , Task.perform GetLocation (Task.succeed 42)
-    )
+    let
+        model =
+            { location = Nothing
+            , schedule =
+                { routes = [] }
+            }
+
+        cmd =
+            Task.succeed 42
+                |> Task.perform GetLocation
+    in
+        ( model, cmd )

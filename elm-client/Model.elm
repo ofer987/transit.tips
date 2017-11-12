@@ -8,11 +8,10 @@ type Msg
     = None
     | GetLocation Int
     | SetLocation Location
-    | NoLocation Error
+    | UnavailableLocation Error
 
 
 type alias Model =
-    { locationLatitude : Float
-    , locationLongitude : Float
+    { location : Maybe Location
     , schedule : Schedule
     }
