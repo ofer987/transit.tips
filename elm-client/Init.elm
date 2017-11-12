@@ -9,8 +9,7 @@ init =
     let
         model =
             { location = Nothing
-            , schedule =
-                { routes = [] }
+            , schedule = Nothing
             }
 
         cmd =
