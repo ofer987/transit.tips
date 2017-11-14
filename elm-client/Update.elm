@@ -79,7 +79,7 @@ update msg model =
             ( model, Cmd.none )
 
 
-useLocation : Result Error Location -> Msg
+useLocation : Result Geolocation.Error Location -> Msg
 useLocation result =
     case result of
         Ok location ->
