@@ -10,6 +10,7 @@ init =
         model =
             { location = Nothing
             , schedule = Nothing
+            , error = Nothing
             }
 
         cmd =

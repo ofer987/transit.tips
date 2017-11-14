@@ -1,7 +1,7 @@
 module Update exposing (update)
 
 import Task
-import Geolocation exposing (Error(..), Location)
+import Geolocation exposing (Location)
 import Http
 import Model exposing (..)
 import Model.Schedule exposing (Schedule)
@@ -26,7 +26,19 @@ update msg model =
                 ( newModel, cmd )
 
         UnavailableLocation error ->
-            ( { model | location = Nothing }, Cmd.none )
+            let
+                message =
+                    case error of
+                        Geolocation.PermissionDenied value ->
+                            value
+
+                        Geolocation.LocationUnavailable value ->
+                            value
+
+                        Geolocation.Timeout value ->
+                            value
+            in
+                ( { model | location = Nothing, schedule = Nothing, error = Just message }, Cmd.none )
 
         RequestSchedule location ->
             let
@@ -42,7 +54,26 @@ update msg model =
             ( { model | schedule = Just schedule }, Cmd.none )
 
         ReceiveSchedule (Err error) ->
-            ( { model | schedule = Nothing }, Cmd.none )
+            let
+                message =
+                    case error of
+                        Http.BadUrl message ->
+                            message
+
+                        Http.Timeout ->
+                            "Timeout"
+
+                        Http.NetworkError ->
+                            "Network error"
+
+                        Http.BadStatus response ->
+                            toString response.status.code
+
+                        Http.BadPayload message _ ->
+                            message
+
+            in
+                ( { model | schedule = Nothing,  error = Just message }, Cmd.none )
 
         None ->
             ( model, Cmd.none )
@@ -77,7 +108,8 @@ requestSchedule : Float -> Float -> Http.Request Schedule
 requestSchedule latitude longitude =
     let
         url =
-            "https://restbus.transit.tips/nearby/index"
+            -- "https://restbus.transit.tips/nearby/index"
+            "http://localhost:3000"
 
         fullUrl =
             url ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)

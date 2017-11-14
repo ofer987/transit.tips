@@ -2,14 +2,24 @@ module View exposing (view)
 
 import Html exposing (Html, div)
 import Model exposing (..)
+import Model.Schedule exposing (Schedule)
 import View.Schedule
+import View.Error
 
 
 view : Model -> Html Msg
 view model =
-    case model.schedule of
-        Just schedule ->
-            View.Schedule.view schedule
+    div
+        []
+        [ scheduleView model.schedule
+        , View.Error.view model.error
+        ]
+
+scheduleView : Maybe Schedule -> Html Msg
+scheduleView schedule =
+    case schedule of
+        Just value ->
+            View.Schedule.view value
 
         Nothing ->
             emptyView
@@ -17,3 +27,7 @@ view model =
 emptyView : Html Msg
 emptyView =
     div [] []
+
+errorView : Maybe String -> Html Msg
+errorView error =
+    View.Error.view error
