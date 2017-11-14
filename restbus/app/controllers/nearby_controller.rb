@@ -1,6 +1,6 @@
 class NearbyController < ApplicationController
   def index
-    locations = Endpoints.new(longitude, latitude).nearby_locations
+    locations = Endpoints.new(latitude, longitude).nearby_locations
 
     if locations.present?
       render json: locations

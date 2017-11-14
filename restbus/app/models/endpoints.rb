@@ -1,13 +1,13 @@
 class Endpoints
   BASE_URL = 'http://restbus.info/api'.freeze
 
-  def initialize(longitude, latitude)
-    @longitude = longitude.to_f
-    @latitude = latitude.to_f
+  def initialize(latitude, longitude)
+    self.latitude = latitude.to_f
+    self.longitude = longitude.to_f
   end
 
   def nearby_locations
-    endpoint = "#{BASE_URL}/locations/#{@longitude},#{@latitude}/predictions"
+    endpoint = "#{BASE_URL}/locations/#{latitude},#{longitude}/predictions"
 
     response = RestClient.get(endpoint)
 
@@ -16,4 +16,8 @@ class Endpoints
       return JSON.parse(response.body)
     end
   end
+
+  private
+
+  attr_accessor :latitude, :longitude
 end
