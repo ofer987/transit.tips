@@ -6,16 +6,6 @@ import Model.Route as Route exposing (Route)
 import Model.Arrival as Arrival exposing (Arrival)
 
 
--- deserialise : String -> Decoder (Schedule)
--- deserialise json =
---         decodeString schedule json
-
-
-
--- decodeString
--- Json.at [ "data", "image_url" ] Json.string
---     |> Json.maybe
-
 schedule : Decoder Schedule
 schedule =
     Json.map Schedule (list route)
@@ -27,7 +17,7 @@ route =
         Route
         (at [ "route", "id" ] string)
         (at [ "route", "title" ] string)
-        (list arrival)
+        (field "values" (list arrival))
 
 
 arrival : Decoder Arrival

@@ -71,9 +71,8 @@ update msg model =
 
                         Http.BadPayload message _ ->
                             message
-
             in
-                ( { model | schedule = Nothing,  error = Just message }, Cmd.none )
+                ( { model | schedule = Nothing, error = Just message }, Cmd.none )
 
         None ->
             ( model, Cmd.none )
@@ -89,26 +88,10 @@ useLocation result =
             UnavailableLocation err
 
 
-
--- toLocationErrorString : Error -> String
--- toLocationErrorString err =
---     case err of
---         PermissionDenied string ->
---             string
---
---         LocationUnavailable string ->
---             string
---
---         Timeout string ->
---             string
---
-
-
 requestSchedule : Float -> Float -> Http.Request Schedule
 requestSchedule latitude longitude =
     let
         url =
-            -- "https://restbus.transit.tips/nearby/index"
             "http://localhost:3000"
 
         fullUrl =
