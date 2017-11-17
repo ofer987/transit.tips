@@ -7,31 +7,22 @@ import Model.Schedule exposing (Schedule)
 import View.Schedule
 import View.Error
 
+import Bootstrap.CDN as CDN
+import Bootstrap.Grid as Grid exposing (container)
+
 
 view : Model -> Html Msg
 view model =
-    div
+    container
         [ onClick (GetLocation 42) ]
-        [ scheduleView model.schedule
-        , View.Error.view model.error
-        ]
+        ( CDN.stylesheet :: View.Error.view model.error :: scheduleView model.schedule)
 
 
-scheduleView : Maybe Schedule -> Html Msg
+scheduleView : Maybe Schedule -> List (Html Msg)
 scheduleView schedule =
     case schedule of
         Just value ->
-            View.Schedule.view value
+            View.Schedule.views value
 
         Nothing ->
-            emptyView
-
-
-emptyView : Html Msg
-emptyView =
-    div [] []
-
-
-errorView : Maybe String -> Html Msg
-errorView error =
-    View.Error.view error
+            []

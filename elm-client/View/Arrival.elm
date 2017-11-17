@@ -1,10 +1,12 @@
 module View.Arrival exposing (view)
 
-import Html exposing (Html, tr, td, text)
+import Html exposing (Html, text)
 import Model exposing (..)
 import Model.Arrival exposing (Arrival)
+import Bootstrap.Table exposing (Row, Cell, tr, td)
 
-view : Arrival -> Html Msg
+
+view : Arrival -> Row Msg
 view arrival =
     tr
         []
@@ -12,9 +14,9 @@ view arrival =
         , column arrival.time
         ]
 
-column : a -> Html Msg
+
+column : a -> Cell Msg
 column value =
     td
         []
         [ text (toString value) ]
-
