@@ -1,7 +1,7 @@
 module MyCss exposing (..)
 
 import Css exposing (..)
-import Css.Elements exposing (body, tbody, span)
+import Css.Elements exposing (body, table, tbody, span, td, th)
 import Css.Colors exposing (gray, blue, black, purple, green)
 import Css.Namespace exposing (namespace)
 
@@ -14,6 +14,8 @@ grey =
 type CssClasses
     = Route
     | Title
+    | Direction
+    | Arrival
 
 
 css : Stylesheet
@@ -21,17 +23,18 @@ css =
     (stylesheet << namespace "TransitTips")
         [ body
             []
-        , tbody
-            [ children
-                [ class Route
+        , Css.Elements.table
+            [ borderStyle hidden
+            , descendants
+                [ class Direction
+                    [ width (pct 70) ]
+                , class Arrival
+                    [ width (pct 30) ]
+                , class Route
                     [ borderStyle hidden
-                    , children
-                        [ span
-                            [ children
-                                [ class Title
-                                    [ fontSize (ex 2.5)
-                                    ]
-                                ]
+                    , descendants
+                        [ class Title
+                            [ fontSize (ex 2.5)
                             ]
                         ]
                     ]
