@@ -92,7 +92,7 @@ requestSchedule : Float -> Float -> Http.Request Schedule
 requestSchedule latitude longitude =
     let
         url =
-            "http://localhost:3000"
+            "<%= restbus_url %>"
 
         fullUrl =
             url ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
