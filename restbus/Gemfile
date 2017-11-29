@@ -63,4 +63,5 @@ end
 group :production do
   # Application server
   gem 'puma'
+  gem 'pg'
 end
