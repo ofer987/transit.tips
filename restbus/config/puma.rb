@@ -34,11 +34,6 @@ def setup
   environment RAILS_ENV
 
   on_worker_boot do
-    require "active_record"
-
-    ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
-    ActiveRecord::Base.establish_connection(
-      YAML.load_file("#{APP_DIR}/config/database.yml")[RAILS_ENV])
   end
 end
 
