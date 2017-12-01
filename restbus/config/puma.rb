@@ -20,7 +20,7 @@ def setup
   create_files
 
   # Set up socket location
-  bind "unix://#{SHARED_DIR}/sockets/puma.sock"
+  bind "unix://#{SOCKET}"
 
   # Logging
   stdout_redirect LOG, ERROR, true
