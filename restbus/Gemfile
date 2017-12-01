@@ -7,6 +7,7 @@ gem 'rails', '4.2.10'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'rest-client'
+gem 'puma'
 
 group :development, :test do
   gem 'pry-byebug'
@@ -31,6 +32,4 @@ group :development do
 end
 
 group :production do
-  # Application server
-  gem 'puma'
 end
