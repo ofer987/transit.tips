@@ -1,3 +1,5 @@
+all: default
+
 default: build-production
 
 build-production:
