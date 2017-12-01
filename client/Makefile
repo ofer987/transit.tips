@@ -3,8 +3,8 @@ default: all
 all: tools build
 
 tools:
-	npm install -g elm
-	npm install -g elm-css
+	npm install elm
+	npm install elm-css
 
 build-js:
 	elm make Main.elm --output main.js
