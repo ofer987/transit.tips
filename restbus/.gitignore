@@ -25,6 +25,7 @@ config/initializers/secret_token.rb
 
 ## Environment normalization:
 /.bundle
+/vendor/**/*
 /vendor/bundle
 
 # these should all be checked in to normalize the environment:
@@ -34,7 +35,6 @@ config/initializers/secret_token.rb
 .rvmrc
 
 # if using bower-rails ignore default bower_components path bower.json files
-/vendor/assets/bower_components
 *.bowerrc
 bower.json
 
