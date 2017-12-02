@@ -1,6 +1,6 @@
 all: default
 
-default: build-production
+default: build
 
-build-production:
+build:
 	bundle install --path vendor/bundle --without=development test

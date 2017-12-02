@@ -1,21 +1,23 @@
+.PHONY: node_modules
+
 default: all
 
-all: tools build
+all: node_modules build clean
 
-tools:
+build: Update.elm main.js index.css
+
+node_modules:
 	npm install elm
 	npm install elm-css
 
-build-js:
+main.js:
 	elm make Main.elm --output main.js
 
-build-css:
+index.css:
 	elm css Stylesheets.elm
 
-preprocess:
+Update.elm:
 	erb restbus_url="$(RESTBUS_URL)" Update.elm.erb > Update.elm;
 
-postprocess:
+clean:
 	rm Update.elm 2> /dev/null
-
-build: preprocess build-js build-css postprocess
