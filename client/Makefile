@@ -10,13 +10,13 @@ node_modules:
 	npm install elm
 	npm install elm-css
 
-main.js:
+main.js: Update.elm *.elm Model/*.elm RestBus/*.elm View/*.elm
 	elm make Main.elm --output main.js
 
-index.css:
+index.css: Stylesheets.elm MyCss.elm
 	elm css Stylesheets.elm
 
-Update.elm:
+Update.elm: Update.elm.erb
 	erb restbus_url="$(RESTBUS_URL)" Update.elm.erb > Update.elm;
 
 clean:
