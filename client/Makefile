@@ -1,4 +1,4 @@
-.PHONY: node_modules
+.PHONY: default all build node_modules clean uninstall
 
 default: all
 
@@ -21,3 +21,6 @@ Update.elm: Update.elm.erb
 
 clean:
 	rm Update.elm 2> /dev/null
+
+uninstall:
+	rm -rf main.js index.css node_modules elm-stuff Update.elm 2> /dev/null
