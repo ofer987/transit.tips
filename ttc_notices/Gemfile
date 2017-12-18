@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.10'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
@@ -12,6 +12,9 @@ gem 'twitter'
 gem 'pg'
 
 gem 'active_model_serializers'
+
+# Application server
+gem 'puma'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
@@ -39,7 +42,4 @@ end
 group :production do
   gem 'clockwork'
   gem 'daemons'
-
-  # Application server
-  gem 'puma'
 end
