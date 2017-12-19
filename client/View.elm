@@ -6,9 +6,9 @@ import Model exposing (..)
 import Model.Schedule exposing (Schedule)
 import View.Schedule
 import View.Error
-
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
+import Bootstrap.Alert as Alert
 
 
 view : Model -> Html Msg
@@ -31,7 +31,7 @@ view model =
         FoundSchedule schedule ->
             container
                 [ onClick (GetLocation 42) ]
-                ( CDN.stylesheet :: scheduleView schedule)
+                (CDN.stylesheet :: scheduleView schedule)
 
         Error error ->
             container
@@ -45,6 +45,7 @@ scheduleView : Schedule -> List (Html Msg)
 scheduleView schedule =
     View.Schedule.views schedule
 
+
 getLocationView : Html Msg
 getLocationView =
-    text "getting location"
+    Alert.info [ text "getting location" ]
