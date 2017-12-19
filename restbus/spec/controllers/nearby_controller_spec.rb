@@ -5,25 +5,23 @@ RSpec.describe NearbyController, type: :controller do
   describe "GET #index" do
     context 'without longitude and latitude' do
       it 'fails' do
-        expect do
-          get :index
-        end.to raise_error(RestClient::NotFound)
+        get :index
+
+        expect(response).to have_http_status(400)
       end
     end
 
     context 'without latitude' do
       it 'fails' do
-        expect do
-          get :index, { longitude: 50 }
-        end.to raise_error(RestClient::NotFound)
+        get :index, { longitude: 50 }
+        expect(response).to have_http_status(400)
       end
     end
 
     context 'without longitude' do
       it 'fails' do
-        expect do
-          get :index, { latitude: 50 }
-        end.to raise_error(RestClient::NotFound)
+        get :index, { latitude: 50 }
+        expect(response).to have_http_status(400)
       end
     end
 

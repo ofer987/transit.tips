@@ -8,12 +8,17 @@ class Endpoints
 
   def nearby_locations
     endpoint = "#{BASE_URL}/locations/#{latitude},#{longitude}/predictions"
-
     response = RestClient.get(endpoint)
 
     case response.code
     when 200
-      return JSON.parse(response.body)
+      {
+        latitude: latitude,
+        longitude: longitude,
+        schedule: JSON.parse(response.body)
+      }
+    else
+      raise HttpStatusError.new(response.code, 'an error has occurred')
     end
   end
 
