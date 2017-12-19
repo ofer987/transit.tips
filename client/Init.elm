@@ -8,10 +8,7 @@ init : ( Model, Cmd Msg )
 init =
     let
         model =
-            { location = Nothing
-            , schedule = Nothing
-            , error = Nothing
-            }
+            NoLocation
 
         cmd =
             Task.succeed 42

@@ -17,7 +17,7 @@ update msg model =
         SetLocation location ->
             let
                 newModel =
-                    { model | location = Just location }
+                    FoundLocation location
 
                 cmd =
                     Task.succeed location
@@ -38,7 +38,7 @@ update msg model =
                         Geolocation.Timeout value ->
                             value
             in
-                ( { model | location = Nothing, schedule = Nothing, error = Just message }, Cmd.none )
+                ( Error message, Cmd.none )
 
         RequestSchedule location ->
             let
@@ -51,7 +51,7 @@ update msg model =
                 ( model, cmd )
 
         ReceiveSchedule (Ok schedule) ->
-            ( { model | schedule = Just schedule }, Cmd.none )
+            ( FoundSchedule schedule, Cmd.none )
 
         ReceiveSchedule (Err error) ->
             let
@@ -72,7 +72,7 @@ update msg model =
                         Http.BadPayload message _ ->
                             message
             in
-                ( { model | schedule = Nothing, error = Just message }, Cmd.none )
+                ( Error message, Cmd.none )
 
         None ->
             ( model, Cmd.none )
