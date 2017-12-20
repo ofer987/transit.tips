@@ -22,6 +22,10 @@ class Endpoints
     end
   end
 
+  def address
+    Geocoder.address [latitude, longitude]
+  end
+
   private
 
   attr_accessor :latitude, :longitude
