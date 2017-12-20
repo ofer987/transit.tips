@@ -9,7 +9,6 @@ import View.Error
 import View.Alert.GetSchedule
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
-import Bootstrap.Alert as Alert
 
 
 view : Model -> Html Msg

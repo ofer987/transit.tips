@@ -3,6 +3,8 @@ module Update exposing (update)
 import Task
 import Geolocation exposing (Location)
 import Http
+import Process
+import Time exposing (second)
 import Model exposing (..)
 import Model.Response exposing (Response)
 import Model.Schedule exposing (Schedule)
@@ -13,7 +15,14 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetLocation _ ->
-            ( NoLocation, Task.attempt useLocation Geolocation.now )
+            let
+                tasks =
+                    Geolocation.now
+                        |> Task.attempt Geolocation.now
+                        |> Task.andThen (Process.sleep (1 * second))
+
+            in
+                ( NoLocation, Task.attempt useLocation Geolocation.now )
 
         SetLocation location ->
             let

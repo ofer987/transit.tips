@@ -15,7 +15,7 @@ type Msg
 
 
 type Model
-    = NoLocation
-    | FoundLocation Float Float
+    = NoLocation Int
+    | FoundLocation Int Float Float
     | FoundSchedule Response
     | Error String
