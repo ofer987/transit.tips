@@ -4,8 +4,9 @@ import Task
 import Geolocation exposing (Location)
 import Http
 import Model exposing (..)
+import Model.Response exposing (Response)
 import Model.Schedule exposing (Schedule)
-import RestBus.Decoder
+import RestBus.Decoder as Decoder
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -17,7 +18,7 @@ update msg model =
         SetLocation location ->
             let
                 newModel =
-                    FoundLocation location
+                    FoundLocation location.latitude location.longitude
 
                 cmd =
                     Task.succeed location
@@ -50,8 +51,8 @@ update msg model =
             in
                 ( model, cmd )
 
-        ReceiveSchedule (Ok schedule) ->
-            ( FoundSchedule schedule, Cmd.none )
+        ReceiveSchedule (Ok response) ->
+            ( FoundSchedule response, Cmd.none )
 
         ReceiveSchedule (Err error) ->
             let
@@ -88,7 +89,7 @@ useLocation result =
             UnavailableLocation err
 
 
-requestSchedule : Float -> Float -> Http.Request Schedule
+requestSchedule : Float -> Float -> Http.Request Response
 requestSchedule latitude longitude =
     let
         url =
@@ -97,4 +98,4 @@ requestSchedule latitude longitude =
         fullUrl =
             url ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
     in
-        Http.get fullUrl RestBus.Decoder.schedule
+        Http.get fullUrl Decoder.model

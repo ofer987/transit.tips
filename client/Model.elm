@@ -2,7 +2,7 @@ module Model exposing (..)
 
 import Http
 import Geolocation exposing (Location)
-import Model.Schedule exposing (Schedule)
+import Model.Response exposing (Response)
 
 
 type Msg
@@ -11,17 +11,11 @@ type Msg
     | SetLocation Location
     | UnavailableLocation Geolocation.Error
     | RequestSchedule Location
-    | ReceiveSchedule (Result Http.Error Schedule)
+    | ReceiveSchedule (Result Http.Error Response)
 
-
--- type alias Model =
---     { location : Maybe Location
---     , schedule : Maybe Schedule
---     , error : Maybe String
---     }
 
 type Model
     = NoLocation
-    | FoundLocation Location
-    | FoundSchedule Schedule
+    | FoundLocation Float Float
+    | FoundSchedule Response
     | Error String

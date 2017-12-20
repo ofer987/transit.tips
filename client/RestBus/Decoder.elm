@@ -1,9 +1,19 @@
-module RestBus.Decoder exposing (schedule)
+module RestBus.Decoder exposing (model)
 
-import Json.Decode as Json exposing (decodeString, int, string, list, at, field, Decoder)
+import Json.Decode as Json exposing (decodeString, int, float, string, list, at, field, Decoder)
+import Model.Response as Response exposing (Response)
 import Model.Schedule as Schedule exposing (Schedule)
 import Model.Route as Route exposing (Route)
 import Model.Arrival as Arrival exposing (Arrival)
+
+
+model : Decoder Response
+model =
+    Json.map3
+        Response
+        (field "latitude" float)
+        (field "longitude" float)
+        (field "schedule" schedule)
 
 
 schedule : Decoder Schedule
