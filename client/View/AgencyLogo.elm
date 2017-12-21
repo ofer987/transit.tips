@@ -12,11 +12,9 @@ import Bootstrap.Table exposing (Cell, td, cellAttr)
     Html.CssHelpers.withNamespace "TransitTips"
 
 
-view : String -> Cell Msg
+view : String -> Html Msg
 view url =
-    td
-        [ cellAttr (class [ MyCss.Direction ]) ]
-        [ img [ src (absoluteUrl url) ] [] ]
+    img [ class [], src (absoluteUrl url) ] [] 
 
 
 absoluteUrl : String -> String
