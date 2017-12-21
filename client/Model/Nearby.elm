@@ -1,10 +1,11 @@
-module Model.Response exposing (Response)
+module Model.Nearby exposing (Nearby)
 
 import Model.Schedule as Schedule exposing (Schedule)
 
 
-type alias Response =
+type alias Nearby =
     { latitude : Float
     , longitude : Float
     , schedule : Schedule
+    , address : String
     }

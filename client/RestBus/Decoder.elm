@@ -1,19 +1,20 @@
 module RestBus.Decoder exposing (model)
 
 import Json.Decode as Json exposing (decodeString, int, float, string, list, at, field, Decoder)
-import Model.Response as Response exposing (Response)
+import Model.Nearby as Nearby exposing (Nearby)
 import Model.Schedule as Schedule exposing (Schedule)
 import Model.Route as Route exposing (Route)
 import Model.Arrival as Arrival exposing (Arrival)
 
 
-model : Decoder Response
+model : Decoder Nearby
 model =
-    Json.map3
-        Response
+    Json.map4
+        Nearby
         (field "latitude" float)
         (field "longitude" float)
         (field "schedule" schedule)
+        (field "address" string)
 
 
 schedule : Decoder Schedule

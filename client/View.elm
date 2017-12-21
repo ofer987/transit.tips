@@ -5,11 +5,11 @@ import Html.Events exposing (onClick)
 import Model exposing (..)
 import Model.Schedule exposing (Schedule)
 import View.Schedule
-import View.Error
 import View.Alert.GetSchedule
+import View.Alert.Location
+import View.Alert.Error
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
-import Bootstrap.Alert as Alert
 
 
 view : Model -> Html Msg
@@ -32,16 +32,11 @@ view model =
         FoundSchedule response ->
             container
                 [ onClick (GetLocation 42) ]
-                (CDN.stylesheet :: scheduleView response.schedule)
+                (CDN.stylesheet :: View.Alert.Location.view response.address :: View.Schedule.views response.schedule)
 
         Error error ->
             container
                 [ onClick (GetLocation 42) ]
                 [ CDN.stylesheet
-                , View.Error.view error
+                , View.Alert.Error.view error
                 ]
-
-
-scheduleView : Schedule -> List (Html Msg)
-scheduleView schedule =
-    View.Schedule.views schedule

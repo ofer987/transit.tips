@@ -2,7 +2,7 @@ module Model exposing (..)
 
 import Http
 import Geolocation exposing (Location)
-import Model.Response exposing (Response)
+import Model.Nearby exposing (Nearby)
 
 
 type Msg
@@ -11,11 +11,11 @@ type Msg
     | SetLocation Location
     | UnavailableLocation Geolocation.Error
     | RequestSchedule Location
-    | ReceiveSchedule (Result Http.Error Response)
+    | ReceiveSchedule (Result Http.Error Nearby)
 
 
 type Model
     = NoLocation
     | FoundLocation Float Float
-    | FoundSchedule Response
+    | FoundSchedule Nearby
     | Error String

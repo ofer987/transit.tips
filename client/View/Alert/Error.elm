@@ -1,4 +1,4 @@
-module View.Error exposing (view)
+module View.Alert.Error exposing (view)
 
 import Html exposing (Html, div, text)
 import Model exposing (..)

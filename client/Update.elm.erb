@@ -4,7 +4,7 @@ import Task
 import Geolocation exposing (Location)
 import Http
 import Model exposing (..)
-import Model.Response exposing (Response)
+import Model.Nearby exposing (Nearby)
 import Model.Schedule exposing (Schedule)
 import RestBus.Decoder as Decoder
 
@@ -89,7 +89,7 @@ useLocation result =
             UnavailableLocation err
 
 
-requestSchedule : Float -> Float -> Http.Request Response
+requestSchedule : Float -> Float -> Http.Request Nearby
 requestSchedule latitude longitude =
     let
         url =
