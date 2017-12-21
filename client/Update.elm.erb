@@ -1,6 +1,7 @@
 module Update exposing (update)
 
 import Task
+import Time
 import Geolocation exposing (Location)
 import Http
 import Model exposing (..)
@@ -52,7 +53,12 @@ update msg model =
                 ( model, cmd )
 
         ReceiveSchedule (Ok response) ->
-            ( FoundSchedule response, Cmd.none )
+            let
+                getTime =
+                    Time.now
+                        |> Task.perform (ReceiveTime response)
+            in
+                ( model, getTime )
 
         ReceiveSchedule (Err error) ->
             let
@@ -74,6 +80,9 @@ update msg model =
                             message
             in
                 ( Error message, Cmd.none )
+
+        ReceiveTime nearby time ->
+            ( FoundTime nearby time, Cmd.none )
 
         None ->
             ( model, Cmd.none )
