@@ -3,7 +3,6 @@ module View exposing (view)
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Model exposing (..)
-import Model.Schedule exposing (Schedule)
 import View.Schedule
 import View.Alert.GetSchedule
 import View.Alert.Location
@@ -22,17 +21,24 @@ view model =
                 , View.Alert.GetSchedule.view
                 ]
 
-        FoundLocation _ _ ->
+        ReceivedLocation _ _ ->
             container
                 [ onClick (GetLocation 42) ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
                 ]
 
-        FoundSchedule response ->
+        ReceivedSchedule _ ->
             container
                 [ onClick (GetLocation 42) ]
-                (CDN.stylesheet :: View.Alert.Location.view response.address :: View.Schedule.views response.schedule)
+                [ CDN.stylesheet
+                , View.Alert.GetSchedule.view
+                ]
+
+        ReceivedDate nearby date ->
+            container
+                [ onClick (GetLocation 42) ]
+                (CDN.stylesheet :: View.Alert.Location.view nearby.latitude nearby.longitude nearby.address date :: View.Schedule.views nearby.schedule)
 
         Error error ->
             container
