@@ -19,7 +19,7 @@ update msg model =
         SetLocation location ->
             let
                 newModel =
-                    FoundLocation location.latitude location.longitude
+                    ReceivedLocation location.latitude location.longitude
 
                 cmd =
                     Task.succeed location
@@ -82,7 +82,7 @@ update msg model =
                 ( Error message, Cmd.none )
 
         ReceiveTime nearby date ->
-            ( FoundTime nearby date, Cmd.none )
+            ( ReceivedDate nearby date, Cmd.none )
 
         None ->
             ( model, Cmd.none )

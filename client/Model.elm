@@ -18,7 +18,7 @@ type Msg
 
 type Model
     = NoLocation
-    | FoundLocation Float Float
-    | FoundSchedule Nearby
-    | FoundTime Nearby Date
+    | ReceivedLocation Float Float
+    | ReceivedSchedule Nearby
+    | ReceivedDate Nearby Date
     | Error String

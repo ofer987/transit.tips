@@ -21,21 +21,21 @@ view model =
                 , View.Alert.GetSchedule.view
                 ]
 
-        FoundLocation _ _ ->
+        ReceivedLocation _ _ ->
             container
                 [ onClick (GetLocation 42) ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
                 ]
 
-        FoundSchedule _ ->
+        ReceivedSchedule _ ->
             container
                 [ onClick (GetLocation 42) ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
                 ]
 
-        FoundTime nearby date ->
+        ReceivedDate nearby date ->
             container
                 [ onClick (GetLocation 42) ]
                 (CDN.stylesheet :: View.Alert.Location.view nearby.latitude nearby.longitude nearby.address date :: View.Schedule.views nearby.schedule)
