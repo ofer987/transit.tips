@@ -6,17 +6,13 @@ class Endpoints
     self.longitude = longitude.to_f
   end
 
-  def nearby_locations
+  def schedule
     endpoint = "#{BASE_URL}/locations/#{latitude},#{longitude}/predictions"
     response = RestClient.get(endpoint)
 
     case response.code
     when 200
-      {
-        latitude: latitude,
-        longitude: longitude,
-        schedule: JSON.parse(response.body)
-      }
+      JSON.parse(response.body)
     else
       raise HttpStatusError.new(response.code, 'an error has occurred')
     end
@@ -24,6 +20,19 @@ class Endpoints
 
   def address
     Geocoder.address [latitude, longitude]
+  end
+
+  def as_json
+    {
+      latitude: latitude,
+      longitude: longitude,
+      schedule: schedule,
+      address: address
+    }
+  end
+
+  def to_json
+    as_json.to_s
   end
 
   private

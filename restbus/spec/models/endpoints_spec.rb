@@ -7,23 +7,9 @@ describe Endpoints do
     let(:latitude) { 43.78561654917611 }
     let(:longitude) { -79.44631293538535 }
 
-    context '#nearby_locations' do
+    context '#schedule' do
       it 'returns back a JSON object' do
-        expect(subject.nearby_locations).to be_a Hash
-      end
-
-      it 'has the longitude' do
-        expect(subject.nearby_locations).to have_key(:longitude)
-        expect(subject.nearby_locations[:longitude]).to eq(-79.44631293538535)
-      end
-
-      it 'has the latitude' do
-        expect(subject.nearby_locations).to have_key(:latitude)
-        expect(subject.nearby_locations[:latitude]).to eq(43.78561654917611)
-      end
-
-      it 'returns the schedule' do
-        expect(subject.nearby_locations).to have_key(:schedule)
+        expect(subject.schedule).to be_a Array
       end
     end
 

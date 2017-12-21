@@ -1,10 +1,6 @@
 class NearbyController < ApplicationController
   def index
-    result = Endpoints
-      .new(latitude, longitude)
-      .nearby_locations
-
-      render json: result
+    render json: Endpoints.new(latitude, longitude).as_json
   rescue HttpStatusError => exception
     render status: exception.code, json: { error: exception.message }
   rescue => exception
