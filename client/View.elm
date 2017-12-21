@@ -35,10 +35,10 @@ view model =
                 , View.Alert.GetSchedule.view
                 ]
 
-        FoundTime nearby time ->
+        FoundTime nearby date ->
             container
-            [ onClick (GetLocation 42) ]
-            (CDN.stylesheet :: View.Alert.Location.view nearby.address time :: View.Schedule.views nearby.schedule)
+                [ onClick (GetLocation 42) ]
+                (CDN.stylesheet :: View.Alert.Location.view nearby.latitude nearby.longitude nearby.address date :: View.Schedule.views nearby.schedule)
 
         Error error ->
             container
