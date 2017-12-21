@@ -5,6 +5,7 @@ import Html exposing (Html, text)
 import Html.CssHelpers
 import Model exposing (..)
 import Model.Arrival exposing (Arrival)
+import View.AgencyLogo
 import Bootstrap.Table exposing (Row, Cell, tr, td, cellAttr)
 
 
@@ -12,11 +13,12 @@ import Bootstrap.Table exposing (Row, Cell, tr, td, cellAttr)
     Html.CssHelpers.withNamespace "TransitTips"
 
 
-view : Arrival -> Row Msg
-view arrival =
+view : String -> Arrival -> Row Msg
+view agencyUrl arrival =
     tr
         []
-        [ column arrival.title MyCss.Direction
+        [ View.AgencyLogo.view agencyUrl
+        , column arrival.title MyCss.Direction
         , column (toString arrival.time) MyCss.Arrival
         ]
 

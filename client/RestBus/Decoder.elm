@@ -24,11 +24,12 @@ schedule =
 
 route : Decoder Route
 route =
-    Json.map3
+    Json.map4
         Route
         (at [ "route", "id" ] string)
         (at [ "route", "title" ] string)
         (field "values" (list arrival))
+        (at [ "agency", "logoUrl" ] string)
 
 
 arrival : Decoder Arrival

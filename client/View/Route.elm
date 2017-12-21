@@ -16,7 +16,7 @@ import Bootstrap.Table exposing (THead, TBody, simpleTable, simpleThead, th, tbo
 
 view : Route -> Html Msg
 view route =
-    simpleTable ( head route.title, body route.arrivals )
+    simpleTable ( head route.title, body route.agencyUrl route.arrivals )
 
 
 head : String -> THead Msg
@@ -25,8 +25,8 @@ head value =
         [ th [] [ text value ] ]
 
 
-body : List Arrival -> TBody Msg
-body arrivals =
+body : String -> List Arrival -> TBody Msg
+body agencyUrl arrivals =
     tbody
         [ class [ MyCss.Route ] ]
-        (List.map View.Arrival.view arrivals)
+        (List.map (View.Arrival.view agencyUrl) arrivals)
