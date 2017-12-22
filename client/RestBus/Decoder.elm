@@ -3,7 +3,7 @@ module RestBus.Decoder exposing (model)
 import Json.Decode as Json exposing (decodeString, int, float, string, nullable, list, at, field, Decoder)
 import Model.Nearby as Nearby exposing (Nearby)
 import Model.Schedule as Schedule exposing (Schedule)
-import Model.Route as Route exposing (Route)
+import Model.Route as Route exposing (Route, Agency)
 import Model.Arrival as Arrival exposing (Arrival)
 
 
@@ -24,12 +24,18 @@ schedule =
 
 route : Decoder Route
 route =
-    Json.map4
+    Json.map5
         Route
         (at [ "route", "id" ] string)
         (at [ "route", "title" ] string)
         (field "values" (list arrival))
         (at [ "stop", "title" ] string)
+        (at [ "agency", "id" ] (agency string))
+
+
+agency : Decoder String -> Decoder Agency
+agency value =
+    Json.map Route.toAgency value
 
 
 arrival : Decoder Arrival
