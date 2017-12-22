@@ -4,6 +4,7 @@ import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Model exposing (..)
 import View.Schedule
+import View.Loading
 import View.Alert.GetSchedule
 import View.Alert.LocationAndTime
 import View.Alert.Time
@@ -20,6 +21,7 @@ view model =
                 [ onClick (GetLocation 42) ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
+                , View.Loading.view
                 ]
 
         ReceivedLocation _ _ ->
@@ -27,6 +29,7 @@ view model =
                 [ onClick (GetLocation 42) ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
+                , View.Loading.view
                 ]
 
         ReceivedSchedule _ ->
@@ -34,6 +37,7 @@ view model =
                 [ onClick (GetLocation 42) ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
+                , View.Loading.view
                 ]
 
         ReceivedDate nearby date ->
