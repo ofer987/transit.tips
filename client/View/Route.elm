@@ -16,7 +16,10 @@ import Bootstrap.Table exposing (THead, TBody, simpleTable, simpleThead, th, tbo
 
 view : Route -> Html Msg
 view route =
-    simpleTable ( head route.title, body route.arrivals )
+    simpleTable
+        ( head (route.title ++ " (" ++ route.location ++ ")")
+        , body route.arrivals
+        )
 
 
 head : String -> THead Msg
