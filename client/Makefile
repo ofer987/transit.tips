@@ -1,8 +1,8 @@
-.PHONY: default all build node_modules clean uninstall
+.PHONY: default build node_modules clean uninstall
 
-default: all
+default: install
 
-all: node_modules build clean
+install: node_modules build clean
 
 build: Update.elm main.js index.css
 

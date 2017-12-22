@@ -1,8 +1,10 @@
-.PHONY: client restbus
+.PHONY: client restbus default build install uninstall clean
 
-default: all
+default: install
 
-all: client restbus
+install: build
+
+build: client restbus
 
 client:
 	make -C client -f Makefile
@@ -10,3 +12,10 @@ client:
 restbus:
 	make -C restbus -f Makefile
 
+uninstall:
+	make -C client -f Makefile uninstall
+	make -C restbus -f Makefile uninstall
+
+clean:
+	make -C client -f Makefile clean
+	make -C restbus -f Makefile clean

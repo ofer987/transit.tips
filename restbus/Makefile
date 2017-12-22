@@ -1,6 +1,13 @@
-all: default
+.PHONY: default build install uninstall clean
 
-default: build
+default: install
+
+install: build
 
 build:
-	bundle install --path vendor/bundle --without=development test
+	bundle install
+
+clean: uninstall
+
+uninstall:
+	rm -rf vendor/bundle
