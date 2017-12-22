@@ -7,5 +7,5 @@ type alias Nearby =
     { latitude : Float
     , longitude : Float
     , schedule : Schedule
-    , address : String
+    , address : Maybe String
     }

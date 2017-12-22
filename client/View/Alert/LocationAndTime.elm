@@ -1,4 +1,4 @@
-module View.Alert.Location exposing (view)
+module View.Alert.LocationAndTime exposing (view)
 
 import Html exposing (Html, div, text, a)
 import Html.Attributes exposing (href)

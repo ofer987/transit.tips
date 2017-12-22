@@ -5,7 +5,8 @@ import Html.Events exposing (onClick)
 import Model exposing (..)
 import View.Schedule
 import View.Alert.GetSchedule
-import View.Alert.Location
+import View.Alert.LocationAndTime
+import View.Alert.Time
 import View.Alert.Error
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
@@ -36,9 +37,18 @@ view model =
                 ]
 
         ReceivedDate nearby date ->
-            container
-                [ onClick (GetLocation 42) ]
-                (CDN.stylesheet :: View.Alert.Location.view nearby.latitude nearby.longitude nearby.address date :: View.Schedule.views nearby.schedule)
+            let
+                alert =
+                    case nearby.address of
+                        Just value ->
+                            View.Alert.LocationAndTime.view nearby.latitude nearby.longitude value date
+
+                        Nothing ->
+                            View.Alert.Time.view nearby.latitude nearby.longitude date
+            in
+                container
+                    [ onClick (GetLocation 42) ]
+                    (CDN.stylesheet :: alert :: View.Schedule.views nearby.schedule)
 
         Error error ->
             container
