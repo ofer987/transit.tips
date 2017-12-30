@@ -1,16 +1,13 @@
-.PHONY: default build node_modules clean uninstall
+.PHONY: default build clean uninstall
 
 default: install
 
-install: node_modules build clean
+install: build clean
 
 build: Update.elm main.js index.css
 
-node_modules:
-	npm install
-
 main.js: Update.elm *.elm Model/*.elm RestBus/*.elm View/*.elm View/Alert/*.elm View/Route/*.elm View/Arrival/*.elm
-	elm make Main.elm --output main.js
+	elm make Main.elm --output main.js --yes
 
 index.css: Stylesheets.elm MyCss.elm
 	elm css Stylesheets.elm
@@ -22,4 +19,4 @@ clean:
 	rm Update.elm 2> /dev/null
 
 uninstall:
-	rm -rf main.js index.css node_modules elm-stuff Update.elm 2> /dev/null
+	rm -rf main.js index.css elm-stuff Update.elm 2> /dev/null
