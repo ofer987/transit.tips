@@ -7,18 +7,19 @@ import Model.Route exposing (Route)
 
 type Msg
     = None
-    | GetLocation Int
-    | SetLocation Location
+    | GetLocation String
+    | SetLocation Location String
     | UnavailableLocation Geolocation.Error
     | RequestRoute Location String
     | ReceiveRoute (Result Http.Error Route)
-    | RequestStops String String
-    | ReceiveStops (Result Http.Error Route)
+    -- Might not be needed
+    -- | RequestArrivals String String
+    | ReceiveArrivals (Result Http.Error Route)
 
 
 type Model
     = NoLocation
     | ReceivedLocation Float Float
     | ReceivedRoute Route
-    | ReceivedStops Route
+    | ReceivedArrivals Route
     | Error String

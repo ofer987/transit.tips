@@ -1,10 +1,13 @@
 module Update.SearchResults exposing (update)
 
+import Tuple
 import Task
 import Date
 import Geolocation exposing (Location)
 import Http
 import Model.SearchResults exposing (..)
+import Model.Stop exposing (Stop, nilStop)
+import Model.Route exposing (Route)
 import Model.Nearby exposing (Nearby)
 import Model.Schedule exposing (Schedule)
 import RestBus.Decoder as Decoder
@@ -13,17 +16,25 @@ import RestBus.Decoder as Decoder
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation _ ->
-            ( NoLocation, Task.attempt useLocation Geolocation.now )
+        GetLocation routeId ->
+            let
+                cmd =
+                    Geolocation.now
+                        |> Task.map (\location -> (location, routeId))
+                        |> Task.attempt useLocation
 
-        SetLocation location ->
+            in
+                ( NoLocation, cmd )
+
+        SetLocation location routeId ->
             let
                 newModel =
                     ReceivedLocation location.latitude location.longitude
 
+                -- Is there a better way?
                 cmd =
-                    Task.succeed location
-                        |> Task.perform RequestRoute
+                    Task.succeed routeId
+                        |> Task.perform (RequestRoute location)
             in
                 ( newModel, cmd )
 
@@ -44,8 +55,12 @@ update msg model =
 
         RequestRoute location routeId ->
             let
+                -- Where do I get the agency from?
+                agencyId =
+                    "ttc"
+
                 request =
-                    requestRoute location.latitude location.longitude routeId
+                    requestRoute agencyId routeId
 
                 cmd =
                     Http.send ReceiveRoute request
@@ -56,10 +71,11 @@ update msg model =
             let
                 nearestStop =
                     findNearestStop route.stops
+
                 request =
-                    requestStops route.id nearestStop
-                    -- Date.now
-                    --     |> Task.perform (ReceiveTime response)
+                    requestArrivals route.id nearestStop.id
+                        |> Task.succeed
+                        |> Task.perform ReceiveArrivals
             in
                 ( model, request )
 
@@ -84,13 +100,10 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        RequestStops routeId stopId
-            ( model, ReceiveStops )
+        ReceiveArrivals (Ok route) ->
+            ( ReceivedRoute route, Cmd.none )
 
-        ReceiveStops (Ok route)
-            ( route, Cmd.none )
-
-        ReceiveStops (Err error) ->
+        ReceiveArrivals (Err error) ->
             let
                 message =
                     case error of
@@ -110,27 +123,39 @@ update msg model =
                             message
             in
                 ( Error message, Cmd.none )
+
         None ->
             ( model, Cmd.none )
 
 
-useLocation : Result Geolocation.Error Location -> Msg
+useLocation : Result Geolocation.Error ( Location, String ) -> Msg
 useLocation result =
     case result of
-        Ok location ->
-            SetLocation location
+        Ok value ->
+            SetLocation (Tuple.first value) (Tuple.second value)
 
         Err err ->
             UnavailableLocation err
 
 
-requestSchedule : Float -> Float -> Http.Request Nearby
-requestSchedule latitude longitude =
+requestRoute : String -> String -> Http.Request Route
+requestRoute agencyId routeId =
     let
         url =
-            "<%= restbus_url %>"
-
-        fullUrl =
-            url ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
+            "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId
     in
-        Http.get fullUrl Decoder.model
+        Http.get url Decoder.model
+
+
+requestArrivals : String -> String -> String -> Http.Request Route
+requestArrivals agencyId routeId stopId =
+    let
+        url =
+            "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/ " ++ stopId ++ "/predictions"
+    in
+        Http.get url Decoder.model
+
+findNearestStop : (List Stop) -> Stop
+findNearestStop stops =
+    List.head stops
+        |> Maybe.withDefault nilStop
