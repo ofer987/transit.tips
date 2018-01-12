@@ -1,3 +1,4 @@
+-- Rename to Model.Search
 module Model.SearchResults exposing (..)
 
 import Http

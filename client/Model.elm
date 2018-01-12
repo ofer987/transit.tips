@@ -1,24 +1,16 @@
 module Model exposing (..)
 
-import Http
-import Geolocation exposing (Location)
-import Date exposing (Date)
-import Model.Nearby exposing (Nearby)
+import Model.Nearby as Nearby
+import Model.SearchResults as SearchResults
 
 
-type Msg
+type ControllerMsg
     = None
-    | GetLocation Int
-    | SetLocation Location
-    | UnavailableLocation Geolocation.Error
-    | RequestSchedule Location
-    | ReceiveSchedule (Result Http.Error Nearby)
-    | ReceiveTime Nearby Date
+    | Nearby Nearby.Model
+    | Search SearchResults.Model
 
 
-type Model
-    = NoLocation
-    | ReceivedLocation Float Float
-    | ReceivedSchedule Nearby
-    | ReceivedDate Nearby Date
-    | Error String
+type alias Model =
+    { nearby : Nearby.Model
+    , search : SearchResults.Model
+    }

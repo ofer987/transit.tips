@@ -1,3 +1,4 @@
+-- Rename to Update.Search
 module Update.SearchResults exposing (update)
 
 import Tuple

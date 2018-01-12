@@ -6,17 +6,17 @@ install: build clean
 
 build: Update.elm main.js index.css
 
-main.js: Update.elm *.elm Model/*.elm RestBus/*.elm View/*.elm View/Alert/*.elm View/Route/*.elm View/Arrival/*.elm
+main.js: Update.elm Update/*.elm *.elm Model/*.elm RestBus/*.elm View/*.elm View/Alert/*.elm View/Route/*.elm View/Arrival/*.elm
 	elm make Main.elm --output main.js --yes
 
 index.css: Stylesheets.elm MyCss.elm
 	elm css Stylesheets.elm
 
-Update.elm: Update.elm.erb
-	erb restbus_url="$(RESTBUS_URL)" Update.elm.erb > Update.elm;
+Nearby.elm: Update/Nearby.elm.erb
+	erb restbus_url="$(RESTBUS_URL)" Update/Nearby.elm.erb > Update/Nearby.elm;
 
 clean:
 	rm Update.elm 2> /dev/null
 
 uninstall:
-	rm -rf main.js index.css elm-stuff Update.elm 2> /dev/null
+	rm -rf main.js index.css elm-stuff Update/Nearby.elm 2> /dev/null
