@@ -1,4 +1,4 @@
-module Model.Nearby exposing (Msg, Model, Nearby)
+module Model.Nearby exposing (..)
 
 import Http
 import Geolocation exposing (Location)

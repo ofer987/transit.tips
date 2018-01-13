@@ -6,8 +6,8 @@ import Model.SearchResults as SearchResults
 
 type ControllerMsg
     = None
-    | Nearby Nearby.Model
-    | Search SearchResults.Model
+    | Nearby Nearby.Msg
+    | Search SearchResults.Msg
 
 
 type alias Model =

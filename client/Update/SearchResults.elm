@@ -3,14 +3,11 @@ module Update.SearchResults exposing (update)
 
 import Tuple
 import Task
-import Date
 import Geolocation exposing (Location)
 import Http
 import Model.SearchResults exposing (..)
 import Model.Stop exposing (Stop, nilStop)
 import Model.Route exposing (Route)
-import Model.Nearby exposing (Nearby)
-import Model.Schedule exposing (Schedule)
 import RestBus.Decoder as Decoder
 
 
@@ -156,7 +153,10 @@ requestArrivals agencyId routeId stopId =
     in
         Http.get url Decoder.model
 
-findNearestStop : (List Stop) -> Stop
-findNearestStop stops =
-    List.head stops
+-- Change to Result Error Stop
+findNearestStop : Float -> Float -> List Stop -> Stop
+findNearestStop latitude longitude stops =
+    stops
+        |> List.sortBy (\stop -> sqrt (((stop.latitude - latitude) ^ 2) + ((stop.longitude - longitude) ^ 2)))
+        |> List.head
         |> Maybe.withDefault nilStop
