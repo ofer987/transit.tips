@@ -3,9 +3,9 @@ module View.Loading exposing (view)
 import Html exposing (Html, div)
 import Html.Attributes exposing (id, class)
 
-import Model exposing (Msg)
+import Model exposing (ControllerMsg)
 
-view : Html Msg
+view : Html ControllerMsg
 view =
     div
         [ id "fountainG" ]

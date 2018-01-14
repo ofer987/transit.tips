@@ -15,7 +15,7 @@ import Bootstrap.Table exposing (Row, Cell, tr, td, cellAttr)
     Html.CssHelpers.withNamespace "TransitTips"
 
 
-view : Arrival -> Row Msg
+view : Arrival -> Row ControllerMsg
 view arrival =
     tr
         []
@@ -24,7 +24,7 @@ view arrival =
         ]
 
 
-column : String -> CssClasses -> Cell Msg
+column : String -> CssClasses -> Cell ControllerMsg
 column value cls =
     td
         [ cellAttr (class [ cls ]) ]

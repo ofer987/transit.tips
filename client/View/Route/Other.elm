@@ -14,7 +14,7 @@ import Bootstrap.Table exposing (THead, TBody, simpleTable, simpleThead, th, tbo
     Html.CssHelpers.withNamespace "TransitTips"
 
 
-view : Route -> Html Msg
+view : Route -> Html ControllerMsg
 view route =
     simpleTable
         ( head (route.title ++ " (" ++ route.location ++ ")")
@@ -22,13 +22,13 @@ view route =
         )
 
 
-head : String -> THead Msg
+head : String -> THead ControllerMsg
 head value =
     simpleThead
         [ th [] [ text value ] ]
 
 
-body : List Arrival -> TBody Msg
+body : List Arrival -> TBody ControllerMsg
 body arrivals =
     tbody
         [ class [ MyCss.Route ] ]

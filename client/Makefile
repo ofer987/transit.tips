@@ -6,13 +6,13 @@ install: build clean
 
 build: Update.elm main.js index.css
 
-main.js: Update.elm Update/*.elm *.elm Model/*.elm RestBus/*.elm View/*.elm View/Alert/*.elm View/Route/*.elm View/Arrival/*.elm
+main.js: Update.elm Update/*.elm *.elm Model/*.elm Decoder/*.elm View/*.elm View/Alert/*.elm View/Route/*.elm View/Arrival/*.elm
 	elm make Main.elm --output main.js --yes
 
 index.css: Stylesheets.elm MyCss.elm
 	elm css Stylesheets.elm
 
-Nearby.elm: Update/Nearby.elm.erb
+Update/Nearby.elm: Update/Nearby.elm.erb
 	erb restbus_url="$(RESTBUS_URL)" Update/Nearby.elm.erb > Update/Nearby.elm;
 
 clean:

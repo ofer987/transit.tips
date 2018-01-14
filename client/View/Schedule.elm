@@ -18,12 +18,12 @@ import Model.Schedule exposing (Schedule)
     Html.CssHelpers.withNamespace "TransitTips"
 
 
-views : Schedule -> List (Html Msg)
+views : Schedule -> List (Html ControllerMsg)
 views schedule =
     head :: (List.map View.Route.view schedule.routes)
 
 
-head : Html Msg
+head : Html ControllerMsg
 head =
     simpleTable
         ( simpleThead
