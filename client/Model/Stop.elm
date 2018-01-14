@@ -13,6 +13,7 @@ type alias Stop =
     , longitude : Float
     }
 
+
 nilStop : Stop
 nilStop =
     { id = ""

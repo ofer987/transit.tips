@@ -11,5 +11,5 @@ stop =
         (field "id" string)
         (field "code" string)
         (field "title" string)
-        (field "latitude" float)
-        (field "longitude" float)
+        (field "lat" float)
+        (field "lon" float)

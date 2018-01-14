@@ -1,9 +1,12 @@
 -- Rename to Model.Search
+
+
 module Model.SearchResults exposing (..)
 
 import Http
 import Geolocation exposing (Location)
-import Model.Route exposing (Route)
+import Model.Stop exposing (Stop)
+import Model.Route exposing (MyRoute, Route)
 
 
 type Msg
@@ -12,15 +15,15 @@ type Msg
     | SetLocation Location String
     | UnavailableLocation Geolocation.Error
     | RequestRoute Location String
-    | ReceiveRoute (Result Http.Error Route)
-    -- Might not be needed
-    -- | RequestArrivals String String
+    | ReceiveRoute (Result Http.Error MyRoute)
+      -- Might not be needed
+      -- | RequestArrivals String String
     | ReceiveArrivals (Result Http.Error Route)
 
 
 type Model
     = NoLocation
     | ReceivedLocation Float Float
-    | ReceivedRoute Route
+    | ReceivedRoute Float Float (List Stop)
     | ReceivedArrivals Route
     | Error String

@@ -1,4 +1,6 @@
 -- Rename to Update.Search
+
+
 module Update.SearchResults exposing (update)
 
 import Tuple
@@ -7,8 +9,9 @@ import Geolocation exposing (Location)
 import Http
 import Model.SearchResults exposing (..)
 import Model.Stop exposing (Stop, nilStop)
-import Model.Route exposing (Route)
-import RestBus.Decoder as Decoder
+import Model.Route exposing (MyRoute, Route)
+import Decoder.MyRoute
+import Decoder.Route
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -18,9 +21,8 @@ update msg model =
             let
                 cmd =
                     Geolocation.now
-                        |> Task.map (\location -> (location, routeId))
+                        |> Task.map (\location -> ( location, routeId ))
                         |> Task.attempt useLocation
-
             in
                 ( NoLocation, cmd )
 
@@ -58,22 +60,21 @@ update msg model =
                     "ttc"
 
                 request =
-                    requestRoute agencyId routeId
+                    requestRoute location.longitude location.latitude agencyId routeId
 
                 cmd =
                     Http.send ReceiveRoute request
             in
                 ( model, cmd )
 
-        ReceiveRoute (Ok route) ->
+        ReceiveRoute (Ok myRoute) ->
             let
                 nearestStop =
-                    findNearestStop route.stops
+                    findNearestStop myRoute.myLatitude myRoute.myLongitude myRoute.stops
 
                 request =
-                    requestArrivals route.id nearestStop.id
-                        |> Task.succeed
-                        |> Task.perform ReceiveArrivals
+                    requestArrivals myRoute.agencyId myRoute.id nearestStop.id
+                        |> Http.send ReceiveArrivals
             in
                 ( model, request )
 
@@ -99,7 +100,7 @@ update msg model =
                 ( Error message, Cmd.none )
 
         ReceiveArrivals (Ok route) ->
-            ( ReceivedRoute route, Cmd.none )
+            ( ReceivedArrivals route, Cmd.none )
 
         ReceiveArrivals (Err error) ->
             let
@@ -136,13 +137,13 @@ useLocation result =
             UnavailableLocation err
 
 
-requestRoute : String -> String -> Http.Request Route
-requestRoute agencyId routeId =
+requestRoute : Float -> Float -> String -> String -> Http.Request MyRoute
+requestRoute latitude longitude agencyId routeId =
     let
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId
     in
-        Http.get url Decoder.model
+        Http.get url (Decoder.MyRoute.myRoute agencyId latitude longitude)
 
 
 requestArrivals : String -> String -> String -> Http.Request Route
@@ -151,9 +152,13 @@ requestArrivals agencyId routeId stopId =
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/ " ++ stopId ++ "/predictions"
     in
-        Http.get url Decoder.model
+        Http.get url Decoder.Route.route
+
+
 
 -- Change to Result Error Stop
+
+
 findNearestStop : Float -> Float -> List Stop -> Stop
 findNearestStop latitude longitude stops =
     stops
