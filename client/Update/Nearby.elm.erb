@@ -5,7 +5,7 @@ import Date
 import Geolocation exposing (Location)
 import Http
 import Model.Nearby exposing (..)
-import RestBus.Decoder as Decoder
+import Decoder.Nearby
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -105,4 +105,4 @@ requestSchedule latitude longitude =
         fullUrl =
             url ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
     in
-        Http.get fullUrl Decoder.model
+        Http.get fullUrl Decoder.Nearby.nearby

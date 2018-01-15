@@ -11,7 +11,7 @@ import Model.SearchResults exposing (..)
 import Model.Stop exposing (Stop, nilStop)
 import Model.Route exposing (MyRoute, Route)
 import Decoder.MyRoute
-import Decoder.Route
+import Decoder.SearchResults
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -150,9 +150,9 @@ requestArrivals : String -> String -> String -> Http.Request Route
 requestArrivals agencyId routeId stopId =
     let
         url =
-            "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/ " ++ stopId ++ "/predictions"
+            "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
-        Http.get url Decoder.Route.route
+        Http.get url Decoder.SearchResults.searchResults
 
 
 

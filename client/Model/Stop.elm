@@ -1,4 +1,4 @@
-module Model.Stop exposing (Stops, Stop, nilStop)
+module Model.Stop exposing (Stops, Stop, nilStop, toString)
 
 
 type alias Stops =
@@ -7,7 +7,6 @@ type alias Stops =
 
 type alias Stop =
     { id : String
-    , code : String
     , title : String
     , latitude : Float
     , longitude : Float
@@ -17,8 +16,17 @@ type alias Stop =
 nilStop : Stop
 nilStop =
     { id = ""
-    , code = ""
     , title = ""
     , latitude = 0.0
     , longitude = 0.0
     }
+
+
+toString : List Stop -> String -> String
+toString stops result =
+    case stops of
+        head :: tail ->
+            toString tail (result ++ head.id)
+
+        [] ->
+            result

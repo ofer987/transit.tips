@@ -6,10 +6,9 @@ import Model.Stop as Stop exposing (Stop)
 
 stop : Decoder Stop
 stop =
-    Json.map5
+    Json.map4
         Stop
         (field "id" string)
-        (field "code" string)
         (field "title" string)
         (field "lat" float)
         (field "lon" float)
