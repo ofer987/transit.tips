@@ -73,11 +73,11 @@ viewResults model =
 
 routeToString : Route -> String
 routeToString route =
-    case List.head route.arrivals of
-        Just value ->
-            toString value.time
+    case route.arrivals of
+        head :: _ ->
+            toString head.time
 
-        Nothing ->
+        [] ->
             "Not found"
 
 

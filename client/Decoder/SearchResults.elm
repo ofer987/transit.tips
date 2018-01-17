@@ -4,27 +4,8 @@ import Json.Decode as Json exposing (map, decodeString, int, float, string, null
 import Decoder.Route exposing (route)
 import Model.Route as Route exposing (Route, Agency(..))
 import List
-import Maybe
 
 
-searchResults : Decoder Route
+searchResults : Decoder (Maybe Route)
 searchResults =
-    list route
-        |> map firstRoute
-
-
-firstRoute : List Route -> Route
-firstRoute routes =
-    routes
-        |> List.head
-        |> Maybe.withDefault nilRoute
-
-
-nilRoute : Route
-nilRoute =
-    { id = ""
-    , title = ""
-    , arrivals = []
-    , location = ""
-    , agency = Other
-    }
+    map List.head (list route)

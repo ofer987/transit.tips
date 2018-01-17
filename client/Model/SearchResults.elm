@@ -16,9 +16,7 @@ type Msg
     | UnavailableLocation Geolocation.Error
     | RequestRoute Location String
     | ReceiveRoute (Result Http.Error MyRoute)
-      -- Might not be needed
-      -- | RequestArrivals String String
-    | ReceiveArrivals (Result Http.Error Route)
+    | ReceiveArrivals (Result Http.Error (Maybe Route))
 
 
 type Model

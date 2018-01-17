@@ -5,10 +5,10 @@ module Update.SearchResults exposing (update)
 
 import Tuple
 import Task
+import Result exposing (Result)
 import Geolocation exposing (Location)
 import Http
 import Model.SearchResults exposing (..)
-import Model.Stop exposing (Stop, nilStop)
 import Model.Route exposing (MyRoute, Route)
 import Decoder.MyRoute
 import Decoder.SearchResults
@@ -70,13 +70,16 @@ update msg model =
         ReceiveRoute (Ok myRoute) ->
             let
                 nearestStop =
-                    findNearestStop myRoute.myLatitude myRoute.myLongitude myRoute.stops
-
-                request =
-                    requestArrivals myRoute.agencyId myRoute.id nearestStop.id
-                        |> Http.send ReceiveArrivals
+                    myRoute.stops
+                        |> List.sortBy (\stop -> sqrt (((stop.latitude - myRoute.myLatitude) ^ 2) + ((stop.longitude - myRoute.myLongitude) ^ 2)))
+                        |> List.head
             in
-                ( model, request )
+                case nearestStop of
+                    Just value ->
+                        ( model, Http.send ReceiveArrivals (requestArrivals myRoute.agencyId myRoute.id value.id) )
+
+                    Nothing ->
+                        ( Error "No stops found", Cmd.none )
 
         ReceiveRoute (Err error) ->
             let
@@ -99,8 +102,11 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        ReceiveArrivals (Ok route) ->
+        ReceiveArrivals (Ok (Just route)) ->
             ( ReceivedArrivals route, Cmd.none )
+
+        ReceiveArrivals (Ok Nothing) ->
+            ( Error "Route did not contain information", Cmd.none )
 
         ReceiveArrivals (Err error) ->
             let
@@ -146,22 +152,10 @@ requestRoute latitude longitude agencyId routeId =
         Http.get url (Decoder.MyRoute.myRoute agencyId latitude longitude)
 
 
-requestArrivals : String -> String -> String -> Http.Request Route
+requestArrivals : String -> String -> String -> Http.Request (Maybe Route)
 requestArrivals agencyId routeId stopId =
     let
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
         Http.get url Decoder.SearchResults.searchResults
-
-
-
--- Change to Result Error Stop
-
-
-findNearestStop : Float -> Float -> List Stop -> Stop
-findNearestStop latitude longitude stops =
-    stops
-        |> List.sortBy (\stop -> sqrt (((stop.latitude - latitude) ^ 2) + ((stop.longitude - longitude) ^ 2)))
-        |> List.head
-        |> Maybe.withDefault nilStop

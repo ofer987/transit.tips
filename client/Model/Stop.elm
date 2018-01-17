@@ -1,4 +1,4 @@
-module Model.Stop exposing (Stops, Stop, nilStop, toString)
+module Model.Stop exposing (Stops, Stop, toString)
 
 
 type alias Stops =
@@ -10,15 +10,6 @@ type alias Stop =
     , title : String
     , latitude : Float
     , longitude : Float
-    }
-
-
-nilStop : Stop
-nilStop =
-    { id = ""
-    , title = ""
-    , latitude = 0.0
-    , longitude = 0.0
     }
 
 
