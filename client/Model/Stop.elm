@@ -21,3 +21,14 @@ toString stops result =
 
         [] ->
             result
+
+
+sortedStopsByPosition : Float -> Float -> List Stop -> List Stop
+sortedStopsByPosition latitude longitude stops =
+    stops
+        |> List.sortBy (distance latitude longitude)
+
+
+distance : Float -> Float -> Stop -> Float
+distance latitude longitude stop =
+    sqrt (((stop.latitude - latitude) ^ 2) + ((stop.longitude - longitude) ^ 2))
