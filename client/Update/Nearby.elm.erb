@@ -5,6 +5,7 @@ import Date
 import Geolocation exposing (Location)
 import Http
 import Model.Nearby exposing (..)
+import Json.Nearby
 import Decoder.Nearby
 
 
@@ -21,7 +22,7 @@ update msg model =
 
                 cmd =
                     Task.succeed location
-                        |> Task.perform RequestSchedule
+                        |> Task.perform RequestNearby
             in
                 ( newModel, cmd )
 
@@ -40,17 +41,17 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        RequestSchedule location ->
+        RequestNearby location ->
             let
                 request =
-                    requestSchedule location.latitude location.longitude
+                    requestNearby location.latitude location.longitude
 
                 cmd =
-                    Http.send ReceiveSchedule request
+                    Http.send ReceiveNearby request
             in
                 ( model, cmd )
 
-        ReceiveSchedule (Ok response) ->
+        ReceiveNearby (Ok response) ->
             let
                 getTime =
                     Date.now
@@ -58,7 +59,7 @@ update msg model =
             in
                 ( model, getTime )
 
-        ReceiveSchedule (Err error) ->
+        ReceiveNearby (Err error) ->
             let
                 message =
                     case error of
@@ -96,8 +97,8 @@ useLocation result =
             UnavailableLocation err
 
 
-requestSchedule : Float -> Float -> Http.Request Nearby
-requestSchedule latitude longitude =
+requestNearby : Float -> Float -> Http.Request Json.Nearby.Nearby
+requestNearby latitude longitude =
     let
         url =
             "<%= restbus_url %>"
@@ -105,4 +106,6 @@ requestSchedule latitude longitude =
         fullUrl =
             url ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
     in
-        Http.get fullUrl Decoder.Nearby.nearby
+        Decoder.Nearby.nearby
+            |> Decoder.Nearby.toModel
+            |> Http.get fullUrl

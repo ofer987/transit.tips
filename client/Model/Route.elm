@@ -32,11 +32,8 @@ type alias MyDirection =
 type alias Route =
     { id : String
     , title : String
-    , arrivals : List Arrival
-
-    -- Change to Stop
-    , location : String
     , agency : Agency
+    , directions : List Direction
     }
 
 

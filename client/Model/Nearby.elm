@@ -3,6 +3,7 @@ module Model.Nearby exposing (..)
 import Http
 import Geolocation exposing (Location)
 import Date exposing (Date)
+import Json.Nearby
 import Model.Schedule as Schedule exposing (Schedule)
 
 
@@ -11,8 +12,8 @@ type Msg
     | GetLocation Int
     | SetLocation Location
     | UnavailableLocation Geolocation.Error
-    | RequestSchedule Location
-    | ReceiveSchedule (Result Http.Error Nearby)
+    | RequestNearby Location
+    | ReceiveNearby (Result Http.Error Json.Nearby.Nearby)
     | ReceiveTime Nearby Date
 
 

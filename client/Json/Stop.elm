@@ -1,5 +1,4 @@
-module Model.Stop exposing (Stops, Stop, toString)
-import Model.Arrival as Arrival exposing (Arrival)
+module Json.Stop exposing (Stops, Stop, toString)
 
 
 type alias Stops =
@@ -9,9 +8,6 @@ type alias Stops =
 type alias Stop =
     { id : String
     , title : String
-    , latitude : Float
-    , longitude : Float
-    , arrivals : List Arrival
     }
 
 
