@@ -1,4 +1,4 @@
-module Json.Route exposing (..)
+module Json.Predictions exposing (..)
 
 import Json.Common exposing (Agency)
 
@@ -7,25 +7,20 @@ type alias Route =
     { id : String
     , title : String
     , agency : Agency
-    , directions : List Direction
-    , stops : List Stop
+    , stop : Stop
+    , arrivals : List Arrival
     }
 
 
 type alias Direction =
     { id : String
     , title : String
-    , shortTitle : String
-    , stops : List String
     }
 
 
 type alias Stop =
     { id : String
-    , code : String
     , title : String
-    , latitude : Float
-    , longitude : Float
     }
 
 

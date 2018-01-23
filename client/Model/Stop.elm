@@ -9,8 +9,6 @@ type alias Stops =
 type alias Stop =
     { id : String
     , title : String
-    , latitude : Float
-    , longitude : Float
     , arrivals : List Arrival
     }
 

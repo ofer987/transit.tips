@@ -1,17 +1,37 @@
-module Decoder.Route exposing (route)
+module Decoder.Route exposing (route, direction, stop)
 
-import Json.Decode as Json exposing (decodeString, int, float, string, nullable, list, at, field, Decoder)
-import Json.Route as Route exposing (Route, Agency)
-import Decoder.Agency exposing (agency)
-import Decoder.Arrival exposing (arrival)
+import Json.Decode as Json exposing (Decoder, field, at, string, float, list, succeed, oneOf, null)
+import Decoder.Common exposing (agency, toAgency)
+import Json.Route exposing (Route, Direction, Stop)
 
 
-route : Decoder Route
-route =
+route : String -> Decoder Route
+route agencyId =
     Json.map5
         Route
-        (at [ "route", "id" ] string)
-        (at [ "route", "title" ] string)
-        (at [ "agency", "id" ] (agency string))
-        (field "stop" stop)
-        (field "values" (list arrival))
+        (field "id" string)
+        (field "title" string)
+        (succeed (toAgency agencyId))
+        (field "directions" (list direction))
+        (field "stops" (list stop))
+
+
+direction : Decoder Direction
+direction =
+    Json.map4
+        Direction
+        (field "id" string)
+        (field "title" string)
+        (field "shortTitle" (oneOf [ string, null "" ]))
+        (field "stops" (list string))
+
+
+stop : Decoder Stop
+stop =
+    Json.map5
+        Stop
+        (field "id" string)
+        (field "code" string)
+        (field "title" string)
+        (field "lat" float)
+        (field "lon" float)
