@@ -1,21 +1,4 @@
-module Model exposing (..)
-
-import Model.Nearby as Nearby
-import Model.SearchResults as SearchResults
-import Model.Location as Location
-
-
-type ControllerMsg
-    = NearbyController Nearby.Msg
-    | SearchController SearchResults.Msg
-
-
-type alias Model =
-    { location : Location.Model
-    , nearby : Nearby.Model
-    , search : SearchResults.Model
-    }
-
+module Model.Common exposing (..)
 
 type Agency
     = TTC
@@ -81,10 +64,28 @@ sortedAndFilteredStops latitude longitude stopIds stops =
 
 sortedStopsByPosition : Float -> Float -> List Stop -> List Stop
 sortedStopsByPosition latitude longitude stops =
-    stops
-        |> List.sortBy (distance latitude longitude)
+    let
+        range : Stop -> Float
+        range stop =
+            case stop.location of
+                Just location ->
+                    distance latitude longitude location
 
+                Nothing ->
+                    -- Max Value
+                    2 ^ 32 - 1
+    in
+        List.sortBy range stops
 
-distance : Float -> Float -> Stop -> Float
-distance latitude longitude stop =
-    sqrt (((stop.latitude - latitude) ^ 2) + ((stop.longitude - longitude) ^ 2))
+isJust : Maybe a -> Bool
+isJust value =
+    case value of
+        Just _ ->
+            True
+
+        Nothing ->
+            False
+
+distance : Float -> Float -> Location -> Float
+distance latitude longitude location =
+    sqrt (((location.latitude - latitude) ^ 2) + ((location.longitude - longitude) ^ 2))

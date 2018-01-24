@@ -12,46 +12,17 @@ import Decoder.Nearby
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation _ ->
-            ( NoLocation, Task.attempt useLocation Geolocation.now )
-
-        SetLocation location ->
-            let
-                newModel =
-                    ReceivedLocation location.latitude location.longitude
-
-                cmd =
-                    Task.succeed location
-                        |> Task.perform RequestNearby
-            in
-                ( newModel, cmd )
-
-        UnavailableLocation error ->
-            let
-                message =
-                    case error of
-                        Geolocation.PermissionDenied value ->
-                            value
-
-                        Geolocation.LocationUnavailable value ->
-                            value
-
-                        Geolocation.Timeout value ->
-                            value
-            in
-                ( Error message, Cmd.none )
-
-        RequestNearby location ->
+        RequestSchedule location ->
             let
                 request =
-                    requestNearby location.latitude location.longitude
+                    requestSchedule location.latitude location.longitude
 
                 cmd =
-                    Http.send ReceiveNearby request
+                    Http.send ReceiveSchedule request
             in
                 ( model, cmd )
 
-        ReceiveNearby (Ok response) ->
+        ReceiveSchedule (Ok response) ->
             let
                 getTime =
                     Date.now
@@ -59,7 +30,7 @@ update msg model =
             in
                 ( model, getTime )
 
-        ReceiveNearby (Err error) ->
+        ReceiveSchedule (Err error) ->
             let
                 message =
                     case error of
@@ -84,7 +55,7 @@ update msg model =
             ( ReceivedDate nearby date, Cmd.none )
 
         None ->
-            ( model, Cmd.none )
+            ( None, Cmd.none )
 
 
 useLocation : Result Geolocation.Error Location -> Msg
@@ -97,8 +68,8 @@ useLocation result =
             UnavailableLocation err
 
 
-requestNearby : Float -> Float -> Http.Request Json.Nearby.Nearby
-requestNearby latitude longitude =
+requestSchedule : Float -> Float -> Http.Request Json.Schedule.Schedule
+requestSchedule latitude longitude =
     let
         url =
             "<%= restbus_url %>"

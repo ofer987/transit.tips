@@ -1,7 +1,4 @@
--- Rename to Update.Search
-
-
-module Update.SearchResults exposing (update)
+module Update.Search exposing (update)
 
 import Tuple
 import Task
@@ -17,42 +14,6 @@ import Decoder.SearchResults
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation routeId ->
-            let
-                cmd =
-                    Geolocation.now
-                        |> Task.map (\location -> ( location, routeId ))
-                        |> Task.attempt useLocation
-            in
-                ( NoLocation, cmd )
-
-        SetLocation location routeId ->
-            let
-                newModel =
-                    ReceivedLocation location.latitude location.longitude
-
-                -- Is there a better way?
-                cmd =
-                    Task.succeed routeId
-                        |> Task.perform (RequestRoute location)
-            in
-                ( newModel, cmd )
-
-        UnavailableLocation error ->
-            let
-                message =
-                    case error of
-                        Geolocation.PermissionDenied value ->
-                            value
-
-                        Geolocation.LocationUnavailable value ->
-                            value
-
-                        Geolocation.Timeout value ->
-                            value
-            in
-                ( Error message, Cmd.none )
-
         RequestRoute location routeId ->
             let
                 -- Where do I get the agency from?
@@ -76,7 +37,7 @@ update msg model =
             in
                 case nearestStop of
                     Just value ->
-                        ( model, Http.send ReceiveArrivals (requestArrivals myRoute.agencyId myRoute.id value.id) )
+                        ( model, Http.send ReceiveArrivals (requestPredictions myRoute.agencyId myRoute.id value.id) )
 
                     Nothing ->
                         ( Error "No stops found", Cmd.none )
@@ -130,7 +91,7 @@ update msg model =
                 ( Error message, Cmd.none )
 
         None ->
-            ( model, Cmd.none )
+            ( None, Cmd.none )
 
 
 useLocation : Result Geolocation.Error ( Location, String ) -> Msg
@@ -152,8 +113,8 @@ requestRoute latitude longitude agencyId routeId =
         Http.get url (Decoder.MyRoute.myRoute agencyId latitude longitude)
 
 
-requestArrivals : String -> String -> String -> Http.Request (Maybe Route)
-requestArrivals agencyId routeId stopId =
+requestPredictions : String -> String -> String -> Http.Request (Maybe Route)
+requestPredictions agencyId routeId stopId =
     let
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
