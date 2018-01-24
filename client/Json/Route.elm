@@ -7,8 +7,8 @@ type alias Route =
     { id : String
     , title : String
     , agency : Agency
-    , directions : List Direction
     , stops : List Stop
+    , directions : List Direction
     }
 
 

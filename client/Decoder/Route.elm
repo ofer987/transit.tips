@@ -12,8 +12,8 @@ route agencyId =
         (field "id" string)
         (field "title" string)
         (succeed (toAgency agencyId))
-        (field "directions" (list direction))
         (field "stops" (list stop))
+        (field "directions" (list direction))
 
 
 direction : Decoder Direction
