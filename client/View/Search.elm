@@ -1,9 +1,7 @@
 module View.Search exposing (view)
 
 import Model exposing (ControllerMsg(..))
-import Model.SearchResults as SearchResults exposing (Model(..), Msg(..))
-import Model.Stop as Stop
-import Model.Route exposing (Route)
+import Model.Search as Search exposing (Model(..), Msg(..))
 import String
 import Html exposing (Html, div, text, input)
 import Html.Attributes exposing (type_, defaultValue)
@@ -46,7 +44,7 @@ viewSearch =
         [ input
             [ type_ "text"
             , defaultValue ""
-            , onInput (\value -> (SearchController (SearchResults.GetLocation (String.trim value))))
+            , onInput (\value -> (SearchController (Search.GetLocation (String.trim value))))
             ]
             []
         ]
@@ -86,7 +84,7 @@ routeToString route =
 -- searchView latitude longitude =
 --     div
 --         []
---         [ input (type_ "text", defaultValue "", onClick (SearchController (SearchResults.GetLocation "ttc") )) ]
+--         [ input (type_ "text", defaultValue "", onClick (SearchController (Search.GetLocation "ttc") )) ]
 --
 
 

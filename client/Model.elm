@@ -1,19 +1,19 @@
 module Model exposing (..)
 
 import Model.Nearby as Nearby
-import Model.SearchResults as SearchResults
+import Model.Search as Search
 import Model.Location as Location
 
 
 type ControllerMsg
     = NearbyController Nearby.Msg
-    | SearchController SearchResults.Msg
+    | SearchController Search.Msg
 
 
 type alias Model =
     { location : Location.Model
     , nearby : Nearby.Model
-    , search : SearchResults.Model
+    , search : Search.Model
     }
 
 

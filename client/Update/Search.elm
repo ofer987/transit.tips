@@ -3,12 +3,13 @@ module Update.Search exposing (update)
 import Tuple
 import Task
 import Result exposing (Result)
-import Geolocation exposing (Location)
 import Http
-import Model.SearchResults exposing (..)
-import Model.Route exposing (MyRoute, Route)
-import Decoder.MyRoute
-import Decoder.SearchResults
+import Model.Common exposing (..)
+import Model.Search exposing (..)
+import Json.Route
+import Json.Predictions
+import Json.Decode.Route
+import Json.Decode.Predictions
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -28,19 +29,16 @@ update msg model =
             in
                 ( model, cmd )
 
-        ReceiveRoute (Ok myRoute) ->
+        ReceiveRoute (Ok schedule) ->
             let
-                nearestStop =
-                    myRoute.stops
-                        |> List.sortBy (\stop -> sqrt (((stop.latitude - myRoute.myLatitude) ^ 2) + ((stop.longitude - myRoute.myLongitude) ^ 2)))
-                        |> List.head
-            in
-                case nearestStop of
-                    Just value ->
-                        ( model, Http.send ReceiveArrivals (requestPredictions myRoute.agencyId myRoute.id value.id) )
+                cmd =
+                    Json.Convert.Route.toSchedule schedule
+                        |> Task.succeed
+                        |> Task.perform FindNearestStop
 
-                    Nothing ->
-                        ( Error "No stops found", Cmd.none )
+
+            in
+                ( model, cmd )
 
         ReceiveRoute (Err error) ->
             let
@@ -63,13 +61,66 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        ReceiveArrivals (Ok (Just route)) ->
+
+        FindNearestStop (schedule) ->
+            let
+                -- assumes only one agency!
+                -- TODO: make it per agency
+                stops : List Stop
+                stops =
+                    schedule.routes
+                        |> List.map .directions
+                        |> List.concat
+                        |> List.map .stops
+                        |> List.concat
+
+                nearestStop : Stop
+                nearestStop =
+                    stops
+                        |> Model.Common.sortedStopsByPosition schedule.location.latitude schedule.location.longitude
+                        |> List.head
+
+                -- TODO: need the routeId
+
+                model =
+                    model
+
+                -- TODO: figure out the error
+                cmd =
+                    nearestStop
+                        |> Task.succeed
+                        |> Task.perform RequestPredictions schedule
+            in
+                ( model, cmd )
+
+                -- case nearestStop of
+                --     Just value ->
+                --         ( model, Http.send ReceiveArrivals (requestPredictions myRoute.agencyId myRoute.id value.id) )
+                --
+                --     Nothing ->
+                --         ( Error "No stops found", Cmd.none )
+
+        RequestPredictions schedule stop ->
+            let
+                model =
+                    model
+
+                cmd =
+                    requestPredictions "ttc" routeId stop.id
+                        |> Http.send
+
+            in
+                ( model, cmd)
+
+
+
+        ReceivePredictions (Ok (Just route)) ->
             ( ReceivedArrivals route, Cmd.none )
 
-        ReceiveArrivals (Ok Nothing) ->
+        ReceivePredictions (Ok Nothing) ->
             ( Error "Route did not contain information", Cmd.none )
 
-        ReceiveArrivals (Err error) ->
+        ReceivePredictions (Err error) ->
             let
                 message =
                     case error of
@@ -91,7 +142,7 @@ update msg model =
                 ( Error message, Cmd.none )
 
         None ->
-            ( None, Cmd.none )
+            ( Nil, Cmd.none )
 
 
 useLocation : Result Geolocation.Error ( Location, String ) -> Msg
@@ -110,7 +161,7 @@ requestRoute latitude longitude agencyId routeId =
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId
     in
-        Http.get url (Decoder.MyRoute.myRoute agencyId latitude longitude)
+        Http.get url (Json.Decode.Route.schedule latitude longitude agencyId)
 
 
 requestPredictions : String -> String -> String -> Http.Request (Maybe Route)
@@ -119,4 +170,4 @@ requestPredictions agencyId routeId stopId =
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
-        Http.get url Decoder.SearchResults.searchResults
+        Http.get url Decoder.Search.searchResults

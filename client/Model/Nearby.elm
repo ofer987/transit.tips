@@ -1,26 +1,21 @@
 module Model.Nearby exposing (..)
 
 import Http
-import Geolocation exposing (Location)
 import Date exposing (Date)
-import Model.Schedule as Schedule exposing (Schedule)
+import Model.Common exposing (Schedule, Location, Route)
+import Json.Predictions
 
 
 type Msg
     = None
-    | RequestNearby Location
-    | ReceiveNearby (Result Http.Error Json.Nearby.Nearby)
-    | ReceiveTime Nearby Date
+    | RequestSchedule Location
+    | ReceiveSchedule (Result Http.Error Json.Predictions.Schedule)
+    | RequestTime Schedule
+    | ReceiveTime Schedule Date
 
 
 type Model
-    = None
+    = Nil
     | ReceivedSchedule Schedule
     | ReceivedDate Schedule Date
     | Error String
-
-
-type alias Schedule =
-    { routes : List Route
-    , address : Maybe String
-    }

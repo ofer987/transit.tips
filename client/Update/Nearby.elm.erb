@@ -1,12 +1,13 @@
 module Update.Nearby exposing (update)
 
+import Json.Convert.Predictions
 import Task
 import Date
-import Geolocation exposing (Location)
 import Http
 import Model.Nearby exposing (..)
-import Json.Nearby
-import Decoder.Nearby
+import Model.Common exposing (..)
+import Json.Predictions
+import Json.Decode.Predictions
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -22,13 +23,14 @@ update msg model =
             in
                 ( model, cmd )
 
-        ReceiveSchedule (Ok response) ->
+        ReceiveSchedule (Ok nearby) ->
             let
-                getTime =
-                    Date.now
-                        |> Task.perform (ReceiveTime response)
+                cmd =
+                    Json.Convert.Predictions.toSchedule nearby
+                        |> Task.succeed
+                        |> Task.perform RequestTime
             in
-                ( model, getTime )
+                ( model, cmd )
 
         ReceiveSchedule (Err error) ->
             let
@@ -51,11 +53,14 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
+        RequestTime nearby ->
+            ( model, Task.perform (ReceiveTime nearby) Date.now )
+
         ReceiveTime nearby date ->
             ( ReceivedDate nearby date, Cmd.none )
 
         None ->
-            ( None, Cmd.none )
+            ( Nil, Cmd.none )
 
 
 useLocation : Result Geolocation.Error Location -> Msg
@@ -68,7 +73,7 @@ useLocation result =
             UnavailableLocation err
 
 
-requestSchedule : Float -> Float -> Http.Request Json.Schedule.Schedule
+requestSchedule : Float -> Float -> Http.Request (List Json.Predictions.Route)
 requestSchedule latitude longitude =
     let
         url =
@@ -77,6 +82,4 @@ requestSchedule latitude longitude =
         fullUrl =
             url ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
     in
-        Decoder.Nearby.nearby
-            |> Decoder.Nearby.toModel
-            |> Http.get fullUrl
+        Http.get fullUrl Json.Decode.Predictions.nearby

@@ -1,7 +1,7 @@
-module Decoder.Common exposing (agency, toAgency)
+module Json.Decode.Common exposing (agency, toAgency)
 
 import Json.Decode as Json exposing (decodeString, int, float, string, nullable, list, at, field, Decoder)
-import Json.Common exposing (Agency(..))
+import Json.Common exposing (Agency(..), Nearby)
 
 
 agency : Decoder String -> Decoder Agency

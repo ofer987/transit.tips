@@ -1,8 +1,18 @@
-module Decoder.Route exposing (route, direction, stop)
+module Json.Decode.Route exposing (nearby, route, direction, stop)
 
 import Json.Decode as Json exposing (Decoder, field, at, string, float, list, succeed, oneOf, null)
-import Decoder.Common exposing (agency, toAgency)
+import Json.Decode.Common exposing (agency, toAgency)
 import Json.Route exposing (Route, Direction, Stop)
+
+
+schedule : Float -> Float -> String -> Decoder Schedule
+schedule latitude longitude agencyId =
+    Json.map4
+        Schedule
+        (succeed latitude)
+        (succeed longitude)
+        (succeed Nothing)
+        (field "routes" (list (route agencyId)))
 
 
 route : String -> Decoder Route

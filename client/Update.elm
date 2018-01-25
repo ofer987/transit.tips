@@ -2,7 +2,7 @@ module Update exposing (update)
 
 import Model exposing (..)
 import Update.Nearby
-import Update.SearchResults
+import Update.Search
 import Tuple
 import Platform.Cmd
 
@@ -27,7 +27,7 @@ update controller model =
         SearchController msg ->
             let
                 result =
-                    Update.SearchResults.update msg model.search
+                    Update.Search.update msg model.search
 
                 nextModel =
                     { model | search = Tuple.first result }

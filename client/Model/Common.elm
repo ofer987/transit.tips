@@ -1,8 +1,16 @@
 module Model.Common exposing (..)
 
+
 type Agency
     = TTC
     | Other
+
+
+type alias Schedule =
+    { location : Location
+    , address : Maybe String
+    , routes : List Route
+    }
 
 
 type alias Route =
@@ -77,6 +85,7 @@ sortedStopsByPosition latitude longitude stops =
     in
         List.sortBy range stops
 
+
 isJust : Maybe a -> Bool
 isJust value =
     case value of
@@ -85,6 +94,7 @@ isJust value =
 
         Nothing ->
             False
+
 
 distance : Float -> Float -> Location -> Float
 distance latitude longitude location =

@@ -1,8 +1,18 @@
-module Decoder.Predictions exposing (route, direction, stop, arrival)
+module Json.Decode.Predictions exposing (schedule, route, direction, stop, arrival)
 
-import Json.Decode as Json exposing (Decoder, field, at, string, float, int, list, succeed, oneOf, null)
-import Decoder.Common exposing (agency, toAgency)
-import Json.Predictions exposing (Route, Direction, Stop, Arrival)
+import Json.Decode as Json exposing (Decoder, field, at, string, float, int, list, succeed, oneOf, null, maybe)
+import Json.Decode.Common exposing (agency, toAgency)
+import Json.Predictions exposing (Schedule, Route, Direction, Stop, Arrival)
+
+
+schedule : Decoder Schedule
+schedule =
+    Json.map4
+        Schedule
+        (field "latitude" string)
+        (field "longitude" string)
+        (field "address" (maybe string))
+        (field "routes" (list route))
 
 
 route : Decoder Route
