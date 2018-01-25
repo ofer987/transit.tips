@@ -70,32 +70,21 @@ sortedAndFilteredStops latitude longitude stopIds stops =
         |> sortedStopsByPosition latitude longitude
 
 
-sortedStopsByPosition : Float -> Float -> List Stop -> List Stop
-sortedStopsByPosition latitude longitude stops =
-    let
-        range : Stop -> Float
-        range stop =
-            case stop.location of
-                Just location ->
-                    distance latitude longitude location
-
-                Nothing ->
-                    -- Max Value
-                    2 ^ 32 - 1
-    in
-        List.sortBy range stops
+sortByStop : Float -> Float -> List Route -> List Route
+sortByStop latitude longitude routes =
+    List.sortBy (routeDistance latitude longitude) routes
 
 
-isJust : Maybe a -> Bool
-isJust value =
-    case value of
-        Just _ ->
-            True
+routeDistance : Float -> Float -> Route -> Float
+routeDistance latitude longitude route =
+    case route.direction.location of
+        Just value ->
+            distance latitude longitude value.latitude value.longitude
 
         Nothing ->
-            False
+            (2 ^ 32) - 1
 
 
-distance : Float -> Float -> Location -> Float
-distance latitude longitude location =
-    sqrt (((location.latitude - latitude) ^ 2) + ((location.longitude - longitude) ^ 2))
+distance : Float -> Float -> Float -> Float -> Float
+distance latitude1 longitude1 latitude2 longitude2 =
+    sqrt (((latitude2 - latitude1) ^ 2) + ((longitude2 - longitude1) ^ 2))

@@ -66,18 +66,10 @@ update msg model =
             let
                 -- assumes only one agency!
                 -- TODO: make it per agency
-                stops : List Stop
-                stops =
-                    schedule.routes
-                        |> List.map .directions
-                        |> List.concat
-                        |> List.map .stops
-                        |> List.concat
-
                 nearestStop : Stop
                 nearestStop =
-                    stops
-                        |> Model.Common.sortedStopsByPosition schedule.location.latitude schedule.location.longitude
+                    schedule routes
+                        |> Model.Common.sortByStop schedule.location.latitude schedule.location.longitude
                         |> List.head
 
                 -- TODO: need the routeId
