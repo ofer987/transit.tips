@@ -1,7 +1,5 @@
 module Json.Predictions exposing (..)
 
-import Json.Common exposing (Agency)
-
 
 type alias Schedule =
     { latitude : Float
@@ -14,7 +12,7 @@ type alias Schedule =
 type alias Route =
     { id : String
     , title : String
-    , agency : Agency
+    , agencyId : String
     , stop : Stop
     , arrivals : List Arrival
     }

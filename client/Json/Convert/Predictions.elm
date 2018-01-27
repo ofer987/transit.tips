@@ -1,7 +1,6 @@
 module Json.Convert.Predictions exposing (..)
 
 import Json.Predictions exposing (..)
-import Json.Common exposing (..)
 import Model
 import List
 

@@ -1,8 +1,7 @@
-module Json.Decode.Route exposing (nearby, route, direction, stop)
+module Json.Decode.Route exposing (schedule, route, direction, stop)
 
 import Json.Decode as Json exposing (Decoder, field, at, string, float, list, succeed, oneOf, null)
-import Json.Decode.Common exposing (agency, toAgency)
-import Json.Route exposing (Route, Direction, Stop)
+import Json.Route exposing (Schedule, Route, Direction, Stop)
 
 
 schedule : Float -> Float -> String -> Decoder Schedule
@@ -21,7 +20,7 @@ route agencyId =
         Route
         (field "id" string)
         (field "title" string)
-        (succeed (toAgency agencyId))
+        (succeed agencyId)
         (field "stops" (list stop))
         (field "directions" (list direction))
 

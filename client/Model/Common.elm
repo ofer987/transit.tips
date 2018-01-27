@@ -6,34 +6,53 @@ type Agency
     | Other
 
 
+type Directions
+    = Directions (List Direction)
+
+
+type Routes
+    = Routes (List Route)
+
+
+type Arrivals
+    = Arrivals (List Arrival)
+
+
 type alias Schedule =
     { location : Location
     , address : Maybe String
-    , routes : List Route
+    , routes : Routes
     }
 
 
 type alias Route =
     { id : String
+    , parent : Schedule
     , title : String
-    , agency : Agency
-    , directions : List Direction
+    , agencyId : String
+    , directions : Directions
     }
 
 
 type alias Direction =
     { id : String
+    , parent : Route
     , shortTitle : String
     , title : String
-    , stops : List Stop
+    , stops : Stops
     }
+
+
+type Stops
+    = Stops (List Stop)
 
 
 type alias Stop =
     { id : String
+    , parent : Direction
     , title : String
     , location : Maybe Location
-    , arrivals : List Arrival
+    , arrivals : Arrivals
     }
 
 
@@ -44,7 +63,8 @@ type alias Location =
 
 
 type alias Arrival =
-    { minutes : Int
+    { parent : Stop
+    , minutes : Int
     , seconds : Int
     }
 
@@ -63,26 +83,38 @@ toAgency value =
             Other
 
 
-sortedAndFilteredStops : Float -> Float -> List String -> List Stop -> List Stop
-sortedAndFilteredStops latitude longitude stopIds stops =
-    stops
-        |> List.filter (\stop -> List.member stop.id stopIds)
-        |> sortedStopsByPosition latitude longitude
-
-
-sortByStop : Float -> Float -> List Route -> List Route
+sortByStop : Float -> Float -> Routes -> List Stop
 sortByStop latitude longitude routes =
-    List.sortBy (routeDistance latitude longitude) routes
+    case routes of
+        Routes routes ->
+            routes
+                |> List.concatMap
+                    (\route ->
+                        case route.directions of
+                            Directions directions ->
+                                directions
+                    )
+                |> List.concatMap
+                    (\direction ->
+                        case direction.stops of
+                            Stops stops ->
+                                stops
+                    )
+                |> List.sortBy (stopDistance latitude longitude)
 
 
-routeDistance : Float -> Float -> Route -> Float
-routeDistance latitude longitude route =
-    case route.direction.location of
-        Just value ->
-            distance latitude longitude value.latitude value.longitude
+stopDistance : Float -> Float -> Stop -> Float
+stopDistance latitude longitude stop =
+    let
+        location =
+            case stop.location of
+                Just value ->
+                    value
 
-        Nothing ->
-            (2 ^ 32) - 1
+                Nothing ->
+                    Location ((2 ^ 32) - 1) ((2 ^ 32) - 1)
+    in
+        distance latitude longitude location.latitude location.longitude
 
 
 distance : Float -> Float -> Float -> Float -> Float
