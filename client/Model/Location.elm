@@ -11,6 +11,6 @@ type Msg
 
 
 type Model
-    = NoLocation
+    = Nil
     | ReceivedLocation Float Float
     | Error String

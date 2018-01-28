@@ -16,17 +16,17 @@ update msg model =
         RequestSchedule location ->
             let
                 request =
-                    requestSchedule location.latitude location.longitude
+                    requestNearby location.latitude location.longitude
 
                 cmd =
                     Http.send ReceiveSchedule request
             in
                 ( model, cmd )
 
-        ReceiveSchedule (Ok nearby) ->
+        ReceiveSchedule (Ok json) ->
             let
                 cmd =
-                    Json.Convert.Predictions.toSchedule nearby
+                    Json.Convert.Predictions.toSchedule json
                         |> Task.succeed
                         |> Task.perform RequestTime
             in
@@ -53,28 +53,18 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        RequestTime nearby ->
-            ( model, Task.perform (ReceiveTime nearby) Date.now )
+        RequestTime schedule ->
+            ( model, Task.perform (ReceiveTime schedule) Date.now )
 
-        ReceiveTime nearby date ->
-            ( ReceivedDate nearby date, Cmd.none )
+        ReceiveTime schedule date ->
+            ( ReceivedDate schedule date, Cmd.none )
 
         None ->
             ( Nil, Cmd.none )
 
 
-useLocation : Result Geolocation.Error Location -> Msg
-useLocation result =
-    case result of
-        Ok location ->
-            SetLocation location
-
-        Err err ->
-            UnavailableLocation err
-
-
-requestSchedule : Float -> Float -> Http.Request (List Json.Predictions.Route)
-requestSchedule latitude longitude =
+requestNearby : Float -> Float -> Http.Request Json.Predictions.Schedule
+requestNearby latitude longitude =
     let
         url =
             "<%= restbus_url %>"

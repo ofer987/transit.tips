@@ -1,54 +1,77 @@
 module Json.Convert.Route exposing (..)
 
 import Json.Route exposing (..)
-import Model
+import Model.Common
 import List
 
 
 toSchedule : Schedule -> Model.Common.Schedule
 toSchedule json =
-    Model.Common.Schedule
-    (Model.Common.Location json.latitude json.longitude)
-    json.address
-    (List.map toRoute json.routes)
+    let
+        self =
+            Model.Common.Schedule
+                (Model.Common.Location json.latitude json.longitude)
+                json.address
+                (Model.Common.Routes [])
 
-toRoute : Route -> Model.Common.Route
-toRoute json =
-    Model.Common.Route
-        json.id
-        json.title
-        json.agency
-        (List.map (toDirection json.stop) json.arrivals)
+        schedule =
+            Model.Common.Schedule
+                (Model.Common.Location json.latitude json.longitude)
+                json.address
+                (Model.Common.Routes (List.map (toRoute self) json.routes))
+    in
+        schedule
+
+toRoute : Model.Common.Schedule -> Route -> Model.Common.Route
+toRoute parent json =
+    let
+        self =
+            Model.Common.Route
+                json.id
+                parent
+                json.title
+                json.agencyId
+                (Model.Common.Directions [])
+
+        route =
+            Model.Common.Route
+                json.id
+                parent
+                json.title
+                json.agencyId
+                (Model.Common.Directions (List.map (toDirection self) json.stops))
+    in
+        route
 
 
--- TODO: figure out whether to filer the route.stops by direction.stops
-toDirection : Stop -> Arrival -> Model.Common.Direction
-toDirection stop arrival =
-    Model.Common.Direction
-        arrival.direction.id
-        arrival.direction.shortTitle
-        arrival.direction.title
-        [ toStop (stop arrival) ]
+toDirection : Model.Common.Route -> Stop -> Model.Common.Direction
+toDirection parent json =
+    let
+        self =
+            Model.Common.Direction
+                ""
+                parent
+                ""
+                ""
+                (Model.Common.Stops [])
+
+        direction =
+            Model.Common.Direction
+                ""
+                parent
+                ""
+                ""
+                (Model.Common.Stops [ toStop self json ])
+    in
+        direction
 
 
-toStop : Stop -> Arrival -> Model.Common.Stop
-toStop stop =
+toStop : Model.Common.Direction -> Stop -> Model.Common.Stop
+toStop parent json =
     Model.Common.Stop
-        stop.id
-        stop.title
-        (toLocation stop.latitude stop.longitude)
-        [ toArrival arrival ]
+        json.id
+        parent
+        json.title
+        Nothing
+        (Model.Common.Arrivals [])
 
-
-toLocation : Float -> Float -> Model.Common.Location
-toLocation latitude longitude =
-    Model.Common.Location
-        latitude
-        longitude
-
-
-toArrival : Arrival -> Model.Common.Arrival
-toArrival arrival =
-    Model.Common.Arrival
-        arrival.minutes
-        arrival.seconds

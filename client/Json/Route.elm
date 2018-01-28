@@ -33,10 +33,3 @@ type alias Stop =
     , latitude : Float
     , longitude : Float
     }
-
-
-type alias Arrival =
-    { minutes : Int
-    , seconds : Int
-    , direction : Direction
-    }

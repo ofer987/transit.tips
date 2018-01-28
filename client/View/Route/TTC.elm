@@ -7,8 +7,7 @@ import Regex
 import List
 import Maybe
 import Model exposing (..)
-import Model.Route exposing (Route)
-import Model.Arrival exposing (Arrival)
+import Model.Common exposing (Route, Arrival)
 import View.Arrival.TTC
 import Bootstrap.Table exposing (THead, TBody, simpleTable, simpleThead, th, tbody)
 
@@ -20,8 +19,10 @@ import Bootstrap.Table exposing (THead, TBody, simpleTable, simpleThead, th, tbo
 view : Route -> Html ControllerMsg
 view route =
     simpleTable
-        ( head (route.title ++ " (" ++ location route.location ++ ")")
-        , body route.arrivals
+        --( head (route.title ++ " (" ++ route.location ++ ")")
+        ( head (route.title ++ " (" ++ "add Stop as argument" ++ ")")
+        , tbody [ class [ MyCss.Route ] ] []
+          -- , body route.arrivals
         )
 
 

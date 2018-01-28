@@ -1,6 +1,7 @@
 module Update exposing (update)
 
 import Model exposing (..)
+import Update.Location
 import Update.Nearby
 import Update.Search
 import Tuple
@@ -10,6 +11,20 @@ import Platform.Cmd
 update : ControllerMsg -> Model -> ( Model, Cmd ControllerMsg )
 update controller model =
     case controller of
+        LocationController msg ->
+            let
+                result =
+                    Update.Location.update msg model.location
+
+                nextModel =
+                    { model | location = Tuple.first result }
+
+                nextCmd =
+                    Tuple.second result
+                        |> Platform.Cmd.map LocationController
+            in
+                ( nextModel, nextCmd )
+
         NearbyController msg ->
             let
                 result =

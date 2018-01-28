@@ -7,7 +7,7 @@ import MyCss exposing (..)
 import Html exposing (Html, text)
 import Html.CssHelpers
 import Model exposing (..)
-import Model.Arrival exposing (Arrival)
+import Model.Common exposing (Arrival)
 import Bootstrap.Table exposing (Row, Cell, tr, td, cellAttr)
 
 
@@ -19,8 +19,8 @@ view : Arrival -> Row ControllerMsg
 view arrival =
     tr
         []
-        [ column (location arrival.title) MyCss.Direction
-        , column (toString arrival.time) MyCss.Arrival
+        [ column arrival.parent.title MyCss.Direction
+        , column (toString arrival.minutes) MyCss.Arrival
         ]
 
 

@@ -10,7 +10,7 @@ type Msg
     = None
     | RequestRoute Location String
     | ReceiveRoute (Result Http.Error Json.Route.Schedule)
-    | ReceivePredictions (Result Http.Error (Maybe Json.Predictions.Schedule))
+    | ReceivePredictions (Result Http.Error Json.Predictions.Schedule)
 
 
 type Model

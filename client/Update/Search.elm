@@ -31,8 +31,11 @@ update msg model =
             in
                 ( model, cmd )
 
-        ReceiveRoute (Ok schedule) ->
+        ReceiveRoute (Ok json) ->
             let
+                schedule =
+                    Json.Convert.Route.toSchedule json
+
                 -- assumes only one agency!
                 -- TODO: make it per agency
                 nearestStop : Maybe Stop
@@ -50,20 +53,13 @@ update msg model =
                             direction =
                                 stop.parent
 
-                            stopSchedule =
-                                Schedule
-                                    schedule.location
-                                    schedule.address
-                                    [ { route | directions = [ { direction | stops = [ stop ] } ] } ]
-
-                            newModel =
-                                Json.Convert.Route.toSchedule stopSchedule
+                            request =
+                                requestPredictions route.agencyId route.id stop.id schedule.location.latitude schedule.location.longitude
 
                             cmd =
-                                requestPredictions route.agencyId route.id stop.id
-                                    |> Http.send ReceivePredictions
+                                Http.send ReceivePredictions request
                         in
-                            ( newModel, cmd )
+                            ( model, cmd )
 
                     Nothing ->
                         ( Error "no stops found", Cmd.none )
@@ -89,11 +85,8 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        ReceivePredictions (Ok (Just json)) ->
+        ReceivePredictions (Ok json) ->
             ( ReceivedPredictions (Json.Convert.Predictions.toSchedule json), Cmd.none )
-
-        ReceivePredictions (Ok Nothing) ->
-            ( Error "route did not have stops", Cmd.none )
 
         ReceivePredictions (Err error) ->
             let
@@ -120,16 +113,6 @@ update msg model =
             ( Nil, Cmd.none )
 
 
-useLocation : Result Geolocation.Error ( Location, String ) -> Msg
-useLocation result =
-    case result of
-        Ok value ->
-            SetLocation (Tuple.first value) (Tuple.second value)
-
-        Err err ->
-            UnavailableLocation err
-
-
 requestRoute : Float -> Float -> String -> String -> Http.Request Json.Route.Schedule
 requestRoute latitude longitude agencyId routeId =
     let
@@ -139,10 +122,10 @@ requestRoute latitude longitude agencyId routeId =
         Http.get url (Json.Decode.Route.schedule latitude longitude agencyId)
 
 
-requestPredictions : String -> String -> String -> Http.Request (Maybe Route)
-requestPredictions agencyId routeId stopId =
+requestPredictions : String -> String -> String -> Float -> Float -> Http.Request Json.Predictions.Schedule
+requestPredictions agencyId routeId stopId latitude longitude =
     let
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
-        Http.get url Decoder.Search.searchResults
+        Http.get url (Json.Decode.Predictions.schedule latitude longitude)

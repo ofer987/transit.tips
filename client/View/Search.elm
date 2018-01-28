@@ -1,7 +1,9 @@
 module View.Search exposing (view)
 
 import Model exposing (ControllerMsg(..))
-import Model.Search as Search exposing (Model(..), Msg(..))
+import Model.Common exposing (Route)
+import Model.Location as Location
+import Model.Search as Search exposing (Model)
 import String
 import Html exposing (Html, div, text, input)
 import Html.Attributes exposing (type_, defaultValue)
@@ -13,7 +15,7 @@ view model =
     div
         []
         [ viewSearch
-        , viewResults model
+        -- , viewResults model
         ]
 
 
@@ -37,6 +39,7 @@ view model =
 --             noSearchView
 
 
+-- TODO: add argument model
 viewSearch : Html ControllerMsg
 viewSearch =
     div
@@ -44,39 +47,39 @@ viewSearch =
         [ input
             [ type_ "text"
             , defaultValue ""
-            , onInput (\value -> (SearchController (Search.GetLocation (String.trim value))))
+            -- , onInput (\value -> (SearchController (Search.RequestRoute (Location 12.0 14.0) (String.trim value))))
             ]
             []
         ]
 
 
-viewResults : Model -> Html ControllerMsg
-viewResults model =
-    case model of
-        NoLocation ->
-            div [] []
+-- viewResults : Model -> Html ControllerMsg
+-- viewResults model =
+--     case model of
+--         Nil ->
+--             div [] []
+--
+--         ReceivedLocation latitude longitude ->
+--             div [] [ text ("You are at " ++ toString latitude ++ ", " ++ toString longitude) ]
+--
+--         ReceivedRoute latitude longitude stops ->
+--             div [] [ text ("You are at " ++ toString latitude ++ ", " ++ toString longitude ++ "found these stops [" ++ Stop.toString stops "" ++ "]") ]
+--
+--         ReceivedArrivals route ->
+--             div [] [ text ("I have found route " ++ route.id ++ " arriving in " ++ routeToString route ++ " minutes") ]
+--
+--         Error value ->
+--             div [] [ text ("Oh no! " ++ value) ]
 
-        ReceivedLocation latitude longitude ->
-            div [] [ text ("You are at " ++ toString latitude ++ ", " ++ toString longitude) ]
 
-        ReceivedRoute latitude longitude stops ->
-            div [] [ text ("You are at " ++ toString latitude ++ ", " ++ toString longitude ++ "found these stops [" ++ Stop.toString stops "" ++ "]") ]
-
-        ReceivedArrivals route ->
-            div [] [ text ("I have found route " ++ route.id ++ " arriving in " ++ routeToString route ++ " minutes") ]
-
-        Error value ->
-            div [] [ text ("Oh no! " ++ value) ]
-
-
-routeToString : Route -> String
-routeToString route =
-    case route.arrivals of
-        head :: _ ->
-            toString head.time
-
-        [] ->
-            "Not found"
+-- routeToString : Route -> String
+-- routeToString route =
+--     case route.arrivals of
+--         head :: _ ->
+--             toString head.time
+--
+--         [] ->
+--             "Not found"
 
 
 

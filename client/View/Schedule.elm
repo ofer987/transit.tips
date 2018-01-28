@@ -8,7 +8,7 @@ import View.Route
 import MyCss exposing (..)
 import Html.CssHelpers
 import Bootstrap.Table exposing (simpleTable, simpleThead, th, tbody, cellAttr)
-import Model.Schedule exposing (Schedule)
+import Model.Common exposing (..)
 
 
 -- TODO: add id
@@ -20,7 +20,13 @@ import Model.Schedule exposing (Schedule)
 
 views : Schedule -> List (Html ControllerMsg)
 views schedule =
-    head :: (List.map View.Route.view schedule.routes)
+    let
+        routes =
+            case schedule.routes of
+                Routes values ->
+                    values
+    in
+        head :: (List.map View.Route.view routes)
 
 
 head : Html ControllerMsg
@@ -29,12 +35,12 @@ head =
         ( simpleThead
             [ th
                 [ cellAttr (id "direction")
-                , cellAttr (class [ Direction ])
+                , cellAttr (class [ MyCss.Direction ])
                 ]
                 [ text "Direction" ]
             , th
                 [ cellAttr (id "arrival")
-                , cellAttr (class [ Arrival ])
+                , cellAttr (class [ MyCss.Arrival ])
                 ]
                 [ text "Arrival (in minutes)" ]
             ]

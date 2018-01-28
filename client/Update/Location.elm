@@ -9,7 +9,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetLocation _ ->
-            ( NoLocation, Task.attempt useLocation Geolocation.now )
+            ( Nil, Task.attempt useLocation Geolocation.now )
 
         SetLocation location ->
             ( ReceivedLocation location.latitude location.longitude

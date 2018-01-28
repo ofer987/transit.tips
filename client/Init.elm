@@ -2,20 +2,22 @@ module Init exposing (init)
 
 import Task
 import Model exposing (..)
-import Model.Nearby
-import Model.Search
+import Model.Location as Location
+import Model.Nearby as Nearby
+import Model.Search as Search
 
 
 init : ( Model, Cmd ControllerMsg )
 init =
     let
         model =
-            { nearby = Model.Nearby.NoLocation
-            , search = Model.Search.NoLocation
+            { location = Location.Nil
+            , nearby = Nearby.Nil
+            , search = Search.Nil
             }
 
         cmd =
-            Task.succeed (Model.Nearby.GetLocation 42)
-                |> Task.perform NearbyController
+            Task.succeed (Location.GetLocation 42)
+                |> Task.perform LocationController
     in
         ( model, cmd )
