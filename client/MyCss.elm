@@ -12,8 +12,13 @@ grey =
 
 
 type CssClasses
-    = Route
+    = Routes
+    | Directions
+    | Stops
+    | Arrivals
+    | Route
     | Title
+    | Stop
     | Direction
     | Arrival
 

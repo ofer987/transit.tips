@@ -1,4 +1,4 @@
-module View.Arrival.TTC exposing (view)
+module View.Stop exposing (view)
 
 import Regex
 import List
@@ -7,7 +7,6 @@ import MyCss exposing (..)
 import Html exposing (Html, text)
 import Html.CssHelpers
 import Model exposing (..)
-import Model.Common exposing (Arrival)
 import Bootstrap.Table exposing (Row, Cell, tr, td, cellAttr)
 
 
@@ -15,24 +14,22 @@ import Bootstrap.Table exposing (Row, Cell, tr, td, cellAttr)
     Html.CssHelpers.withNamespace "TransitTips"
 
 
-view : Arrival -> Row ControllerMsg
-view arrival =
+view : Int -> String -> Row ControllerMsg
+view minutes location =
     tr
         []
-        [ column arrival.parent.title MyCss.Direction
-        , column (toString arrival.minutes) MyCss.Arrival
+        [ column location MyCss.Direction
+        , column (toString minutes) MyCss.Arrival
         ]
 
 
-column : String -> CssClasses -> Cell ControllerMsg
-column value cls =
-    td
-        [ cellAttr (class [ cls ]) ]
-        [ text value ]
+otherTitle : String -> String
+otherTitle value =
+    value
 
 
-location : String -> String
-location value =
+ttcTitle : String -> String
+ttcTitle value =
     value
         |> Regex.find (Regex.AtMost 1) (Regex.regex "(?:towards|to) (.*)\\s*")
         |> List.map .submatches

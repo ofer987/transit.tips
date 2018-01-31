@@ -1,11 +1,6 @@
 module Model.Common exposing (..)
 
 
-type Agency
-    = TTC
-    | Other
-
-
 type Directions
     = Directions (List Direction)
 
@@ -16,6 +11,10 @@ type Routes
 
 type Arrivals
     = Arrivals (List Arrival)
+
+
+type Stops
+    = Stops (List Stop)
 
 
 type alias Schedule =
@@ -43,10 +42,6 @@ type alias Direction =
     }
 
 
-type Stops
-    = Stops (List Stop)
-
-
 type alias Stop =
     { id : String
     , parent : Direction
@@ -67,20 +62,6 @@ type alias Arrival =
     , minutes : Int
     , seconds : Int
     }
-
-
-toAgency : String -> Agency
-toAgency value =
-    let
-        lowerAndTrimmed =
-            value
-                |> String.trim
-                |> String.toLower
-    in
-        if lowerAndTrimmed == "ttc" then
-            TTC
-        else
-            Other
 
 
 sortByStop : Float -> Float -> Routes -> List Stop
