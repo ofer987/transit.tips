@@ -5,8 +5,14 @@ import Model.Nearby as Nearby
 import Model.Search as Search
 
 
+type Controller
+    = Location
+    | Nearby
+    | Search
+
 type ControllerMsg
-    = LocationController Location.Msg
+    = Controller
+    | LocationController Location.Msg
     | NearbyController Nearby.Msg
     | SearchController Search.Msg
 
