@@ -1,9 +1,9 @@
 module Update.Search exposing (update)
 
-import Tuple
 import Task
 import Result exposing (Result)
 import Http
+import Geolocation
 import Model.Common exposing (..)
 import Model.Search exposing (..)
 import Json.Route
@@ -17,7 +17,25 @@ import Json.Convert.Predictions
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        RequestRoute location routeId ->
+        GetLocation routeId ->
+            ( Nil, Task.attempt (useLocation routeId) Geolocation.now )
+
+        UnavailableLocation routeId error ->
+            let
+                message =
+                    case error of
+                        Geolocation.PermissionDenied value ->
+                            value
+
+                        Geolocation.LocationUnavailable value ->
+                            value
+
+                        Geolocation.Timeout value ->
+                            value
+            in
+                ( Error message, Cmd.none )
+
+        RequestRoute routeId location ->
             let
                 -- Where do I get the agency from?
                 agencyId =
@@ -129,3 +147,13 @@ requestPredictions agencyId routeId stopId latitude longitude =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
         Http.get url (Json.Decode.Predictions.schedule latitude longitude)
+
+
+useLocation : String -> Result Geolocation.Error Geolocation.Location -> Msg
+useLocation routeId result =
+    case result of
+        Ok location ->
+            RequestRoute routeId (Model.Common.Location location.latitude location.longitude)
+
+        Err err ->
+            UnavailableLocation routeId err

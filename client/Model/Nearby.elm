@@ -1,6 +1,7 @@
 module Model.Nearby exposing (..)
 
 import Http
+import Geolocation
 import Date exposing (Date)
 import Model.Common exposing (Schedule, Location, Route)
 import Json.Predictions
@@ -8,6 +9,8 @@ import Json.Predictions
 
 type Msg
     = None
+    | GetLocation
+    | UnavailableLocation Geolocation.Error
     | RequestSchedule Location
     | ReceiveSchedule (Result Http.Error Json.Predictions.Schedule)
     | RequestTime Schedule

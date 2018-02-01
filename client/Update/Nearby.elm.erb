@@ -4,6 +4,7 @@ import Json.Convert.Predictions
 import Task
 import Date
 import Http
+import Geolocation
 import Model.Nearby exposing (..)
 import Model.Common exposing (..)
 import Json.Predictions
@@ -73,3 +74,13 @@ requestNearby latitude longitude =
             url ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
     in
         Http.get fullUrl Json.Decode.Predictions.nearby
+
+
+useLocation : Result Geolocation.Error Geolocation.Location -> Msg
+useLocation result =
+    case result of
+        Ok location ->
+            RequestSchedule (Model.Common.Location location.latitude location.longitude)
+
+        Err err ->
+            UnavailableLocation err
