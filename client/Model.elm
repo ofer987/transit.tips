@@ -5,16 +5,16 @@ import Model.Nearby as Nearby
 import Model.Search as Search
 
 
-type Controller
-    = Location
-    | Nearby
-    | Search
-
 type ControllerMsg
-    = Controller
-    | LocationController Location.Msg
-    | NearbyController Nearby.Msg
-    | SearchController Search.Msg
+    = Nearby
+    | Search String
+    | DoLocation Controller Location.Msg
+    | DoNearby Nearby.Msg
+    | DoSearch
+
+type Controller
+    = NearbyController
+    | SearchController
 
 
 type alias Model =

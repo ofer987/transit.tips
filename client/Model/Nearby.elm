@@ -13,6 +13,11 @@ type Msg
     | RequestTime Schedule
     | ReceiveTime Schedule Date
 
+type Step
+    = NotStarted
+    | First
+    | Middle
+    | Last
 
 type Model
     = Nil

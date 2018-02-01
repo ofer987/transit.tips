@@ -5,10 +5,15 @@ import Geolocation exposing (Location)
 
 type Msg
     = None
-    | GetLocation Int
+    | GetLocation
     | SetLocation Location
     | UnavailableLocation Geolocation.Error
 
+
+type Step
+    = First Msg
+    | Middle Msg
+    | Last Msg
 
 type Model
     = Nil

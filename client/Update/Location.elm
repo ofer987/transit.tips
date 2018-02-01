@@ -8,7 +8,7 @@ import Model.Location exposing (..)
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation _ ->
+        GetLocation ->
             ( Nil, Task.attempt useLocation Geolocation.now )
 
         SetLocation location ->
