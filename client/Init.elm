@@ -1,20 +1,20 @@
 module Init exposing (init)
 
 import Task
+import Platform.Cmd
 import Model exposing (..)
-import Model.Nearby as Nearby
-import Update exposing (..)
-import Update.Nearby
+import Model.Nearby
 
 
 init : ( Model, Cmd Controller )
 init =
     let
         model =
-            Nearby.Nil
+            NearbyModel Model.Nearby.Nil
 
         cmd =
-            Task.succeed (Nearby.GetLocation)
-                |> Task.perform NearbyController
+            Task.succeed Model.Nearby.GetLocation
+                |> Task.perform (Nearby Model.Nearby.Nil)
+                |> Platform.Cmd.map Process
     in
         ( model, cmd )

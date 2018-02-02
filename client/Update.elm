@@ -1,8 +1,11 @@
 module Update exposing (update)
 
 import Model exposing (..)
+import Model.Nearby
+import Model.Search
 import Update.Nearby
 import Update.Search
+import Task
 import Tuple
 import Platform.Cmd
 
@@ -13,9 +16,13 @@ update controller model =
         NearbyController ->
             let
                 nextCmd =
-                    Task.succeed Update.Nearby.GetLocation
-                        |> Task.perform (NearbyModel Model.Nearby.Nil)
+                    Task.succeed Model.Nearby.GetLocation
+                        |> Task.perform (Nearby Model.Nearby.Nil)
+                        |> Platform.Cmd.map Process
 
+                -- nextCmd =
+                --     Task.succeed (Nearby Model.Nearby.Nil Model.Nearby.GetLocation)
+                --         |> Task.perform Process
                 nextModel =
                     NearbyModel Model.Nearby.Nil
             in
@@ -24,11 +31,15 @@ update controller model =
         SearchController routeId ->
             let
                 nextCmd =
-                    Task.succeed (Update.Search.GetLocation routeId)
-                        |> Task.perform (NearbyModel (Model.Search.Nil routeId))
+                    Task.succeed (Model.Search.GetLocation routeId)
+                        |> Task.perform (Search (Model.Search.Nil routeId))
+                        |> Platform.Cmd.map Process
 
+                -- nextCmd =
+                --     Task.succeed (Search (Model.Search.Nil routeId) (Model.Search.GetLocation routeId))
+                --         |> Task.perform Process
                 nextModel =
-                    NearbyModel (Model.Search.Nil routeId)
+                    SearchModel (Model.Search.Nil routeId)
             in
                 ( nextModel, nextCmd )
 
@@ -54,9 +65,10 @@ update controller model =
 
                 nextCmd =
                     Tuple.second result
-                        |> Platform.Cmd.map (Nearby nextModel)
+                        |> Platform.Cmd.map (Nearby (Tuple.first result))
+                        |> Platform.Cmd.map Process
             in
-                ( nextModel, Nearby nextModel nextCmd )
+                ( nextModel, nextCmd )
 
         Process (Search model msg) ->
             let
@@ -68,6 +80,7 @@ update controller model =
 
                 nextCmd =
                     Tuple.second result
-                        |> Platform.Cmd.map (Search nextModel)
+                        |> Platform.Cmd.map (Search (Tuple.first result))
+                        |> Platform.Cmd.map Process
             in
-                ( nextModel, Search nextModel nextCmd )
+                ( nextModel, nextCmd )
