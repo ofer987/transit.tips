@@ -1,4 +1,4 @@
-module View.Search exposing (view)
+module View.Search exposing (view, searchView)
 
 import Model exposing (..)
 import Model.Search
@@ -14,14 +14,14 @@ view : Model.Search.Model -> Html Controller
 view model =
     case model of
         Model.Search.Nil "" ->
-            div
-                []
-                [ text "please search!" ]
+            searchView
 
         Model.Search.Nil routeId ->
             div
                 []
-                [ text ("searching route " ++ routeId) ]
+                [ searchView
+                , text ("searching route " ++ routeId) 
+                ]
 
         -- Note: Currently not used
         Model.Search.ReceivedRoute routeId schedule ->
@@ -63,15 +63,15 @@ view model =
 -- TODO: add argument model
 
 
-viewSearch : Html Controller
-viewSearch =
+searchView : Html Controller
+searchView =
     div
         []
-        [ input
+        [ text "please search!"
+        , input
             [ type_ "text"
             , defaultValue ""
-
-            -- , onInput (\value -> (SearchController (Search.RequestRoute (Location 12.0 14.0) (String.trim value))))
+            , onInput (\value -> (SearchController (String.trim value)))
             ]
             []
         ]

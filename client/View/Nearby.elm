@@ -6,6 +6,7 @@ import Model exposing (..)
 import Model.Nearby
 import View.Schedule
 import View.Loading
+import View.Search
 import View.Alert.GetSchedule
 import View.Alert.LocationAndTime
 import View.Alert.Time
@@ -22,6 +23,7 @@ view model =
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
+                , View.Search.searchView
                 , View.Loading.view
                 ]
 
@@ -30,6 +32,7 @@ view model =
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
+                , View.Search.searchView
                 , View.Loading.view
                 ]
 
@@ -47,6 +50,7 @@ view model =
                     [ onClick NearbyController ]
                     [ CDN.stylesheet
                     , alert
+                    , View.Search.searchView
                     , View.Schedule.view schedule.routes
                     ]
 
@@ -55,4 +59,5 @@ view model =
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.Error.view error
+                , View.Search.searchView
                 ]
