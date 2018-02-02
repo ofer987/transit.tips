@@ -14,6 +14,8 @@ title agency value =
             value
 
 
+-- NOTE: this function is currently not used
+-- TODO: use this function
 ttcTitle : String -> String
 ttcTitle value =
     value

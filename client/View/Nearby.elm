@@ -2,8 +2,8 @@ module View.Nearby exposing (view)
 
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
-import Model exposing (Controller(..))
-import Model.Nearby exposing (Model(..), Msg(..))
+import Model exposing (..)
+import Model.Nearby
 import View.Schedule
 import View.Loading
 import View.Alert.GetSchedule
@@ -14,51 +14,45 @@ import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
 
 
-view : Model -> Html Controller
+view : Model.Nearby.Model -> Html Controller
 view model =
-    div [] []
-    -- case model of
-    --     -- NoLocation ->
-    --     --     container
-    --     --         [ onClick (NearbyController (GetLocation 42)) ]
-    --     --         [ CDN.stylesheet
-    --     --         , View.Alert.GetSchedule.view
-    --     --         , View.Loading.view
-    --     --         ]
-    --     --
-    --     -- ReceivedLocation _ _ ->
-    --     --     container
-    --     --         [ onClick (NearbyController (GetLocation 42)) ]
-    --     --         [ CDN.stylesheet
-    --     --         , View.Alert.GetSchedule.view
-    --     --         , View.Loading.view
-    --     --         ]
-    --     --
-    --     -- ReceivedSchedule _ ->
-    --     --     container
-    --     --         [ onClick (NearbyController (GetLocation 42)) ]
-    --     --         [ CDN.stylesheet
-    --     --         , View.Alert.GetSchedule.view
-    --     --         , View.Loading.view
-    --     --         ]
-    --
-    --     ReceivedDate nearby date ->
-    --         let
-    --             alert =
-    --                 case nearby.address of
-    --                     Just value ->
-    --                         View.Alert.LocationAndTime.view nearby.latitude nearby.longitude value date
-    --
-    --                     Nothing ->
-    --                         View.Alert.Time.view nearby.latitude nearby.longitude date
-    --         in
-    --             container
-    --                 [ onClick (NearbyController (GetLocation 42)) ]
-    --                 (CDN.stylesheet :: alert :: View.Schedule.views nearby.schedule)
-    --
-    --     Error error ->
-    --         container
-    --             [ onClick (NearbyController (GetLocation 42)) ]
-    --             [ CDN.stylesheet
-    --             , View.Alert.Error.view error
-    --             ]
+    case model of
+        Model.Nearby.Nil ->
+            container
+                [ onClick NearbyController ]
+                [ CDN.stylesheet
+                , View.Alert.GetSchedule.view
+                , View.Loading.view
+                ]
+
+        Model.Nearby.ReceivedSchedule _ ->
+            container
+                [ onClick NearbyController ]
+                [ CDN.stylesheet
+                , View.Alert.GetSchedule.view
+                , View.Loading.view
+                ]
+
+        Model.Nearby.ReceivedDate schedule date ->
+            let
+                alert =
+                    case schedule.address of
+                        Just value ->
+                            View.Alert.LocationAndTime.view schedule.location.latitude schedule.location.longitude value date
+
+                        Nothing ->
+                            View.Alert.Time.view schedule.location.latitude schedule.location.longitude date
+            in
+                container
+                    [ onClick NearbyController ]
+                    [ CDN.stylesheet
+                    , alert
+                    , View.Schedule.view schedule.routes
+                    ]
+
+        Model.Nearby.Error error ->
+            container
+                [ onClick NearbyController ]
+                [ CDN.stylesheet
+                , View.Alert.Error.view error
+                ]

@@ -1,4 +1,4 @@
-module View.Schedule exposing (views)
+module View.Schedule exposing (view)
 
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (id)
@@ -17,12 +17,12 @@ import View.Routes
     Html.CssHelpers.withNamespace "TransitTips"
 
 
-views : Schedule -> Html Controller
-views schedule =
+view : Routes -> Html Controller
+view routes =
     div
         []
         [ head
-        , View.Routes.view schedule.routes
+        , View.Routes.view routes
         ]
 
 

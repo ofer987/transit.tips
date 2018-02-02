@@ -37,7 +37,7 @@ direction : Decoder Direction
 direction =
     Json.map2
         Direction
-        (field "id" string)
+        (field "id" (oneOf [string, null ""]))
         (field "title" string)
 
 

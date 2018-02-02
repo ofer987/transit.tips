@@ -12,8 +12,8 @@ view model =
         Nil ->
             div [] []
 
-        NearbyModel model ->
-            View.Nearby.view model
+        NearbyModel model_ ->
+            View.Nearby.view model_
 
-        SearchModel model ->
-            View.Search.view model
+        SearchModel model_ ->
+            View.Search.view model_
