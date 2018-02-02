@@ -1,21 +1,45 @@
 module View.Search exposing (view)
 
-import Model exposing (Controller(..))
-import Model.Common exposing (Route)
-import Model.Search as Search exposing (Model)
+import Model exposing (..)
+import Model.Search
 import String
+import View.Alert.Error
+import View.Schedule
 import Html exposing (Html, div, text, input)
 import Html.Attributes exposing (type_, defaultValue)
 import Html.Events exposing (onInput)
 
 
-view : Model -> Html Controller
+view : Model.Search.Model -> Html Controller
 view model =
-    div
-        []
-        [ viewSearch
-        -- , viewResults model
-        ]
+    case model of
+        Model.Search.Nil "" ->
+            div
+                []
+                [ text "please search!" ]
+
+        Model.Search.Nil routeId ->
+            div
+                []
+                [ text ("searching route " ++ routeId) ]
+
+        -- Note: Currently not used
+        Model.Search.ReceivedRoute routeId schedule ->
+            div
+                []
+                [ text ("searching route " ++ routeId) ]
+
+        Model.Search.ReceivedPredictions schedule ->
+            div
+                []
+                [ text "received predictions"
+                , View.Schedule.view schedule.routes
+                ]
+
+        Model.Search.Error error ->
+            div
+                []
+                [ View.Alert.Error.view error ]
 
 
 
@@ -36,9 +60,9 @@ view model =
 --
 --         Nearby.Error _ ->
 --             noSearchView
-
-
 -- TODO: add argument model
+
+
 viewSearch : Html Controller
 viewSearch =
     div
@@ -46,10 +70,12 @@ viewSearch =
         [ input
             [ type_ "text"
             , defaultValue ""
+
             -- , onInput (\value -> (SearchController (Search.RequestRoute (Location 12.0 14.0) (String.trim value))))
             ]
             []
         ]
+
 
 
 -- viewResults : Model -> Html Controller
@@ -69,8 +95,6 @@ viewSearch =
 --
 --         Error value ->
 --             div [] [ text ("Oh no! " ++ value) ]
-
-
 -- routeToString : Route -> String
 -- routeToString route =
 --     case route.arrivals of
@@ -79,9 +103,6 @@ viewSearch =
 --
 --         [] ->
 --             "Not found"
-
-
-
 -- searchView : Float -> Float -> Html Controller
 -- searchView latitude longitude =
 --     div

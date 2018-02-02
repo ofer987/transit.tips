@@ -77,6 +77,8 @@ update msg model =
                             cmd =
                                 Http.send ReceivePredictions request
                         in
+                            -- TODO: Change to ReceivedRoute routeId Model.Common.Schedule
+                            -- TODO: Convert json to Model.Common.Schedule
                             ( model, cmd )
 
                     Nothing ->
