@@ -8,19 +8,12 @@ import Json.Predictions
 
 
 type Msg
-    = None
-    | GetLocation
+    = GetLocation
     | UnavailableLocation Geolocation.Error
     | RequestSchedule Location
     | ReceiveSchedule (Result Http.Error Json.Predictions.Schedule)
     | RequestTime Schedule
     | ReceiveTime Schedule Date
-
-type Step
-    = NotStarted
-    | First
-    | Middle
-    | Last
 
 type Model
     = Nil

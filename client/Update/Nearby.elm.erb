@@ -14,6 +14,24 @@ import Json.Decode.Predictions
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        GetLocation ->
+            ( Nil, Task.attempt useLocation Geolocation.now )
+
+        UnavailableLocation error ->
+            let
+                message =
+                    case error of
+                        Geolocation.PermissionDenied value ->
+                            value
+
+                        Geolocation.LocationUnavailable value ->
+                            value
+
+                        Geolocation.Timeout value ->
+                            value
+            in
+                ( Error message, Cmd.none )
+
         RequestSchedule location ->
             let
                 request =
@@ -59,9 +77,6 @@ update msg model =
 
         ReceiveTime schedule date ->
             ( ReceivedDate schedule date, Cmd.none )
-
-        None ->
-            ( Nil, Cmd.none )
 
 
 requestNearby : Float -> Float -> Http.Request Json.Predictions.Schedule
