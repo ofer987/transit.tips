@@ -18,7 +18,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetLocation routeId ->
-            ( Nil, Task.attempt (useLocation routeId) Geolocation.now )
+            ( Nil routeId, Task.attempt (useLocation routeId) Geolocation.now )
 
         UnavailableLocation routeId error ->
             let
@@ -126,9 +126,6 @@ update msg model =
                             message
             in
                 ( Error message, Cmd.none )
-
-        None ->
-            ( Nil, Cmd.none )
 
 
 requestRoute : Float -> Float -> String -> String -> Http.Request Json.Route.Schedule

@@ -6,10 +6,14 @@ import View.Nearby
 import View.Search
 
 
-view : Model -> Html ControllerMsg
+view : Model -> Html Controller
 view model =
-    div
-        []
-        [ View.Search.view model.search
-        , View.Nearby.view model.nearby
-        ]
+    case model of
+        Nil ->
+            div [] []
+
+        NearbyModel model ->
+            View.Nearby.view model
+
+        SearchModel model ->
+            View.Search.view model

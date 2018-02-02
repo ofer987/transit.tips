@@ -8,7 +8,7 @@ import Model exposing (..)
 import Bootstrap.Alert as Alert
 
 
-view : Float -> Float -> Date -> Html ControllerMsg
+view : Float -> Float -> Date -> Html Controller
 view latitude longitude date =
     let
         mapsUrl =

@@ -16,5 +16,6 @@ type Msg
 
 
 type Model
-    = NearbyModel Nearby.Model
+    = Nil
+    | NearbyModel Nearby.Model
     | SearchModel Search.Model

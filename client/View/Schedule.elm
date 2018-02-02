@@ -1,14 +1,13 @@
 module View.Schedule exposing (views)
 
-import List
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (id)
 import Model exposing (..)
-import View.Route
 import MyCss exposing (..)
 import Html.CssHelpers
 import Bootstrap.Table exposing (simpleTable, simpleThead, th, tbody, cellAttr)
 import Model.Common exposing (..)
+import View.Routes
 
 
 -- TODO: add id
@@ -18,18 +17,16 @@ import Model.Common exposing (..)
     Html.CssHelpers.withNamespace "TransitTips"
 
 
-views : Schedule -> List (Html ControllerMsg)
+views : Schedule -> Html Controller
 views schedule =
-    let
-        routes =
-            case schedule.routes of
-                Routes values ->
-                    values
-    in
-        head :: (List.map View.Route.view routes)
+    div
+        []
+        [ head
+        , View.Routes.view schedule.routes
+        ]
 
 
-head : Html ControllerMsg
+head : Html Controller
 head =
     simpleTable
         ( simpleThead

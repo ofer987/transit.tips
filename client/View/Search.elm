@@ -1,8 +1,7 @@
 module View.Search exposing (view)
 
-import Model exposing (ControllerMsg(..))
+import Model exposing (Controller(..))
 import Model.Common exposing (Route)
-import Model.Location as Location
 import Model.Search as Search exposing (Model)
 import String
 import Html exposing (Html, div, text, input)
@@ -10,7 +9,7 @@ import Html.Attributes exposing (type_, defaultValue)
 import Html.Events exposing (onInput)
 
 
-view : Model -> Html ControllerMsg
+view : Model -> Html Controller
 view model =
     div
         []
@@ -20,7 +19,7 @@ view model =
 
 
 
--- view : Model -> Html ControllerMsg
+-- view : Model -> Html Controller
 -- view model =
 --     case model.nearby of
 --         Nearby.NoLocation ->
@@ -40,7 +39,7 @@ view model =
 
 
 -- TODO: add argument model
-viewSearch : Html ControllerMsg
+viewSearch : Html Controller
 viewSearch =
     div
         []
@@ -53,7 +52,7 @@ viewSearch =
         ]
 
 
--- viewResults : Model -> Html ControllerMsg
+-- viewResults : Model -> Html Controller
 -- viewResults model =
 --     case model of
 --         Nil ->
@@ -83,7 +82,7 @@ viewSearch =
 
 
 
--- searchView : Float -> Float -> Html ControllerMsg
+-- searchView : Float -> Float -> Html Controller
 -- searchView latitude longitude =
 --     div
 --         []
@@ -91,6 +90,6 @@ viewSearch =
 --
 
 
-noSearchView : Html ControllerMsg
+noSearchView : Html Controller
 noSearchView =
     div [] []

@@ -1,7 +1,6 @@
 module Update exposing (update)
 
 import Model exposing (..)
-import Update.Location
 import Update.Nearby
 import Update.Search
 import Tuple

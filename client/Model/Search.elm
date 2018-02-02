@@ -8,8 +8,7 @@ import Model.Common exposing (..)
 
 
 type Msg
-    = None
-    | GetLocation String
+    = GetLocation String
     | UnavailableLocation String Geolocation.Error
     | RequestRoute String Location
     | ReceiveRoute (Result Http.Error Json.Route.Schedule)

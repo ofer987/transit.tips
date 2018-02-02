@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Html
 import Init
-import Model exposing (Model, ControllerMsg)
+import Model exposing (Model, Controller)
 import Update exposing (update)
 import View exposing (view)
 
@@ -10,7 +10,7 @@ import View exposing (view)
 -- INIT
 
 
-main : Program Never Model ControllerMsg
+main : Program Never Model Controller
 main =
     Html.program
         { init = Init.init
@@ -24,6 +24,6 @@ main =
 -- SUBSCRIPTIONS
 
 
-subscriptions : Model -> Sub ControllerMsg
+subscriptions : Model -> Sub Controller
 subscriptions model =
     Sub.none

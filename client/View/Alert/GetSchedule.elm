@@ -5,6 +5,6 @@ import Model exposing (..)
 import Bootstrap.Alert as Alert
 
 
-view : Html ControllerMsg
+view : Html Controller
 view =
     Alert.info [ text "Getting Schedule" ]

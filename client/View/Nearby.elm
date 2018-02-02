@@ -2,7 +2,7 @@ module View.Nearby exposing (view)
 
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
-import Model exposing (ControllerMsg(..))
+import Model exposing (Controller(..))
 import Model.Nearby exposing (Model(..), Msg(..))
 import View.Schedule
 import View.Loading
@@ -14,7 +14,7 @@ import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
 
 
-view : Model -> Html ControllerMsg
+view : Model -> Html Controller
 view model =
     div [] []
     -- case model of
