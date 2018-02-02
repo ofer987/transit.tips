@@ -6,7 +6,7 @@ class Endpoints
     self.longitude = longitude.to_f
   end
 
-  def schedule
+  def routes
     endpoint = "#{BASE_URL}/locations/#{latitude},#{longitude}/predictions"
     response = RestClient.get(endpoint)
 
@@ -26,7 +26,7 @@ class Endpoints
     {
       latitude: latitude,
       longitude: longitude,
-      schedule: schedule,
+      routes: routes,
       address: address
     }
   end

@@ -7,9 +7,9 @@ describe Endpoints do
     let(:latitude) { 43.78561654917611 }
     let(:longitude) { -79.44631293538535 }
 
-    context '#schedule' do
+    context '#routes' do
       it 'returns back a JSON object' do
-        expect(subject.schedule).to be_a Array
+        expect(subject.routes).to be_a Array
       end
     end
 
