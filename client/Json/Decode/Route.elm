@@ -11,7 +11,7 @@ schedule latitude longitude agencyId =
         (succeed latitude)
         (succeed longitude)
         (succeed Nothing)
-        (field "routes" (list (route agencyId)))
+        (route agencyId)
 
 
 route : String -> Decoder Route
@@ -40,7 +40,7 @@ stop =
     Json.map5
         Stop
         (field "id" string)
-        (field "code" string)
+        (field "code" (oneOf [ string, null "" ]))
         (field "title" string)
         (field "lat" float)
         (field "lon" float)

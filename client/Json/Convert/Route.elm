@@ -18,7 +18,7 @@ toSchedule json =
             Model.Common.Schedule
                 (Model.Common.Location json.latitude json.longitude)
                 json.address
-                (Model.Common.Routes (List.map (toRoute self) json.routes))
+                (Model.Common.Routes [(toRoute self) json.route])
     in
         schedule
 

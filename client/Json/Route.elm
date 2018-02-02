@@ -5,7 +5,7 @@ type alias Schedule =
     { latitude : Float
     , longitude : Float
     , address : Maybe String
-    , routes : List Route
+    , route : Route
     }
 
 
