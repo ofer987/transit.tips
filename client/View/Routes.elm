@@ -71,10 +71,8 @@ stopsView stops =
 stopView : Stop -> Html Controller
 stopView stop =
     div
-        []
-        [ text stop.title
-        , arrivalsView stop.arrivals
-        ]
+        [ class [ MyCss.Stop ] ]
+        [ arrivalsView stop.arrivals ]
 
 
 arrivalsView : Arrivals -> Html Controller
@@ -94,6 +92,7 @@ arrivalView : String -> Int -> Html Controller
 arrivalView location minutes =
     div
         [ class [ MyCss.Arrival ] ]
-        [ text location
-        , text (toString minutes)
+        [ span [ class [ MyCss.Location ] ] [ text location ]
+        , span [ class [ MyCss.Minutes ] ] [ text (toString minutes) ]
+        , div [ class [ MyCss.Clearing ] ] []
         ]
