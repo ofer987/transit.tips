@@ -1,6 +1,8 @@
 module Json.Convert.Predictions exposing (..)
 
 import Json.Predictions exposing (..)
+import Model.Flatten as Flatten
+import Model.Sort as Sort
 import Model.Common
 import List
 
@@ -19,8 +21,19 @@ toSchedule json =
                 (Model.Common.Location json.latitude json.longitude)
                 json.address
                 (Model.Common.Routes (List.map (toRoute self) json.routes))
+
+        routes =
+            case schedule.routes of
+                Model.Common.Routes list ->
+                    list
+
+        flattenedRoutes =
+            Model.Common.Routes (Flatten.routes [] routes)
+
+        sortedRoutes =
+            Sort.routes flattenedRoutes
     in
-        schedule
+        { schedule | routes = sortedRoutes }
 
 
 toRoute : Model.Common.Schedule -> Route -> Model.Common.Route
