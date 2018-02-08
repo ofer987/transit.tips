@@ -1,7 +1,7 @@
 module Model.Stop exposing (..)
 
 import Regex
-import Model.Route exposing (Agency(..))
+import Model.Common exposing (..)
 
 
 title : Agency -> String -> String
@@ -14,8 +14,11 @@ title agency value =
             value
 
 
+
 -- NOTE: this function is currently not used
 -- TODO: use this function
+
+
 ttcTitle : String -> String
 ttcTitle value =
     value
@@ -25,3 +28,35 @@ ttcTitle value =
         |> List.map (Maybe.withDefault value)
         |> List.head
         |> Maybe.withDefault value
+
+
+sort : Stops -> Stops
+sort original =
+    let
+        list =
+            case original of
+                Stops r ->
+                    r
+    in
+        Stops (List.sortBy .id list)
+
+
+flatten : List Stop -> List Stop -> List Stop
+flatten results original =
+    case original of
+        head :: tail ->
+            let
+                existing =
+                    results
+                        |> List.filter (\item -> item.id == head.id)
+                        |> List.head
+            in
+                case existing of
+                    Just result ->
+                        flatten results tail
+
+                    Nothing ->
+                        flatten (head :: results) tail
+
+        [] ->
+            results

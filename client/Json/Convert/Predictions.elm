@@ -1,8 +1,7 @@
 module Json.Convert.Predictions exposing (..)
 
 import Json.Predictions exposing (..)
-import Model.Flatten as Flatten
-import Model.Sort as Sort
+import Model.Route
 import Model.Common
 import List
 
@@ -28,10 +27,10 @@ toSchedule json =
                     list
 
         flattenedRoutes =
-            Model.Common.Routes (Flatten.routes [] routes)
+            Model.Common.Routes (Model.Route.flatten [] routes)
 
         sortedRoutes =
-            Sort.routes flattenedRoutes
+            Model.Route.sort flattenedRoutes
     in
         { schedule | routes = sortedRoutes }
 

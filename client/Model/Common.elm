@@ -1,5 +1,8 @@
 module Model.Common exposing (..)
 
+type Agency
+    = TTC
+    | Else
 
 type Directions
     = Directions (List Direction)
