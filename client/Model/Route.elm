@@ -1,4 +1,4 @@
-module Model.Route exposing (..)
+module Model.Route exposing (toAgency, sort, flatten)
 
 import Model.Common exposing (..)
 import Model.Direction
@@ -62,8 +62,7 @@ flatten results original =
                                         list
 
                             totalDirections =
-                                (resultDirections ++ headDirections)
-                                    |> Model.Direction.flatten []
+                                resultDirections ++ headDirections
 
                             newResult =
                                 { result | directions = Directions totalDirections }
@@ -71,20 +70,29 @@ flatten results original =
                             flatten (newResult :: others) tail
 
                     Nothing ->
-                        let
-                            directions =
-                                case head.directions of
-                                    Directions list ->
-                                        list
+                        flatten (head :: results) tail
 
-                            totalDirections =
-                                directions
-                                    |> Model.Direction.flatten []
+        [] ->
+            flattenDirections [] results
 
-                            newHead =
-                                { head | directions = Directions totalDirections }
-                        in
-                            flatten (newHead :: results) tail
+
+flattenDirections : List Route -> List Route -> List Route
+flattenDirections results original =
+    case original of
+        head :: tail ->
+            let
+                directions =
+                    case head.directions of
+                        Directions list ->
+                            list
+
+                flattenedDirections =
+                    Model.Direction.flatten [] directions
+
+                newHead =
+                    { head | directions = Directions flattenedDirections }
+            in
+                flattenDirections (newHead :: results) tail
 
         [] ->
             results

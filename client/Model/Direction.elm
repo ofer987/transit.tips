@@ -48,30 +48,37 @@ flatten results original =
                                         list
 
                             totalStops =
-                                (resultStops ++ headStops)
-                                    |> Model.Stop.flatten []
+                                resultStops ++ headStops
 
-                            -- TODO: Flatten both result and head stops
                             newResult =
                                 { result | stops = Stops totalStops }
                         in
                             flatten (newResult :: others) tail
 
                     Nothing ->
-                        let
-                            stops =
-                                case head.stops of
-                                    Stops list ->
-                                        list
+                        flatten (head :: results) tail
 
-                            totalStops =
-                                stops
-                                    |> Model.Stop.flatten []
+        [] ->
+            results
 
-                            newHead =
-                                { head | stops = Stops totalStops }
-                        in
-                            flatten (newHead :: results) tail
+
+flattenStops : List Direction -> List Direction -> List Direction
+flattenStops results original =
+    case original of
+        head :: tail ->
+            let
+                stops =
+                    case head.stops of
+                        Stops list ->
+                            list
+
+                flattenedStops =
+                    Model.Stop.flatten [] stops
+
+                newHead =
+                    { head | stops = Stops flattenedStops }
+            in
+                flattenStops (newHead :: results) tail
 
         [] ->
             results

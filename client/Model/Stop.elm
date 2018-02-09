@@ -1,4 +1,4 @@
-module Model.Stop exposing (..)
+module Model.Stop exposing (title, ttcTitle, sort, flatten)
 
 import Regex
 import Model.Common exposing (..)
@@ -77,19 +77,7 @@ flatten results original =
                             flatten (newResult :: others) tail
 
                     Nothing ->
-                        let
-                            headArrivals =
-                                case head.arrivals of
-                                    Arrivals list ->
-                                        list
-
-                            totalArrivals =
-                                headArrivals
-
-                            newHead =
-                                { head | arrivals = Arrivals totalArrivals }
-                        in
-                            flatten (newHead :: results) tail
+                        flatten (head :: results) tail
 
         [] ->
             results
