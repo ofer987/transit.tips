@@ -19,7 +19,7 @@ type alias Route =
 
 
 type alias Direction =
-    { id : String
+    { id : Maybe String
     , title : String
     , shortTitle : String
     , stops : List String

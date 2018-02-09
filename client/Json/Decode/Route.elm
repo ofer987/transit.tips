@@ -1,6 +1,6 @@
 module Json.Decode.Route exposing (schedule, route, direction, stop)
 
-import Json.Decode as Json exposing (Decoder, field, at, string, float, list, succeed, oneOf, null)
+import Json.Decode as Json exposing (Decoder, field, at, maybe, string, float, list, succeed, oneOf, null)
 import Json.Route exposing (Schedule, Route, Direction, Stop)
 
 
@@ -29,7 +29,7 @@ direction : Decoder Direction
 direction =
     Json.map4
         Direction
-        (field "id" string)
+        (field "id" (maybe string))
         (field "title" string)
         (field "shortTitle" (oneOf [ string, null "" ]))
         (field "stops" (list string))

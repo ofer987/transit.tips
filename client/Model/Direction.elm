@@ -1,4 +1,4 @@
-module Model.Direction exposing (..)
+module Model.Direction exposing (sort, flatten)
 
 import Model.Common exposing (..)
 import Model.Stop
@@ -14,7 +14,7 @@ sort original =
 
         sorted =
             list
-                |> List.sortBy .id
+                |> List.sortBy .title
                 |> List.map (\direction -> { direction | stops = Model.Stop.sort direction.stops })
     in
         Directions sorted
@@ -27,12 +27,12 @@ flatten results original =
             let
                 existing =
                     results
-                        |> List.filter (\item -> item.id == head.id)
+                        |> List.filter (areEqual head)
                         |> List.head
 
                 others =
                     results
-                        |> List.filter (\item -> item.id /= head.id)
+                        |> List.filter (\item -> not (areEqual head item))
             in
                 case existing of
                     Just result ->
@@ -45,15 +45,41 @@ flatten results original =
                             headStops =
                                 case head.stops of
                                     Stops list ->
-                                        Model.Stop.flatten [] list
+                                        list
 
+                            totalStops =
+                                (resultStops ++ headStops)
+                                    |> Model.Stop.flatten []
+
+                            -- TODO: Flatten both result and head stops
                             newResult =
-                                { result | stops = Stops (resultStops ++ headStops) }
+                                { result | stops = Stops totalStops }
                         in
                             flatten (newResult :: others) tail
 
                     Nothing ->
-                        flatten (head :: results) tail
+                        let
+                            stops =
+                                case head.stops of
+                                    Stops list ->
+                                        list
+
+                            totalStops =
+                                stops
+                                    |> Model.Stop.flatten []
+
+                            newHead =
+                                { head | stops = Stops totalStops }
+                        in
+                            flatten (newHead :: results) tail
 
         [] ->
             results
+
+
+areEqual : Direction -> Direction -> Bool
+areEqual source target =
+    if source.id == Nothing || target.id == Nothing then
+        source.title == target.title
+    else
+        source.id == target.id

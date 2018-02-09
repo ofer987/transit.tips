@@ -1,16 +1,18 @@
 module Json.Decode.Predictions exposing (nearby, schedule, route, direction, stop, arrival)
 
-import Json.Decode as Json exposing (Decoder, field, at, string, float, int, list, succeed, oneOf, null, maybe)
+import Json.Decode as Json exposing (Decoder, field, at, maybe, string, float, int, list, succeed, oneOf, null)
 import Json.Predictions exposing (Schedule, Route, Direction, Stop, Arrival)
+
 
 nearby : Decoder Schedule
 nearby =
     Json.map4
-    Schedule
-    (field "latitude" float)
-    (field "longitude" float)
-    (field "address" (maybe string))
-    (field "routes" (list route))
+        Schedule
+        (field "latitude" float)
+        (field "longitude" float)
+        (field "address" (maybe string))
+        (field "routes" (list route))
+
 
 schedule : Float -> Float -> Decoder Schedule
 schedule latitude longitude =
@@ -37,7 +39,7 @@ direction : Decoder Direction
 direction =
     Json.map2
         Direction
-        (field "id" (oneOf [string, null ""]))
+        (field "id" (maybe string))
         (field "title" string)
 
 

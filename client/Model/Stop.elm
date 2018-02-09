@@ -50,13 +50,46 @@ flatten results original =
                     results
                         |> List.filter (\item -> item.id == head.id)
                         |> List.head
+
+                others =
+                    results
+                        |> List.filter (\item -> item.id /= head.id)
             in
                 case existing of
                     Just result ->
-                        flatten results tail
+                        let
+                            resultArrivals =
+                                case result.arrivals of
+                                    Arrivals list ->
+                                        list
+
+                            headArrivals =
+                                case head.arrivals of
+                                    Arrivals list ->
+                                        list
+
+                            totalArrivals =
+                                resultArrivals ++ headArrivals
+
+                            newResult =
+                                { result | arrivals = Arrivals totalArrivals }
+                        in
+                            flatten (newResult :: others) tail
 
                     Nothing ->
-                        flatten (head :: results) tail
+                        let
+                            headArrivals =
+                                case head.arrivals of
+                                    Arrivals list ->
+                                        list
+
+                            totalArrivals =
+                                headArrivals
+
+                            newHead =
+                                { head | arrivals = Arrivals totalArrivals }
+                        in
+                            flatten (newHead :: results) tail
 
         [] ->
             results

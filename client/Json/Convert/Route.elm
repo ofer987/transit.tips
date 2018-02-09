@@ -62,7 +62,7 @@ toDirection parent json =
     let
         self =
             Model.Common.Direction
-                ""
+                Nothing
                 parent
                 ""
                 ""
@@ -70,7 +70,7 @@ toDirection parent json =
 
         direction =
             Model.Common.Direction
-                ""
+                Nothing
                 parent
                 ""
                 ""

@@ -59,15 +59,32 @@ flatten results original =
                             headDirections =
                                 case head.directions of
                                     Directions list ->
-                                        Model.Direction.flatten [] list
+                                        list
+
+                            totalDirections =
+                                (resultDirections ++ headDirections)
+                                    |> Model.Direction.flatten []
 
                             newResult =
-                                { result | directions = Directions (resultDirections ++ headDirections) }
+                                { result | directions = Directions totalDirections }
                         in
                             flatten (newResult :: others) tail
 
                     Nothing ->
-                        flatten (head :: results) tail
+                        let
+                            directions =
+                                case head.directions of
+                                    Directions list ->
+                                        list
+
+                            totalDirections =
+                                directions
+                                    |> Model.Direction.flatten []
+
+                            newHead =
+                                { head | directions = Directions totalDirections }
+                        in
+                            flatten (newHead :: results) tail
 
         [] ->
             results

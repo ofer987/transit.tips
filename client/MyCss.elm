@@ -31,6 +31,13 @@ css =
     (stylesheet << namespace "TransitTips")
         [ body
             []
+        , class Directions
+            [ descendants
+                [ class Direction
+                    [ padding2 (px 5) (px 20)
+                    ]
+                ]
+            ]
         , class Arrivals
             [ margin2 (px 5) (px 0)
             , descendants
