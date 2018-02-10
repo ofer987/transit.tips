@@ -2,6 +2,7 @@ module Model.Route exposing (toAgency, sort, flatten)
 
 import Model.Common exposing (..)
 import Model.Direction
+import String exposing (toInt)
 
 
 toAgency : String -> Agency
@@ -27,12 +28,43 @@ sort original =
                     r
 
         sorted =
-            list
-                |> List.sortBy .id
+            (sortByInt list ++ sortByString list)
                 |> List.map (\route -> { route | directions = Model.Direction.sort route.directions })
     in
         Routes sorted
 
+isInt : String -> Bool
+isInt value =
+    case toInt value of
+        Ok _ ->
+            True
+        Err _ ->
+            False
+
+sortByInt : List Route -> List Route
+sortByInt original =
+    let
+        filtered =
+            List.filter (\route -> isInt route.id) original
+
+        strToInt : String -> Int
+        strToInt string =
+            case toInt string of
+                Ok int ->
+                    int
+                Err _ ->
+                    0
+    in
+        List.sortBy (\route -> strToInt route.id) filtered
+
+sortByString : List Route -> List Route
+sortByString original =
+    let
+        filtered =
+            List.filter (\route -> not (isInt route.id)) original
+
+    in
+        List.sortBy .id filtered
 
 flatten : List Route -> List Route -> List Route
 flatten results original =

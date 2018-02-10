@@ -1,7 +1,29 @@
-module Model.Direction exposing (sort, flatten)
+module Model.Direction exposing (title, sort, flatten)
 
+import Regex
 import Model.Common exposing (..)
 import Model.Stop
+
+
+title : Agency -> String -> String
+title agency value =
+    case agency of
+        TTC ->
+            ttcTitle value
+
+        Else ->
+            value
+
+
+ttcTitle : String -> String
+ttcTitle value =
+    value
+        |> Regex.find (Regex.AtMost 1) (Regex.regex "(?:towards|to) (.*)\\s*")
+        |> List.map .submatches
+        |> List.concat
+        |> List.map (Maybe.withDefault value)
+        |> List.head
+        |> Maybe.withDefault value
 
 
 sort : Directions -> Directions

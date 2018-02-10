@@ -4,6 +4,8 @@ import MyCss exposing (CssClasses)
 import Html.CssHelpers
 import Html exposing (Html, div, span, text)
 import Model exposing (..)
+import Model.Route
+import Model.Direction
 import Model.Common exposing (..)
 
 
@@ -48,11 +50,18 @@ directionsView directions =
 
 directionView : Direction -> Html Controller
 directionView direction =
-    div
-        [ class [ MyCss.Direction ] ]
-        [ text direction.title
-        , stopsView direction.stops
-        ]
+    let
+        agencyId =
+            direction.parent.agencyId
+
+        agency =
+            Model.Route.toAgency agencyId
+    in
+        div
+            [ class [ MyCss.Direction ] ]
+            [ text (Model.Direction.title agency direction.title)
+            , stopsView direction.stops
+            ]
 
 
 stopsView : Stops -> Html Controller
