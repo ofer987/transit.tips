@@ -3,6 +3,7 @@ module Update exposing (update)
 import Model exposing (..)
 import Model.Nearby
 import Model.Search
+import Model.Search.Arguments exposing (Arguments, newArguments)
 import Update.Nearby
 import Update.Search
 import Task
@@ -24,7 +25,7 @@ update controller model =
                 --     Task.succeed (Nearby Model.Nearby.Nil Model.Nearby.GetLocation)
                 --         |> Task.perform Process
                 nextModel =
-                    NearbyModel Model.Nearby.Nil
+                    NearbyModel newArguments Model.Nearby.Nil
             in
                 ( nextModel, nextCmd )
 
@@ -39,7 +40,7 @@ update controller model =
                 --     Task.succeed (Search (Model.Search.Nil routeId) (Model.Search.GetLocation routeId))
                 --         |> Task.perform Process
                 nextModel =
-                    SearchModel (Model.Search.Nil routeId)
+                    SearchModel newArguments (Model.Search.Nil routeId)
             in
                 ( nextModel, nextCmd )
 
@@ -55,13 +56,27 @@ update controller model =
         --             |> Platform.Cmd.map NearbyController
         -- in
         --     ( nextModel, nextCmd )
+        UpdateArguments arguments ->
+            let nextModel =
+                case model of
+                    Nil ->
+                        Nil
+
+                    NearbyModel _ nearby ->
+                        NearbyModel arguments nearby
+
+                    SearchModel _ search ->
+                        SearchModel arguments search
+            in
+                ( nextModel, Cmd.none)
+
         Process (Nearby model msg) ->
             let
                 result =
                     Update.Nearby.update msg model
 
                 nextModel =
-                    NearbyModel (Tuple.first result)
+                    NearbyModel newArguments (Tuple.first result)
 
                 nextCmd =
                     Tuple.second result
@@ -76,7 +91,7 @@ update controller model =
                     Update.Search.update msg model
 
                 nextModel =
-                    SearchModel (Tuple.first result)
+                    SearchModel newArguments (Tuple.first result)
 
                 nextCmd =
                     Tuple.second result

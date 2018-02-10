@@ -2,25 +2,25 @@ module View.Search exposing (view, searchView)
 
 import Model exposing (..)
 import Model.Search
-import String
+import Model.Search.Arguments exposing (Arguments)
 import View.Alert.Error
 import View.Schedule
-import Html exposing (Html, div, text, input)
+import Html exposing (Html, div, text, input, button, form)
 import Html.Attributes exposing (type_, defaultValue)
-import Html.Events exposing (onInput)
+import Html.Events exposing (onInput, onClick, onSubmit)
 
 
-view : Model.Search.Model -> Html Controller
-view model =
+view : Arguments -> Model.Search.Model -> Html Controller
+view arguments model =
     case model of
         Model.Search.Nil "" ->
-            searchView
+            searchView arguments
 
         Model.Search.Nil routeId ->
             div
                 []
-                [ searchView
-                , text ("searching route " ++ routeId) 
+                [ searchView arguments
+                , text ("searching route " ++ routeId)
                 ]
 
         -- Note: Currently not used
@@ -63,17 +63,20 @@ view model =
 -- TODO: add argument model
 
 
-searchView : Html Controller
-searchView =
-    div
-        []
+searchView : Arguments -> Html Controller
+searchView model =
+    form
+        [ onSubmit (SearchController model.routeId) ]
         [ text "please search!"
         , input
             [ type_ "text"
             , defaultValue ""
-            , onInput (\value -> (SearchController (String.trim value)))
+            , onInput (\value -> UpdateArguments (Arguments [] value))
             ]
             []
+        , button
+            [ type_ "submit" ]
+            [ text "Click to select" ]
         ]
 
 

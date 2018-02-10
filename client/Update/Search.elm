@@ -17,8 +17,8 @@ import Json.Convert.Predictions
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation routeId ->
-            ( Nil routeId, Task.attempt (useLocation routeId) Geolocation.now )
+        GetLocation agencyId routeId ->
+            ( Nil routeId, Task.attempt (useLocation agencyId routeId) Geolocation.now )
 
         UnavailableLocation routeId error ->
             let
@@ -35,12 +35,8 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        RequestRoute routeId location ->
+        RequestRoute agencyId routeId location ->
             let
-                -- Where do I get the agency from?
-                agencyId =
-                    "ttc"
-
                 request =
                     requestRoute location.longitude location.latitude agencyId routeId
 
@@ -148,11 +144,11 @@ requestPredictions agencyId routeId stopId latitude longitude =
         Http.get url (Json.Decode.Predictions.schedule latitude longitude)
 
 
-useLocation : String -> Result Geolocation.Error Geolocation.Location -> Msg
-useLocation routeId result =
+useLocation : String -> String -> Result Geolocation.Error Geolocation.Location -> Msg
+useLocation agencyId routeId result =
     case result of
         Ok location ->
-            RequestRoute routeId (Model.Common.Location location.latitude location.longitude)
+            RequestRoute agencyId routeId (Model.Common.Location location.latitude location.longitude)
 
         Err err ->
             UnavailableLocation routeId err

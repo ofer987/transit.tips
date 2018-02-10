@@ -4,6 +4,7 @@ import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Model exposing (..)
 import Model.Nearby
+import Model.Search.Arguments exposing (Arguments)
 import View.Schedule
 import View.Loading
 import View.Search
@@ -15,15 +16,15 @@ import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
 
 
-view : Model.Nearby.Model -> Html Controller
-view model =
+view : Arguments -> Model.Nearby.Model -> Html Controller
+view arguments model =
     case model of
         Model.Nearby.Nil ->
             container
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
-                , View.Search.searchView
+                , View.Search.searchView arguments
                 , View.Loading.view
                 ]
 
@@ -32,7 +33,7 @@ view model =
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
-                , View.Search.searchView
+                , View.Search.searchView arguments
                 , View.Loading.view
                 ]
 
@@ -50,7 +51,7 @@ view model =
                     [ onClick NearbyController ]
                     [ CDN.stylesheet
                     , alert
-                    , View.Search.searchView
+                    , View.Search.searchView arguments
                     , View.Schedule.view schedule.routes
                     ]
 
@@ -59,5 +60,5 @@ view model =
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.Error.view error
-                , View.Search.searchView
+                , View.Search.searchView arguments
                 ]
