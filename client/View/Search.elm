@@ -47,13 +47,13 @@ view arguments model =
 
 
 searchFormView : Arguments -> Html Controller
-searchFormView model =
+searchFormView arguments =
     form
-        [ onSubmit (SearchController model.routeId) ]
-        [ text "please search!"
+        [ onSubmit (SearchController arguments.routeId) ]
+        [ text "Search route"
         , input
             [ type_ "text"
-            , defaultValue model.routeId
+            , defaultValue arguments.routeId
             , onInput (\value -> UpdateArguments (Arguments [] value))
             ]
             []

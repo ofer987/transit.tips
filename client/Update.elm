@@ -3,6 +3,7 @@ module Update exposing (update)
 import Model exposing (..)
 import Model.Nearby
 import Model.Search
+import Model.Schedule
 import Update.Nearby
 import Update.Search
 import Task
@@ -81,13 +82,30 @@ update controller model =
                 result =
                     Update.Nearby.update msg model
 
+                nearby =
+                    Tuple.first result
+
                 nextModel =
-                    NearbyModel arguments (Tuple.first result)
+                    NearbyModel nextArguments nearby
 
                 nextCmd =
                     Tuple.second result
-                        |> Platform.Cmd.map (Nearby arguments (Tuple.first result))
+                        |> Platform.Cmd.map (Nearby nextArguments (Tuple.first result))
                         |> Platform.Cmd.map Process
+
+                nextArguments =
+                    case nearby of
+                        Model.Nearby.Nil ->
+                            arguments
+
+                        Model.Nearby.ReceivedSchedule schedule ->
+                            { arguments | agencyIds = Model.Schedule.agencyIds schedule }
+
+                        Model.Nearby.ReceivedDate _ _ ->
+                            arguments
+
+                        Model.Nearby.Error _ ->
+                            arguments
             in
                 ( nextModel, nextCmd )
 

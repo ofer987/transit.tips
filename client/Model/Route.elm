@@ -1,4 +1,4 @@
-module Model.Route exposing (toAgency, sort, sortByDirections, flatten)
+module Model.Route exposing (toAgency, sort, sortByDirections, flatten, toList)
 
 import Model.Common exposing (..)
 import Model.Direction
@@ -75,6 +75,13 @@ sortByDirections : Float -> Float -> Routes -> List Stop
 sortByDirections latitude longitude routes =
     (directionList routes)
         |> List.filterMap (Model.Direction.sortByDistance latitude longitude)
+
+
+toList : Routes -> List Route
+toList routes =
+    case routes of
+        Routes list ->
+            list
 
 
 directionList : Routes -> List Direction
