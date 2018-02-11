@@ -5,7 +5,6 @@ import Model.Search
 import Model.Search.Arguments exposing (Arguments)
 import View.Alert.Error
 import View.Schedule
-import View.Loading
 import View.Alert.GetSearchResults
 import View.Alert.ReceivedSearchResults
 import Html exposing (Html, div, text, input, button, form)
@@ -18,31 +17,13 @@ import Bootstrap.Grid as Grid exposing (container)
 view : Arguments -> Model.Search.Model -> Html Controller
 view arguments model =
     case model of
-        Model.Search.Nil "" ->
+        Model.Search.Nil ->
             container
                 []
                 [ CDN.stylesheet
-                , searchFormView arguments
-                ]
-
-        Model.Search.Nil routeId ->
-            container
-                []
-                [ CDN.stylesheet
-                , View.Alert.GetSearchResults.view routeId
-                , searchFormView arguments
-                , View.Loading.view
-                ]
-
-        -- Note: Currently not used
-        Model.Search.ReceivedRoute routeId schedule ->
-            container
-                []
-                [ CDN.stylesheet
-                , View.Alert.GetSearchResults.view routeId
+                , View.Alert.GetSearchResults.view arguments.routeId
                 , searchFormView arguments
                 , nearbyFormView
-                , View.Loading.view
                 ]
 
         Model.Search.ReceivedPredictions schedule ->
@@ -89,5 +70,5 @@ nearbyFormView =
         [ onSubmit NearbyController ]
         [ button
             [ type_ "submit" ]
-            [ text "Click to select" ]
+            [ text "Search nearby" ]
         ]

@@ -24,7 +24,6 @@ view arguments model =
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
-                , View.Search.searchFormView arguments
                 , View.Loading.view
                 ]
 
@@ -33,7 +32,6 @@ view arguments model =
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.GetSchedule.view
-                , View.Search.searchFormView arguments
                 , View.Loading.view
                 ]
 
@@ -62,5 +60,4 @@ view arguments model =
                 [ onClick NearbyController ]
                 [ CDN.stylesheet
                 , View.Alert.Error.view error
-                , View.Search.searchFormView arguments
                 ]

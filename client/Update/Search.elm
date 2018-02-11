@@ -20,7 +20,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetLocation agencyIds routeId ->
-            ( Nil routeId, Task.attempt (useLocation agencyIds routeId) Geolocation.now )
+            ( Nil, Task.attempt (useLocation agencyIds routeId) Geolocation.now )
 
         UnavailableLocation routeId error ->
             let

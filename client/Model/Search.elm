@@ -16,7 +16,6 @@ type Msg
 
 
 type Model
-    = Nil String
-    | ReceivedRoute String Schedule
+    = Nil
     | ReceivedPredictions Schedule
     | Error String
