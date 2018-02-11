@@ -17,7 +17,15 @@ update controller model =
         NearbyController ->
             let
                 arguments =
-                    newArguments
+                    case model of
+                        Nil ->
+                            newArguments
+
+                        NearbyModel arguments_ _ ->
+                            arguments_
+
+                        SearchModel arguments_ _ ->
+                            arguments_
 
                 nextCmd =
                     Task.succeed Model.Nearby.GetLocation

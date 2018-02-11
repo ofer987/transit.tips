@@ -1,10 +1,13 @@
-module View.Search exposing (view, searchView)
+module View.Search exposing (view, searchFormView, nearbyFormView)
 
 import Model exposing (..)
 import Model.Search
 import Model.Search.Arguments exposing (Arguments)
 import View.Alert.Error
 import View.Schedule
+import View.Loading
+import View.Alert.GetSearchResults
+import View.Alert.ReceivedSearchResults
 import Html exposing (Html, div, text, input, button, form)
 import Html.Attributes exposing (type_, defaultValue)
 import Html.Events exposing (onInput, onClick, onSubmit)
@@ -19,15 +22,16 @@ view arguments model =
             container
                 []
                 [ CDN.stylesheet
-                , searchView arguments
+                , searchFormView arguments
                 ]
 
         Model.Search.Nil routeId ->
             container
                 []
                 [ CDN.stylesheet
-                , searchView arguments
-                , text ("searching route " ++ routeId)
+                , View.Alert.GetSearchResults.view routeId
+                , searchFormView arguments
+                , View.Loading.view
                 ]
 
         -- Note: Currently not used
@@ -35,16 +39,19 @@ view arguments model =
             container
                 []
                 [ CDN.stylesheet
-                , searchView arguments
-                , text ("searching route " ++ routeId)
+                , View.Alert.GetSearchResults.view routeId
+                , searchFormView arguments
+                , nearbyFormView
+                , View.Loading.view
                 ]
 
         Model.Search.ReceivedPredictions schedule ->
             container
                 []
                 [ CDN.stylesheet
-                , searchView arguments
-                , text "received predictions"
+                , View.Alert.ReceivedSearchResults.view
+                , searchFormView arguments
+                , nearbyFormView
                 , View.Schedule.view schedule.routes
                 ]
 
@@ -52,13 +59,15 @@ view arguments model =
             div
                 []
                 [ CDN.stylesheet
-                , searchView arguments
+                , View.Alert.Error.view error
+                , searchFormView arguments
+                , nearbyFormView
                 , View.Alert.Error.view error
                 ]
 
 
-searchView : Arguments -> Html Controller
-searchView model =
+searchFormView : Arguments -> Html Controller
+searchFormView model =
     form
         [ onSubmit (SearchController model.routeId) ]
         [ text "please search!"
@@ -74,6 +83,11 @@ searchView model =
         ]
 
 
-noSearchView : Html Controller
-noSearchView =
-    div [] []
+nearbyFormView : Html Controller
+nearbyFormView =
+    form
+        [ onSubmit NearbyController ]
+        [ button
+            [ type_ "submit" ]
+            [ text "Click to select" ]
+        ]
