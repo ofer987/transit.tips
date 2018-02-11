@@ -58,33 +58,20 @@ update msg model =
 
                 -- assumes only one agency!
                 -- TODO: make it per agency
-                nearestStop : Maybe Stop
-                nearestStop =
+                nearestStops : List Stop
+                nearestStops =
                     schedule.routes
-                        |> Model.Common.sortByStop schedule.location.latitude schedule.location.longitude
-                        |> List.head
+                        |> Model.Common.sortByDirections schedule.location.latitude schedule.location.longitude
+
+                cmd : Cmd Msg
+                cmd =
+                    nearestStops
+                        |> List.map (\stop -> requestPredictions stop.parent.parent.agencyId stop.parent.parent.id stop.id schedule.location.latitude schedule.location.longitude)
+                        |> List.map Http.toTask
+                        |> Task.sequence
+                        |> Task.attempt ReceivePredictions
             in
-                case nearestStop of
-                    Just stop ->
-                        let
-                            route =
-                                direction.parent
-
-                            direction =
-                                stop.parent
-
-                            request =
-                                requestPredictions route.agencyId route.id stop.id schedule.location.latitude schedule.location.longitude
-
-                            cmd =
-                                Http.send ReceivePredictions request
-                        in
-                            -- TODO: Change to ReceivedRoute routeId Model.Common.Schedule
-                            -- TODO: Convert json to Model.Common.Schedule
-                            ( model, cmd )
-
-                    Nothing ->
-                        ( Error "no stops found", Cmd.none )
+                ( model, cmd )
 
         ReceiveRoute (Err error) ->
             let
@@ -108,7 +95,26 @@ update msg model =
                 ( Error message, Cmd.none )
 
         ReceivePredictions (Ok json) ->
-            ( ReceivedPredictions (Json.Convert.Predictions.toSchedule json), Cmd.none )
+            let
+                toRoutesList : Routes -> List Route
+                toRoutesList routes =
+                    case routes of
+                        Routes list ->
+                            list
+
+                convertedRoutes =
+                    json
+                        |> List.map Json.Convert.Predictions.toSchedule
+                        |> List.map .routes
+                        |> List.concatMap toRoutesList
+
+                location =
+                    Location 0.0 0.0
+
+                schedule =
+                    Model.Common.Schedule location Nothing (Routes convertedRoutes)
+            in
+                ( ReceivedPredictions schedule, Cmd.none )
 
         ReceivePredictions (Err error) ->
             let
@@ -148,6 +154,13 @@ requestPredictions agencyId routeId stopId latitude longitude =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
         Http.get url (Json.Decode.Predictions.schedule latitude longitude)
+
+
+toCmd : List (Http.Request a) -> Task.Task Http.Error (List a)
+toCmd requests =
+    requests
+        |> List.map Http.toTask
+        |> Task.sequence
 
 
 useLocation : List String -> String -> Result Geolocation.Error Geolocation.Location -> Msg

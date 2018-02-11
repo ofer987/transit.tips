@@ -1,8 +1,10 @@
 module Model.Common exposing (..)
 
+
 type Agency
     = TTC
     | Else
+
 
 type Directions
     = Directions (List Direction)
@@ -85,6 +87,43 @@ sortByStop latitude longitude routes =
                                 stops
                     )
                 |> List.sortBy (stopDistance latitude longitude)
+
+sortByDirections : Float -> Float -> Routes -> List Stop
+sortByDirections latitude longitude routes =
+    (directions routes)
+        |> sortByDistance latitude longitude
+
+
+directions : Routes -> List Direction
+directions routes =
+    case routes of
+        Routes routes ->
+            routes
+                |> List.concatMap
+                    (\route ->
+                        case route.directions of
+                            Directions directions ->
+                                directions
+                    )
+
+
+sortByDistance : Float -> Float -> List Direction -> List Stop
+sortByDistance latitude longitude directions =
+    directions
+        |> List.filterMap (nearestStop latitude longitude)
+
+
+nearestStop : Float -> Float -> Direction -> Maybe Stop
+nearestStop latitude longitude direction =
+    let
+        stops =
+            case direction.stops of
+                Stops list ->
+                    list
+    in
+        stops
+            |> List.sortBy (stopDistance latitude longitude)
+            |> List.head
 
 
 stopDistance : Float -> Float -> Stop -> Float

@@ -12,7 +12,7 @@ type Msg
     | UnavailableLocation String Geolocation.Error
     | RequestRoute (List String) String Location
     | ReceiveRoute (Result Http.Error Json.Route.Schedule)
-    | ReceivePredictions (Result Http.Error Json.Predictions.Schedule)
+    | ReceivePredictions (Result Http.Error (List Json.Predictions.Schedule))
 
 
 type Model

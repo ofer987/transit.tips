@@ -17,7 +17,7 @@ view arguments model =
     case model of
         Model.Search.Nil "" ->
             container
-                [ onClick (SearchController arguments.routeId) ]
+                []
                 [ CDN.stylesheet
                 , searchView arguments
                 ]
@@ -41,7 +41,7 @@ view arguments model =
 
         Model.Search.ReceivedPredictions schedule ->
             container
-                [ onClick (SearchController arguments.routeId) ]
+                []
                 [ CDN.stylesheet
                 , searchView arguments
                 , text "received predictions"
