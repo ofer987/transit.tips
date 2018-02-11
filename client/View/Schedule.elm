@@ -2,6 +2,7 @@ module View.Schedule exposing (view)
 
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (id)
+import Html.Events exposing (onClick)
 import Model exposing (..)
 import MyCss exposing (..)
 import Html.CssHelpers

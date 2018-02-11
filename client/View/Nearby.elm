@@ -48,11 +48,13 @@ view arguments model =
                             View.Alert.Time.view schedule.location.latitude schedule.location.longitude date
             in
                 container
-                    [ onClick NearbyController ]
+                    []
                     [ CDN.stylesheet
                     , alert
                     , View.Search.searchView arguments
-                    , View.Schedule.view schedule.routes
+                    , div
+                        [ onClick NearbyController ]
+                        [ View.Schedule.view schedule.routes ]
                     ]
 
         Model.Nearby.Error error ->

@@ -2,6 +2,7 @@ module Update.Search exposing (update)
 
 import Task
 import Result exposing (Result)
+import Maybe
 import Http
 import Geolocation
 import Model.Common exposing (..)
@@ -17,8 +18,8 @@ import Json.Convert.Predictions
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation agencyId routeId ->
-            ( Nil routeId, Task.attempt (useLocation agencyId routeId) Geolocation.now )
+        GetLocation agencyIds routeId ->
+            ( Nil routeId, Task.attempt (useLocation agencyIds routeId) Geolocation.now )
 
         UnavailableLocation routeId error ->
             let
@@ -35,8 +36,13 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        RequestRoute agencyId routeId location ->
+        RequestRoute agencyIds routeId location ->
             let
+                agencyId =
+                    agencyIds
+                        |> List.head
+                        |> Maybe.withDefault "ttc"
+
                 request =
                     requestRoute location.longitude location.latitude agencyId routeId
 
@@ -144,11 +150,11 @@ requestPredictions agencyId routeId stopId latitude longitude =
         Http.get url (Json.Decode.Predictions.schedule latitude longitude)
 
 
-useLocation : String -> String -> Result Geolocation.Error Geolocation.Location -> Msg
-useLocation agencyId routeId result =
+useLocation : List String -> String -> Result Geolocation.Error Geolocation.Location -> Msg
+useLocation agencyIds routeId result =
     case result of
         Ok location ->
-            RequestRoute agencyId routeId (Model.Common.Location location.latitude location.longitude)
+            RequestRoute agencyIds routeId (Model.Common.Location location.latitude location.longitude)
 
         Err err ->
             UnavailableLocation routeId err

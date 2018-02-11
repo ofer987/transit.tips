@@ -13,8 +13,8 @@ type Controller
 
 
 type Msg
-    = Nearby Nearby.Model Nearby.Msg
-    | Search Search.Model Search.Msg
+    = Nearby Arguments Nearby.Model Nearby.Msg
+    | Search Arguments Search.Model Search.Msg
 
 
 type Model

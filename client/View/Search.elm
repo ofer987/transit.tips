@@ -8,59 +8,53 @@ import View.Schedule
 import Html exposing (Html, div, text, input, button, form)
 import Html.Attributes exposing (type_, defaultValue)
 import Html.Events exposing (onInput, onClick, onSubmit)
+import Bootstrap.CDN as CDN
+import Bootstrap.Grid as Grid exposing (container)
 
 
 view : Arguments -> Model.Search.Model -> Html Controller
 view arguments model =
     case model of
         Model.Search.Nil "" ->
-            searchView arguments
+            container
+                [ onClick (SearchController arguments.routeId) ]
+                [ CDN.stylesheet
+                , searchView arguments
+                ]
 
         Model.Search.Nil routeId ->
-            div
+            container
                 []
-                [ searchView arguments
+                [ CDN.stylesheet
+                , searchView arguments
                 , text ("searching route " ++ routeId)
                 ]
 
         -- Note: Currently not used
         Model.Search.ReceivedRoute routeId schedule ->
-            div
+            container
                 []
-                [ text ("searching route " ++ routeId) ]
+                [ CDN.stylesheet
+                , searchView arguments
+                , text ("searching route " ++ routeId)
+                ]
 
         Model.Search.ReceivedPredictions schedule ->
-            div
-                []
-                [ text "received predictions"
+            container
+                [ onClick (SearchController arguments.routeId) ]
+                [ CDN.stylesheet
+                , searchView arguments
+                , text "received predictions"
                 , View.Schedule.view schedule.routes
                 ]
 
         Model.Search.Error error ->
             div
                 []
-                [ View.Alert.Error.view error ]
-
-
-
--- view : Model -> Html Controller
--- view model =
---     case model.nearby of
---         Nearby.NoLocation ->
---             noSearchView
---
---         Nearby.ReceivedLocation latitude longitude ->
---             searchView latitude longitude
---
---         Nearby.ReceivedSchedule nearby ->
---             searchView nearby.latitude nearby.longitude
---
---         Nearby.ReceivedDate nearby _ ->
---             searchView nearby.latitude nearby.longitude
---
---         Nearby.Error _ ->
---             noSearchView
--- TODO: add argument model
+                [ CDN.stylesheet
+                , searchView arguments
+                , View.Alert.Error.view error
+                ]
 
 
 searchView : Arguments -> Html Controller
@@ -70,7 +64,7 @@ searchView model =
         [ text "please search!"
         , input
             [ type_ "text"
-            , defaultValue ""
+            , defaultValue model.routeId
             , onInput (\value -> UpdateArguments (Arguments [] value))
             ]
             []
@@ -78,40 +72,6 @@ searchView model =
             [ type_ "submit" ]
             [ text "Click to select" ]
         ]
-
-
-
--- viewResults : Model -> Html Controller
--- viewResults model =
---     case model of
---         Nil ->
---             div [] []
---
---         ReceivedLocation latitude longitude ->
---             div [] [ text ("You are at " ++ toString latitude ++ ", " ++ toString longitude) ]
---
---         ReceivedRoute latitude longitude stops ->
---             div [] [ text ("You are at " ++ toString latitude ++ ", " ++ toString longitude ++ "found these stops [" ++ Stop.toString stops "" ++ "]") ]
---
---         ReceivedArrivals route ->
---             div [] [ text ("I have found route " ++ route.id ++ " arriving in " ++ routeToString route ++ " minutes") ]
---
---         Error value ->
---             div [] [ text ("Oh no! " ++ value) ]
--- routeToString : Route -> String
--- routeToString route =
---     case route.arrivals of
---         head :: _ ->
---             toString head.time
---
---         [] ->
---             "Not found"
--- searchView : Float -> Float -> Html Controller
--- searchView latitude longitude =
---     div
---         []
---         [ input (type_ "text", defaultValue "", onClick (SearchController (Search.GetLocation "ttc") )) ]
---
 
 
 noSearchView : Html Controller

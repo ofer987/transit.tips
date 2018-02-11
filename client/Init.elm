@@ -10,12 +10,15 @@ import Model.Nearby
 init : ( Model, Cmd Controller )
 init =
     let
+        arguments =
+            newArguments
+
         model =
-            NearbyModel newArguments Model.Nearby.Nil
+            NearbyModel arguments Model.Nearby.Nil
 
         cmd =
             Task.succeed Model.Nearby.GetLocation
-                |> Task.perform (Nearby Model.Nearby.Nil)
+                |> Task.perform (Nearby arguments Model.Nearby.Nil)
                 |> Platform.Cmd.map Process
     in
         ( model, cmd )
