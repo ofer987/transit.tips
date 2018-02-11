@@ -24,22 +24,19 @@ update controller model =
                         |> Task.perform (Nearby arguments Model.Nearby.Nil)
                         |> Platform.Cmd.map Process
 
-                -- nextCmd =
-                --     Task.succeed (Nearby Model.Nearby.Nil Model.Nearby.GetLocation)
-                --         |> Task.perform Process
                 nextModel =
                     NearbyModel arguments Model.Nearby.Nil
             in
                 ( nextModel, nextCmd )
 
         -- Do nothing
-        SearchController "" ->
+        SearchController _ "" ->
             ( model, Cmd.none )
 
-        SearchController routeId ->
+        SearchController agencyIds routeId ->
             let
                 nextCmd =
-                    Task.succeed (Model.Search.GetLocation arguments.agencyIds arguments.routeId)
+                    Task.succeed (Model.Search.GetLocation agencyIds routeId)
                         |> Task.perform (Search arguments Model.Search.Nil)
                         |> Platform.Cmd.map Process
 
@@ -54,9 +51,6 @@ update controller model =
                         SearchModel arguments_ _ ->
                             arguments_
 
-                -- nextCmd =
-                --     Task.succeed (Search (Model.Search.Nil routeId) (Model.Search.GetLocation routeId))
-                --         |> Task.perform Process
                 nextModel =
                     SearchModel arguments Model.Search.Nil
             in

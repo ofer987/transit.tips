@@ -49,12 +49,12 @@ view arguments model =
 searchFormView : Arguments -> Html Controller
 searchFormView arguments =
     form
-        [ onSubmit (SearchController arguments.routeId) ]
+        [ onSubmit (SearchController arguments.agencyIds arguments.routeId) ]
         [ text "Search route"
         , input
             [ type_ "text"
             , defaultValue arguments.routeId
-            , onInput (\value -> UpdateArguments (Arguments [] value))
+            , onInput (\value -> UpdateArguments (Arguments arguments.agencyIds value))
             ]
             []
         , button

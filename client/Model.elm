@@ -6,7 +6,7 @@ import Model.Search as Search
 
 type Controller
     = NearbyController
-    | SearchController String
+    | SearchController (List String) String
     | UpdateArguments Arguments
     | Process Msg
 
