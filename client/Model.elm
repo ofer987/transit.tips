@@ -2,7 +2,6 @@ module Model exposing (..)
 
 import Model.Nearby as Nearby
 import Model.Search as Search
-import Model.Search.Arguments exposing (Arguments)
 
 
 type Controller
@@ -21,3 +20,14 @@ type Model
     = Nil
     | NearbyModel Arguments Nearby.Model
     | SearchModel Arguments Search.Model
+
+
+type alias Arguments =
+    { agencyIds : List String
+    , routeId : String
+    }
+
+
+newArguments : Arguments
+newArguments =
+    Arguments [] ""

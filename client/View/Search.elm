@@ -2,7 +2,6 @@ module View.Search exposing (view, searchFormView, nearbyFormView)
 
 import Model exposing (..)
 import Model.Search
-import Model.Search.Arguments exposing (Arguments)
 import View.Alert.Error
 import View.Schedule
 import View.Alert.GetSearchResults

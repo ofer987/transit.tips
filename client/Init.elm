@@ -3,7 +3,6 @@ module Init exposing (init)
 import Task
 import Platform.Cmd
 import Model exposing (..)
-import Model.Search.Arguments exposing (Arguments, newArguments)
 import Model.Nearby
 
 

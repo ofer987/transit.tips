@@ -3,7 +3,6 @@ module Update exposing (update)
 import Model exposing (..)
 import Model.Nearby
 import Model.Search
-import Model.Search.Arguments exposing (Arguments, newArguments)
 import Update.Nearby
 import Update.Search
 import Task

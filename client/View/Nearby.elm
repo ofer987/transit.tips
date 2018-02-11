@@ -4,7 +4,6 @@ import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Model exposing (..)
 import Model.Nearby
-import Model.Search.Arguments exposing (Arguments)
 import View.Schedule
 import View.Loading
 import View.Search
