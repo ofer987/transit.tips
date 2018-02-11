@@ -52,13 +52,13 @@ toRoute parent json =
                 parent
                 json.title
                 json.agencyId
-                (Model.Common.Directions (List.map (toDirection self) json.stops))
+                (Model.Common.Directions (List.map (toDirection self json.directions) json.stops))
     in
         route
 
 
-toDirection : Model.Common.Route -> Stop -> Model.Common.Direction
-toDirection parent json =
+toDirection : Model.Common.Route -> List Direction -> Stop -> Model.Common.Direction
+toDirection parent directions json =
     let
         self =
             Model.Common.Direction
@@ -68,15 +68,31 @@ toDirection parent json =
                 ""
                 (Model.Common.Stops [])
 
-        direction =
+        myDirection : List Direction -> String -> Maybe Direction
+        myDirection list stopId =
+            list
+                |> List.filter (\dir -> List.any (\stop -> stop == stopId) dir.stops)
+                |> List.head
+
+        direction dir =
             Model.Common.Direction
-                Nothing
+                dir.id
                 parent
-                ""
-                ""
+                dir.shortTitle
+                dir.title
                 (Model.Common.Stops [ toStop self json ])
     in
-        direction
+        case myDirection directions json.id of
+            Just value ->
+                direction value
+
+            Nothing ->
+                Model.Common.Direction
+                    Nothing
+                    parent
+                    ""
+                    ""
+                    (Model.Common.Stops [ toStop self json ])
 
 
 toStop : Model.Common.Direction -> Stop -> Model.Common.Stop
