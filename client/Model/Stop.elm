@@ -1,4 +1,4 @@
-module Model.Stop exposing (sort, flatten)
+module Model.Stop exposing (sort, flatten, distance)
 
 import Model.Common exposing (..)
 
@@ -54,3 +54,17 @@ flatten results original =
 
         [] ->
             results
+
+
+distance : Float -> Float -> Stop -> Float
+distance latitude longitude stop =
+    let
+        location =
+            case stop.location of
+                Just value ->
+                    value
+
+                Nothing ->
+                    Location ((2 ^ 32) - 1) ((2 ^ 32) - 1)
+    in
+        sqrt (((location.latitude - latitude) ^ 2) + ((location.longitude - longitude) ^ 2))

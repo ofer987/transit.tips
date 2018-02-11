@@ -1,4 +1,4 @@
-module Model.Route exposing (toAgency, sort, flatten)
+module Model.Route exposing (toAgency, sort, sortByDirections, flatten)
 
 import Model.Common exposing (..)
 import Model.Direction
@@ -33,13 +33,16 @@ sort original =
     in
         Routes sorted
 
+
 isInt : String -> Bool
 isInt value =
     case toInt value of
         Ok _ ->
             True
+
         Err _ ->
             False
+
 
 sortByInt : List Route -> List Route
 sortByInt original =
@@ -52,19 +55,40 @@ sortByInt original =
             case toInt string of
                 Ok int ->
                     int
+
                 Err _ ->
                     0
     in
         List.sortBy (\route -> strToInt route.id) filtered
+
 
 sortByString : List Route -> List Route
 sortByString original =
     let
         filtered =
             List.filter (\route -> not (isInt route.id)) original
-
     in
         List.sortBy .id filtered
+
+
+sortByDirections : Float -> Float -> Routes -> List Stop
+sortByDirections latitude longitude routes =
+    (directionList routes)
+        |> List.filterMap (Model.Direction.sortByDistance latitude longitude)
+
+
+directionList : Routes -> List Direction
+directionList routes =
+    case routes of
+        Routes routes ->
+            routes
+                |> List.concatMap
+                    (\route ->
+                        case route.directions of
+                            Directions directions ->
+                                directions
+                    )
+
 
 flatten : List Route -> List Route -> List Route
 flatten results original =

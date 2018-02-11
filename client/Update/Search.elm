@@ -7,6 +7,7 @@ import Http
 import Geolocation
 import Model.Common exposing (..)
 import Model.Search exposing (..)
+import Model.Route
 import Json.Route
 import Json.Predictions
 import Json.Decode.Route
@@ -61,7 +62,7 @@ update msg model =
                 nearestStops : List Stop
                 nearestStops =
                     schedule.routes
-                        |> Model.Common.sortByDirections schedule.location.latitude schedule.location.longitude
+                        |> Model.Route.sortByDirections schedule.location.latitude schedule.location.longitude
 
                 cmd : Cmd Msg
                 cmd =
@@ -154,13 +155,6 @@ requestPredictions agencyId routeId stopId latitude longitude =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
         Http.get url (Json.Decode.Predictions.schedule latitude longitude)
-
-
-toCmd : List (Http.Request a) -> Task.Task Http.Error (List a)
-toCmd requests =
-    requests
-        |> List.map Http.toTask
-        |> Task.sequence
 
 
 useLocation : List String -> String -> Result Geolocation.Error Geolocation.Location -> Msg
