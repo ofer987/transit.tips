@@ -71,9 +71,10 @@ sortByString original =
         List.sortBy .id filtered
 
 
-sortByDirections : Float -> Float -> Routes -> List Stop
-sortByDirections latitude longitude routes =
-    (directionList routes)
+sortByDirections : Float -> Float -> Route -> List Stop
+sortByDirections latitude longitude route =
+    route.directions
+        |> Model.Direction.toList
         |> List.filterMap (Model.Direction.sortByDistance latitude longitude)
 
 
@@ -82,19 +83,6 @@ toList routes =
     case routes of
         Routes list ->
             list
-
-
-directionList : Routes -> List Direction
-directionList routes =
-    case routes of
-        Routes routes ->
-            routes
-                |> List.concatMap
-                    (\route ->
-                        case route.directions of
-                            Directions directions ->
-                                directions
-                    )
 
 
 flatten : List Route -> List Route -> List Route

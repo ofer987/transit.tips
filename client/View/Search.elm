@@ -20,6 +20,14 @@ view arguments model =
             container
                 []
                 [ CDN.stylesheet
+                , View.Alert.Error.view "Could not find any route"
+                , searchFormView arguments
+                ]
+
+        Model.Search.InProgress ->
+            container
+                []
+                [ CDN.stylesheet
                 , View.Alert.GetSearchResults.view arguments.routeId
                 , searchFormView arguments
                 , nearbyFormView
@@ -50,7 +58,7 @@ searchFormView : Arguments -> Html Controller
 searchFormView arguments =
     form
         [ onSubmit (SearchController arguments.agencyIds arguments.routeId) ]
-        [ text "Search route"
+        [ text "Enter route"
         , input
             [ type_ "text"
             , defaultValue arguments.routeId
@@ -59,7 +67,7 @@ searchFormView arguments =
             []
         , button
             [ type_ "submit" ]
-            [ text "Click to select" ]
+            [ text "Search" ]
         ]
 
 

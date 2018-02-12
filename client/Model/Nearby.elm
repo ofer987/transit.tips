@@ -15,8 +15,8 @@ type Msg
     | RequestTime Schedule
     | ReceiveTime Schedule Date
 
+
 type Model
     = Nil
-    | ReceivedSchedule Schedule
     | ReceivedDate Schedule Date
     | Error String

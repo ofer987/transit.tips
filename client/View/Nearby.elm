@@ -26,14 +26,6 @@ view arguments model =
                 , View.Loading.view
                 ]
 
-        Model.Nearby.ReceivedSchedule _ ->
-            container
-                [ onClick NearbyController ]
-                [ CDN.stylesheet
-                , View.Alert.GetSchedule.view
-                , View.Loading.view
-                ]
-
         Model.Nearby.ReceivedDate schedule date ->
             let
                 alert =

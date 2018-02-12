@@ -1,5 +1,6 @@
 module View exposing (view)
 
+import String
 import Html exposing (Html, div, text)
 import Model exposing (..)
 import View.Nearby
@@ -13,7 +14,24 @@ view model =
             div [] []
 
         NearbyModel arguments model_ ->
-            View.Nearby.view arguments model_
+            div
+                []
+                [ viewArguments arguments
+                , View.Nearby.view arguments model_
+                ]
 
         SearchModel arguments model_ ->
-            View.Search.view arguments model_
+            div
+                []
+                [ viewArguments arguments
+                , View.Search.view arguments model_
+                ]
+
+
+viewArguments : Arguments -> Html Controller
+viewArguments arguments =
+    div
+        []
+        [ text ("routeId = " ++ arguments.routeId)
+        , text ("agencyIds = " ++ (String.join ", " arguments.agencyIds))
+        ]

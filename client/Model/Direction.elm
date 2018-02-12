@@ -1,4 +1,4 @@
-module Model.Direction exposing (title, sort, sortByDistance, flatten)
+module Model.Direction exposing (title, sort, sortByDistance, flatten, toList)
 
 import Regex
 import Model.Common exposing (..)
@@ -40,6 +40,13 @@ sort original =
                 |> List.map (\direction -> { direction | stops = Model.Stop.sort direction.stops })
     in
         Directions sorted
+
+
+toList : Directions -> List Direction
+toList directions =
+    case directions of
+        Directions list ->
+            list
 
 
 sortByDistance : Float -> Float -> Direction -> Maybe Stop

@@ -20,7 +20,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetLocation agencyIds routeId ->
-            ( Nil, Task.attempt (useLocation agencyIds routeId) Geolocation.now )
+            ( InProgress, Task.attempt (useLocation agencyIds routeId) Geolocation.now )
 
         UnavailableLocation routeId error ->
             let
@@ -37,37 +37,43 @@ update msg model =
             in
                 ( Error message, Cmd.none )
 
-        RequestRoute agencyIds routeId location ->
+        RequestRoute (firstAgencyId :: otherAgencyIds) routeId location ->
             let
-                agencyId =
-                    agencyIds
-                        |> List.head
-                        |> Maybe.withDefault "ttc"
-
-                request =
+                request : String -> Http.Request Json.Route.Schedule
+                request agencyId =
                     requestRoute location.longitude location.latitude agencyId routeId
 
+                cmd : Cmd Msg
                 cmd =
-                    Http.send ReceiveRoute request
+                    (firstAgencyId :: otherAgencyIds)
+                        |> List.map request
+                        |> List.map Http.toTask
+                        |> Task.sequence
+                        |> Task.attempt ReceiveRoute
             in
                 ( model, cmd )
 
-        ReceiveRoute (Ok json) ->
-            let
-                schedule =
-                    Json.Convert.Route.toSchedule json
+        RequestRoute [] routeId location ->
+            ( Error "no agency", Cmd.none )
 
-                -- assumes only one agency!
-                -- TODO: make it per agency
+        ReceiveRoute (Ok jsonList) ->
+            let
+                routes =
+                    jsonList
+                        |> List.map Json.Convert.Route.toSchedule
+                        |> List.map .routes
+                        |> List.concatMap Model.Route.toList
+
                 nearestStops : List Stop
                 nearestStops =
-                    schedule.routes
-                        |> Model.Route.sortByDirections schedule.location.latitude schedule.location.longitude
+                    routes
+                        |> List.map (\route -> Model.Route.sortByDirections route.parent.location.latitude route.parent.location.longitude route)
+                        |> List.concat
 
                 cmd : Cmd Msg
                 cmd =
                     nearestStops
-                        |> List.map (\stop -> requestPredictions stop.parent.parent.agencyId stop.parent.parent.id stop.id schedule.location.latitude schedule.location.longitude)
+                        |> List.map (\stop -> requestPredictions stop.parent.parent.agencyId stop.parent.parent.id stop.id stop.parent.parent.parent.location.latitude stop.parent.parent.parent.location.longitude)
                         |> List.map Http.toTask
                         |> Task.sequence
                         |> Task.attempt ReceivePredictions

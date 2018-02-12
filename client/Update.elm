@@ -92,11 +92,8 @@ update controller model =
                         Model.Nearby.Nil ->
                             arguments
 
-                        Model.Nearby.ReceivedSchedule schedule ->
+                        Model.Nearby.ReceivedDate schedule _ ->
                             { arguments | agencyIds = Model.Schedule.agencyIds schedule }
-
-                        Model.Nearby.ReceivedDate _ _ ->
-                            arguments
 
                         Model.Nearby.Error _ ->
                             arguments
