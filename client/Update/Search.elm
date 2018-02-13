@@ -1,6 +1,7 @@
 module Update.Search exposing (update)
 
 import Task
+import Utility.Task
 import Result exposing (Result)
 import Maybe
 import Http
@@ -10,7 +11,6 @@ import Model.Search exposing (..)
 import Model.Route
 import Json.Route
 import Json.Predictions
-import Json.Decode
 import Json.Decode.Route
 import Json.Decode.Predictions
 import Json.Convert.Route
@@ -40,7 +40,7 @@ update msg model =
 
         RequestRoute (firstAgencyId :: otherAgencyIds) routeId location ->
             let
-                request : String -> Http.Request (Maybe Json.Route.Schedule)
+                request : String -> Http.Request Json.Route.Schedule
                 request agencyId =
                     requestRoute location.longitude location.latitude agencyId routeId
 
@@ -49,8 +49,7 @@ update msg model =
                     (firstAgencyId :: otherAgencyIds)
                         |> List.map request
                         |> List.map Http.toTask
-                        |> List.map (Task.onError (\_ -> Task.succeed Nothing))
-                        |> Task.sequence
+                        |> Utility.Task.flow
                         |> Task.attempt ReceiveRoute
             in
                 ( model, cmd )
@@ -62,7 +61,6 @@ update msg model =
             let
                 routes =
                     jsonList
-                        |> List.filterMap identity
                         |> List.map Json.Convert.Route.toSchedule
                         |> List.map .routes
                         |> List.concatMap Model.Route.toList
@@ -148,14 +146,13 @@ update msg model =
                 ( Error message, Cmd.none )
 
 
-requestRoute : Float -> Float -> String -> String -> Http.Request (Maybe Json.Route.Schedule)
+requestRoute : Float -> Float -> String -> String -> Http.Request Json.Route.Schedule
 requestRoute latitude longitude agencyId routeId =
     let
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId
     in
         Json.Decode.Route.schedule latitude longitude agencyId
-            |> Json.Decode.maybe
             |> Http.get url
 
 
