@@ -10,6 +10,7 @@ import Model.Search exposing (..)
 import Model.Route
 import Json.Route
 import Json.Predictions
+import Json.Decode
 import Json.Decode.Route
 import Json.Decode.Predictions
 import Json.Convert.Route
@@ -39,7 +40,7 @@ update msg model =
 
         RequestRoute (firstAgencyId :: otherAgencyIds) routeId location ->
             let
-                request : String -> Http.Request Json.Route.Schedule
+                request : String -> Http.Request (Maybe Json.Route.Schedule)
                 request agencyId =
                     requestRoute location.longitude location.latitude agencyId routeId
 
@@ -48,6 +49,7 @@ update msg model =
                     (firstAgencyId :: otherAgencyIds)
                         |> List.map request
                         |> List.map Http.toTask
+                        |> List.map (Task.onError (\_ -> Task.succeed Nothing))
                         |> Task.sequence
                         |> Task.attempt ReceiveRoute
             in
@@ -60,6 +62,7 @@ update msg model =
             let
                 routes =
                     jsonList
+                        |> List.filterMap identity
                         |> List.map Json.Convert.Route.toSchedule
                         |> List.map .routes
                         |> List.concatMap Model.Route.toList
@@ -145,13 +148,15 @@ update msg model =
                 ( Error message, Cmd.none )
 
 
-requestRoute : Float -> Float -> String -> String -> Http.Request Json.Route.Schedule
+requestRoute : Float -> Float -> String -> String -> Http.Request (Maybe Json.Route.Schedule)
 requestRoute latitude longitude agencyId routeId =
     let
         url =
             "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId
     in
-        Http.get url (Json.Decode.Route.schedule latitude longitude agencyId)
+        Json.Decode.Route.schedule latitude longitude agencyId
+            |> Json.Decode.maybe
+            |> Http.get url
 
 
 requestPredictions : String -> String -> String -> Float -> Float -> Http.Request Json.Predictions.Schedule
