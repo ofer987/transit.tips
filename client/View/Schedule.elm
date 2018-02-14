@@ -1,17 +1,12 @@
 module View.Schedule exposing (view)
 
-import Html exposing (Html, div, text)
+import Html exposing (Html, div, span, text)
 import Html.Attributes exposing (id)
-import Html.Events exposing (onClick)
 import Model exposing (..)
 import MyCss exposing (..)
 import Html.CssHelpers
-import Bootstrap.Table exposing (simpleTable, simpleThead, th, tbody, cellAttr)
 import Model.Common exposing (..)
 import View.Routes
-
-
--- TODO: add id
 
 
 { class, classList } =
@@ -29,18 +24,9 @@ view routes =
 
 head : Html Controller
 head =
-    simpleTable
-        ( simpleThead
-            [ th
-                [ cellAttr (id "direction")
-                , cellAttr (class [ MyCss.Direction ])
-                ]
-                [ text "Direction" ]
-            , th
-                [ cellAttr (id "arrival")
-                , cellAttr (class [ MyCss.Arrival ])
-                ]
-                [ text "Arrival (in minutes)" ]
-            ]
-        , tbody [] []
-        )
+    div
+        [ class [ MyCss.Headings ] ]
+        [ span [ id "direction", class [ MyCss.Direction ] ] [ text "Direction" ]
+        , span [ id "arrival", class [ MyCss.Arrival ] ] [ text "Arrival (in minutes)" ]
+        , div [ class [ MyCss.Clearing ] ] []
+        ]

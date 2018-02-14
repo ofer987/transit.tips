@@ -16,16 +16,12 @@ view model =
         NearbyModel arguments model_ ->
             div
                 []
-                [ viewArguments arguments
-                , View.Nearby.view arguments model_
-                ]
+                [ View.Nearby.view arguments model_ ]
 
         SearchModel arguments model_ ->
             div
                 []
-                [ viewArguments arguments
-                , View.Search.view arguments model_
-                ]
+                [ View.Search.view arguments model_ ]
 
 
 viewArguments : Arguments -> Html Controller

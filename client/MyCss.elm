@@ -24,6 +24,7 @@ type CssClasses
     | Location
     | Minutes
     | Clearing
+    | Headings
 
 
 css : Stylesheet
@@ -56,20 +57,16 @@ css =
             ]
         , class Clearing
             [ property "clear" "both" ]
-        , Css.Elements.table
-            [ borderStyle hidden
+        , class Headings
+            [ margin4 (px 15) (px 0) (px 5) (px 0)
             , descendants
                 [ class Direction
-                    [ width (pct 70) ]
+                    [ float left
+                    , fontWeight bold
+                    ]
                 , class Arrival
-                    [ width (pct 30) ]
-                , class Route
-                    [ borderStyle hidden
-                    , descendants
-                        [ class Title
-                            [ fontSize (ex 2.5)
-                            ]
-                        ]
+                    [ float right
+                    , fontWeight bold
                     ]
                 ]
             ]
