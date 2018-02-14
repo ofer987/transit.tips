@@ -3,6 +3,7 @@ module View.Search exposing (view, searchFormView, nearbyFormView)
 import Model exposing (..)
 import Model.Search
 import View.Alert.Error
+import View.Loading
 import View.Schedule
 import View.Alert.GetSearchResults
 import View.Alert.ReceivedSearchResults
@@ -21,7 +22,7 @@ view arguments model =
                 []
                 [ CDN.stylesheet
                 , View.Alert.Error.view "Could not find any route"
-                , searchFormView arguments
+                , View.Loading.view
                 ]
 
         Model.Search.InProgress ->
@@ -29,8 +30,7 @@ view arguments model =
                 []
                 [ CDN.stylesheet
                 , View.Alert.GetSearchResults.view arguments.routeId
-                , searchFormView arguments
-                , nearbyFormView
+                , View.Loading.view
                 ]
 
         Model.Search.ReceivedPredictions schedule ->
