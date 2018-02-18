@@ -16,6 +16,8 @@ class Endpoints
     else
       raise HttpStatusError.new(response.code, 'an error has occurred')
     end
+  rescue RestClient::NotFound => exception
+    { status: 404, json: {} }
   end
 
   def address
