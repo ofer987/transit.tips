@@ -47,8 +47,8 @@ RSpec.describe NearbyController, type: :controller do
           expect(subject).to have_key('longitude')
         end
 
-        it 'has the key schedule' do
-          expect(subject).to have_key('schedule')
+        it 'has the key routes' do
+          expect(subject).to have_key('routes')
         end
 
         it 'has the key address' do
