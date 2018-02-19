@@ -87,7 +87,7 @@ requestNearby latitude longitude =
             restbusUrl
 
         url =
-            baseUrl ++ "?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
+            baseUrl ++ "/?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
     in
         Http.get url Json.Decode.Predictions.nearby
 

@@ -154,7 +154,7 @@ requestRoute latitude longitude agencyId routeId =
             restbusUrl
 
         url =
-            baseUrl ++ "agencies/" ++ agencyId ++ "/routes/" ++ routeId
+            baseUrl ++ "/agencies/" ++ agencyId ++ "/routes/" ++ routeId
     in
         Json.Decode.Route.schedule latitude longitude agencyId
             |> Http.get url
@@ -167,7 +167,7 @@ requestPredictions agencyId routeId stopId latitude longitude =
             restbusUrl
 
         url =
-            baseUrl ++ "agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
+            baseUrl ++ "/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
         Http.get url (Json.Decode.Predictions.schedule latitude longitude)
 
