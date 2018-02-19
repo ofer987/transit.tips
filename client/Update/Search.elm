@@ -6,6 +6,7 @@ import Result exposing (Result)
 import Maybe
 import Http
 import Geolocation
+import Constants exposing (..)
 import Model.Common exposing (..)
 import Model.Search exposing (..)
 import Model.Route
@@ -149,8 +150,11 @@ update msg model =
 requestRoute : Float -> Float -> String -> String -> Http.Request Json.Route.Schedule
 requestRoute latitude longitude agencyId routeId =
     let
+        baseUrl =
+            restbusUrl
+
         url =
-            "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId
+            baseUrl ++ "agencies/" ++ agencyId ++ "/routes/" ++ routeId
     in
         Json.Decode.Route.schedule latitude longitude agencyId
             |> Http.get url
@@ -159,8 +163,11 @@ requestRoute latitude longitude agencyId routeId =
 requestPredictions : String -> String -> String -> Float -> Float -> Http.Request Json.Predictions.Schedule
 requestPredictions agencyId routeId stopId latitude longitude =
     let
+        baseUrl =
+            restbusUrl
+
         url =
-            "http://restbus.info/api/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
+            baseUrl ++ "agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
         Http.get url (Json.Decode.Predictions.schedule latitude longitude)
 
