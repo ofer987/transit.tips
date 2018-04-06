@@ -7,10 +7,10 @@ install: build
 build: client restbus
 
 client:
-	make -C client -f Makefile
+	make -C client -f Makefile -d
 
 restbus:
-	make -C restbus -f Makefile
+	make -C restbus -f Makefile -d
 
 uninstall:
 	make -C client -f Makefile uninstall
