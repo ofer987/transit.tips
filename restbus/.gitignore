@@ -24,7 +24,6 @@ config/initializers/secret_token.rb
 .rbenv-vars
 
 ## Environment normalization:
-/.bundle
 /vendor/**/*
 /vendor/bundle
 
