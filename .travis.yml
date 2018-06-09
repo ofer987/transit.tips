@@ -25,3 +25,7 @@ install:
   - echo "Install client (elm)"
   - cd $TRAVIS_BUILD_DIR/client
   - make install
+
+script:
+  - echo "end"
+
