@@ -1,4 +1,7 @@
 sudo: false
+cache:
+  directories:
+    client/elm-stuff/build-artifacts
 before_install:
   - npm install -g elm@0.18.0 elm-css@0.6.1
 install:
