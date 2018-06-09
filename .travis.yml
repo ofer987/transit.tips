@@ -4,11 +4,8 @@ os:
   - linux
 
 env:
-  matrix:
-    - ELM_VERSION: 0.18.0
-    - ELM_CSS_VERSION: 0.6.1
-
-
+  - ELM_VERSION=0.18.0
+  - ELM_CSS_VERSION=0.6.1
 
 cache:
   directories:
