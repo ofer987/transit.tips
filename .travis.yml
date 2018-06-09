@@ -20,5 +20,9 @@ before_install:
   - npm install -g elm@ELM_VERSION elm-css@ELM_CSS_VERSION
 
 install:
-  - echo "Install client (elm) and restbus (ruby on rails)"
+  - echo "Install restbus (ruby on rails)"
+  - cd restbus
+  - make install
+  - echo "Install client (elm)"
+  - cd ../client
   - make install
