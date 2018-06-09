@@ -4,7 +4,7 @@ default: install
 
 install: build
 
-build: client restbus
+build: restbus client
 
 client:
 	make -C client -f Makefile
