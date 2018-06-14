@@ -6,6 +6,9 @@ os:
 env:
   - RAILS_ENV=test ELM_VERSION=0.18.0 ELM_CSS_VERSION=0.6.1
 
+bundler_args:
+  --without production
+
 cache:
   directories:
     - $TRAVIS_BUILD_DIR/client/elm-stuff/build-artifacts
