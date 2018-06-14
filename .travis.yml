@@ -8,7 +8,7 @@ env:
 
 cache:
   directories:
-    $TRAVIS_BUILD_DIR/client/elm-stuff/build-artifacts
+    - $TRAVIS_BUILD_DIR/client/elm-stuff/build-artifacts
 
 before_install:
   - echo "Install elm-lang and elm-css"
