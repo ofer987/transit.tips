@@ -6,11 +6,19 @@ os:
 cache:
   directories:
     - $TRAVIS_BUILD_DIR/client/elm-stuff/build-artifacts
+
+env:
+  global:
+    - GOOGLE_MAPS_API=AIzaSyCrvF3M7oX7JEY74mo6hfpu3rgHdwuNIrw
+    - ELM_VERSION=0.18.0
+    - ELM_CSS_VERSION=0.6.1
+
 jobs:
   include:
     - stage: test
       env:
-        - RAILS_ENV=test GOOGLE_MAPS_API=AIzaSyCrvF3M7oX7JEY74mo6hfpu3rgHdwuNIrw ELM_VERSION=0.18.0 ELM_CSS_VERSION=0.6.1
+        global:
+          - RAILS_ENV=test
       bundler_args:
         --without production
       before_install:
@@ -32,7 +40,8 @@ jobs:
         - bin/rspec
     - stage: deploy
       env:
-        - RAILS_ENV=production GOOGLE_MAPS_API=AIzaSyCrvF3M7oX7JEY74mo6hfpu3rgHdwuNIrw ELM_VERSION=0.18.0 ELM_CSS_VERSION=0.6.1
+        global:
+          - RAILS_ENV=production
       bundler_args:
         --without development,test
       before_install:
