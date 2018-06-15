@@ -4,7 +4,7 @@ os:
   - linux
 
 env:
-  - RAILS_ENV=test ELM_VERSION=0.18.0 ELM_CSS_VERSION=0.6.1
+  - RAILS_ENV=test ELM_VERSION=0.18.0 ELM_CSS_VERSION=0.6.1 GOOGLE_MAPS_API=AIzaSyCrvF3M7oX7JEY74mo6hfpu3rgHdwuNIrw
 
 bundler_args:
   --without production
