@@ -1,49 +1,39 @@
 sudo: false
 
-jobs:
-  include:
-    - stage: build
-      env:
-        - ELM_VERSION=0.18.0 ELM_CSS_VERSION=0.6.1
-      bundler_args:
-        --without production
-      before_install:
-        - echo "Install elm-lang and elm-css"
-        - echo "elm version = $ELM_VERSION"
-        - echo "elm css version = $ELM_CSS_VERSION"
-        - cd $TRAVIS_BUILD_DIR/client
-        - npm install -g elm@$ELM_VERSION elm-css@$ELM_CSS_VERSION
-        - cd $TRAVIS_BUILD_DIR
-      install:
-        - echo "Install restbus (ruby on rails)"
-        - cd $TRAVIS_BUILD_DIR/restbus
-        - make install
-        - echo "Install client (elm)"
-        - cd $TRAVIS_BUILD_DIR/client
-        - make install
-      script: skip
-    - stage: test
-      env:
-        - RAILS_ENV=test GOOGLE_MAPS_API=AIzaSyCrvF3M7oX7JEY74mo6hfpu3rgHdwuNIrw
-      install: skip
-      script:
-        - echo "test restbus (ruby on rails)"
-        - cd $TRAVIS_BUILD_DIR/restbus
-        - bin/rspec
-    - stage: deploy
-      script: skip
-
-stages:
-  - build
-  - test
-  - deploy
-
 os:
   - linux
 
 cache:
   directories:
     - $TRAVIS_BUILD_DIR/client/elm-stuff/build-artifacts
+jobs:
+  include:
+    - stage: test
+      env:
+        - RAILS_ENV=test GOOGLE_MAPS_API=AIzaSyCrvF3M7oX7JEY74mo6hfpu3rgHdwuNIrw ELM_VERSION=0.18.0 ELM_CSS_VERSION=0.6.1
+      bundler_args:
+        --without production
+      before_install:
+        - echo "Install elm-lang and elm-css"
+        - echo "elm version = $ELM_VERSION"
+        - echo "elm css version = $ELM_CSS_VERSION"
+        - npm install -g elm@$ELM_VERSION elm-css@$ELM_CSS_VERSION
+      install:
+        - cd $TRAVIS_BUILD_DIR
+        - echo "Install restbus (ruby on rails)"
+        - cd $TRAVIS_BUILD_DIR/restbus
+        - make install
+        - echo "Install client (elm)"
+        - cd $TRAVIS_BUILD_DIR/client
+        - make install
+      script:
+        - echo "test restbus (ruby on rails)"
+        - cd $TRAVIS_BUILD_DIR/restbus
+        - bin/rspec
+    - stage: deploy
+      install: skip
+      script: skip
 
-
-
+stages:
+  - test
+  - deploy
