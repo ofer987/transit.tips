@@ -24,7 +24,7 @@ jobs:
       script: skip
     - stage: test
       env:
-        - RAILS_ENV=test
+        - RAILS_ENV=test GOOGLE_MAPS_API=AIzaSyCrvF3M7oX7JEY74mo6hfpu3rgHdwuNIrw
       install: skip
       script:
         - echo "test restbus (ruby on rails)"
