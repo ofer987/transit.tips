@@ -29,7 +29,7 @@ jobs:
       script:
         - echo "test restbus (ruby on rails)"
         - cd $TRAVIS_BUILD_DIR/restbus
-        - bundle exec rspec spec
+        - bin/rspec
     - stage: deploy
       script: skip
 
