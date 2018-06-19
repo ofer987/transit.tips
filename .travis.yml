@@ -17,8 +17,7 @@ jobs:
   include:
     - stage: test
       env:
-        global:
-          - RAILS_ENV=test
+        - RAILS_ENV=test
       bundler_args:
         --without production
       before_install:
@@ -40,8 +39,7 @@ jobs:
         - bin/rspec
     - stage: deploy
       env:
-        global:
-          - RAILS_ENV=production
+        - RAILS_ENV=production
       bundler_args:
         --without development,test
       before_install:
