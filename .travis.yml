@@ -56,7 +56,15 @@ jobs:
         - cd $TRAVIS_BUILD_DIR/client
         - make install
       script: skip
+    - stage: seedee
+      install:
+        - echo "Installing Chef DK"
+        - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
+        - echo "Installed Chef DK"
+      script: skip
+
 
 stages:
-  - test
-  - deploy
+  # - test
+  # - deploy
+  - seedee
