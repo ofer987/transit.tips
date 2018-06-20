@@ -60,11 +60,13 @@ jobs:
       install:
         - echo "Installing Chef DK"
         - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
-        - echo "Chef Version is $(chef --version)"
-        - echo "Chef Client Version is $(chef-client --version)"
-        - echo "Chef is installed at $(which chef)"
-        - echo "Chef Client is installed at $(which chef-client)"
         - echo "Installed Chef DK"
+        - echo "Chef Version is $(chef --version)"
+        - echo "Chef is installed at $(which chef)"
+        - echo "Chef Client Version is $(chef-client --version)"
+        - echo "Chef Client is installed at $(which chef-client)"
+        - echo "Knife Version is $(knife --version)"
+        - echo "Knife is installed at $(which knife)"
       script: skip
 
 
