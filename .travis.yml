@@ -57,8 +57,8 @@ jobs:
       - MY_NAME=Dan Ofer
     before_install:
       - echo "decrypt file"
-      - openssl aes-256-cbc -K $encrypted_28d45bc136a3_key -iv $encrypted_28d45bc136a3_iv
-        -in travis_ci_rsa -out $TRAVIS_BUILD_DIR/travis_ci_rsa -d
+      - travis encrypt-file --decrypt --key $encrypted_28d45bc136a3_key --iv $encrypted_28d45bc136a3_iv
+        travis_ci_rsa --decrypt-to $TRAVIS_BUILD_DIR/travis_ci_rsa
       - ssh-add $TRAVIS_BUILD_DIR/travis_ci_rsa
       - echo "clone secrets repo"
       - git clone git@github.com:ofer987/secrets.git $TRAVIS_BUILD_DIR/secrets
