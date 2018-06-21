@@ -53,6 +53,8 @@ jobs:
     - make install
     script: skip
   - stage: seedee
+    env:
+      - MY_NAME=Dan Ofer
     before_install:
       - echo "decrypt file"
       - openssl aes-256-cbc -K $encrypted_28d45bc136a3_key -iv $encrypted_28d45bc136a3_iv
