@@ -60,6 +60,7 @@ jobs:
       - echo $encrypted_28d45bc136a3_key
       - echo $encrypted_28d45bc136a3_iv
       - openssl aes-256-cbc -K $encrypted_28d45bc136a3_key -iv $encrypted_28d45bc136a3_iv -in $TRAVIS_BUILD_DIR/travis_ci_rsa.enc -out $TRAVIS_BUILD_DIR/travis_ci_rsa -d
+      - eval `ssh-agent`
       - ssh-add $TRAVIS_BUILD_DIR/travis_ci_rsa
       - echo "clone secrets repo"
       - git clone git@github.com:ofer987/secrets.git $TRAVIS_BUILD_DIR/secrets
