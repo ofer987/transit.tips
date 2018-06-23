@@ -65,12 +65,16 @@ jobs:
       - ssh-add $TRAVIS_BUILD_DIR/travis_ci_rsa
       - echo "clone secrets repo"
       - git clone git@github.com:ofer987/secrets.git $TRAVIS_BUILD_DIR/secrets
+      - echo "Install cookbooks"
+      - mkdir -p $TRAVIS_BUILD_DIR/cookbooks
+      - echo "\tclone transit.tips cookbook"
+      - git clone git@github.com:ofer987/cookbook-client.git $TRAVIS_BUILD_DIR/cookbooks/transit.tips
     install:
       - echo "Installing Chef DK"
       - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
       - echo "Installed Chef DK"
       - echo "bootstrap chef-node"
-      - knife bootstrap 159.89.118.174 --ssh-user ofer987 --sudo --use-sudo-password $PASSWORD --node-name server-client-node --run-list 'recipe[transit.tips]' --ssh-identity-file $TRAVIS_BUILD_DIR/travis_ci_rsa --config $TRAVIS_BUILD_DIR/knife.rb
+      - knife bootstrap 159.89.118.174 --ssh-user ofer987 --sudo --use-sudo-password $PASSWORD --node-name server-client-node --run-list 'recipe[transit.tips]' --ssh-identity-file $TRAVIS_BUILD_DIR/travis_ci_rsa --config $TRAVIS_BUILD_DIR/secrets/chef/knife.rb
     after_install:
       - echo "Chef Version is $(chef --version)"
       - echo "Chef is installed at $(which chef)"
