@@ -73,8 +73,10 @@ jobs:
       - echo "Installing Chef DK"
       - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
       - echo "Installed Chef DK"
+      - echo "spin up a new node"
+      - doctl compute droplet create chef-clean-image --image ubuntu-16-04-x64 --region tor1 --size s-1vcpu-1gb --wait --ssh-keys 15237447
       - echo "bootstrap chef-node"
-      - knife bootstrap 159.89.118.174 --ssh-user ofer987 --sudo --use-sudo-password $PASSWORD --node-name server-client-node --run-list 'recipe[transit.tips]' --ssh-identity-file $TRAVIS_BUILD_DIR/travis_ci_rsa --config $TRAVIS_BUILD_DIR/secrets/chef/knife.rb --yes
+      - knife bootstrap 159.89.118.174 --ssh-user ofer987 --sudo --use-sudo-password $PASSWORD --node-name server-client-node --run-list 'recipe[transit.tips]' --ssh-identity-file $TRAVIS_BUILD_DIR/secrets/ssh_keys/travis_ci_rsa --config $TRAVIS_BUILD_DIR/secrets/chef/knife.rb --yes
     after_install:
       - echo "Chef Version is $(chef --version)"
       - echo "Chef is installed at $(which chef)"
