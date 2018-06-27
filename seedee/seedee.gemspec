@@ -1,4 +1,3 @@
-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'seedee/version'
@@ -9,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Dan Jakob Ofer']
   spec.email         = ['dan@ofer.to']
 
-  spec.summary       = %q{Continuous Deployment to DigitalOcean using Chef}
-  spec.description   = %q{Continuous Deployment to DigitalOcean using Chef for Transit.Tips}
-  spec.homepage      = "https://transit.tips"
+  spec.summary       = 'Continuous Deployment to DigitalOcean using Chef'
+  spec.description   = 'Continuous Deployment to DigitalOcean using Chef for Transit.Tips'
+  spec.homepage      = 'https://transit.tips'
   spec.license       = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -33,6 +32,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'pry-byebug', '~> 3.6'
+  spec.add_development_dependency 'pry', '~> 0.11.3'
+  spec.add_development_dependency 'awesome_print', '~> 1.8.0'
 
   spec.add_dependency 'droplet_kit', '~> 2.3.0'
+  spec.add_dependency 'activesupport', '~> 5.2.0'
 end
