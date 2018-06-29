@@ -7,23 +7,24 @@ module Seedee
       run_list = "recipe[#{Array(recipes).join(' ')}]"
 
       command = <<~COMMAND
-      knife bootstrap #{droplet.public_ip}
-        --ssh-user #{ssh_user} \
-        --sudo \
-        --node-name #{node_name.to_s.strip} \
-        --run-list '#{run_list}' \
-        --ssh-identity-file #{ssh_identity_file} \
-        --config #{chef_configuration_file} \
-        --yes
+        #{File.join('knife')} bootstrap #{droplet.public_ip} \
+          --ssh-user #{ssh_user} \
+          --sudo \
+          --node-name #{node_name.to_s.strip} \
+          --run-list '#{run_list}' \
+          --ssh-identity-file #{ssh_identity_file} \
+          --yes
       COMMAND
+      # --config #{chef_configuration_file} \
 
-      system(command)
+      `#{command}`
+      $?.exitstatus
     end
 
     private
 
     def ssh_user
-      'ofer987'
+      'root'
     end
 
     def ssh_identity_file
@@ -31,7 +32,7 @@ module Seedee
         travis_build_dir,
         'secrets',
         'ssh_keys',
-        'travis_ci_rsa'
+        'digital_ocean_rsa'
       )
     end
 
@@ -45,7 +46,7 @@ module Seedee
     end
 
     def travis_build_dir
-      ENV['TRAVIS_BUILD_DIR']
+      ENV['TRAVIS_BUILD_DIR'] || File.join('~', 'work')
     end
   end
 end

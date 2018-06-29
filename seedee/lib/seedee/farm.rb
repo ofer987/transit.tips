@@ -11,8 +11,16 @@ module Seedee
       puts "Provisioning node #{name}"
       droplet = cloud_provider.new_droplet(name)
 
-      puts "Boostraping node #{name} with ip #{droplet.public_ip} having droplet attributes #{droplet.as_json}"
-      provisioner.bootstrap(droplet, name, 'transit.tips::client')
+      begin
+        puts "Boostraping node #{name} with ip #{droplet.public_ip} " \
+          "having droplet attributes #{droplet.as_json}"
+
+        result = provisioner.bootstrap(droplet, name, 'transit.tips::client')
+        raise 'knife bootstrap return 1' if result != 0
+      rescue => exception
+        puts exception
+        cloud_provider.destroy_node
+      end
     end
 
     private
