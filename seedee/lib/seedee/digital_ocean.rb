@@ -22,6 +22,12 @@ module Seedee
       await_active_droplet client.droplets.create(droplet)
     end
 
+    def destroy_droplet(id)
+      client.droplets.delete(id: id.to_s)
+    rescue StandardError
+      puts "error deleting droplet with id = '#{id}'"
+    end
+
     def await_active_droplet(droplet)
       client.droplets.find(id: droplet.id).tap do |result|
         if result.status != 'active'

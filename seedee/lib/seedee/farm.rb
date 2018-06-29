@@ -19,7 +19,7 @@ module Seedee
         raise 'knife bootstrap return 1' if result != 0
       rescue => exception
         puts exception
-        cloud_provider.destroy_node
+        cloud_provider.destroy_droplet(droplet.id)
       end
     end
 
