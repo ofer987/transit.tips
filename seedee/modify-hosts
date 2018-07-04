@@ -1,0 +1,4 @@
+#cloud-config
+
+runcmd:
+  - echo '138.197.155.252 chef-server' >> /etc/hosts
