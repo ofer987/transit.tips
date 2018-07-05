@@ -9,14 +9,15 @@ module Seedee
     ACCESS_TOKEN = ENV['DIGITAL_OCEAN_TOKEN']
     TRAVIS_BUILD_DIR = ENV['TRAVIS_BUILD_DIR']
 
-    user_data = File.read(File.join(Seedee::ROOT, 'modify-hosts'))
     def new_droplet(name)
+      user_data = File.read(File.join(Seedee::ROOT, 'modify-hosts'))
       droplet = DropletKit::Droplet.new(
         name: name.to_s.strip,
         region: 'tor1',
         image: 'ubuntu-16-04-x64',
         size: 's-1vcpu-1gb',
         user_data: user_data,
+        monitoring: true,
         ssh_keys: Array(ssh_keys)
       )
 

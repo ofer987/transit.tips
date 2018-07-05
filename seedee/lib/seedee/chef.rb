@@ -17,8 +17,7 @@ module Seedee
       COMMAND
       # --config #{chef_configuration_file} \
 
-      `#{command}`
-      $?.exitstatus
+      system(command)
     end
 
     private
