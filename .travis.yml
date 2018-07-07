@@ -74,6 +74,9 @@ jobs:
       - echo "Installing Chef DK"
       - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
       - echo "Installed Chef DK"
+      - echo 'write chef-server IP address to hosts file'
+      - sudo echo '138.197.155.252 chef-server' >> /etc/hosts
+      - echo 'wrote chef-server IP address to hosts file'
       - echo "bootstrap a new chef-node"
       - gem install seedee --version 0.1.3
       - seedee
