@@ -28,6 +28,9 @@ module Seedee
     rescue => exception
       puts exception
       cloud_provider.destroy_droplet(droplet.id)
+
+      # Exit the script with failure status code
+      raise
     end
 
     def cloud_provider
