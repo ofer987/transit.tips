@@ -74,7 +74,7 @@ jobs:
       - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
       - echo "Installed Chef DK"
       - echo "spin up a new node"
-      - gem install seedee --version 0.1.1
+      - gem install seedee --version 0.1.2
       - echo "bootstrap a new chef-node"
       - seedee
     after_install:
