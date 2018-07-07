@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    seedee (0.1.0)
+    seedee (0.1.2)
       activesupport (~> 5.2.0)
       chef (~> 13.6.4)
       droplet_kit (~> 2.3.0)
@@ -101,7 +101,7 @@ GEM
       mixlib-log
     mixlib-authentication (1.4.2)
     mixlib-cli (1.7.0)
-    mixlib-config (2.2.8)
+    mixlib-config (2.2.12)
       tomlrb
     mixlib-log (1.7.1)
     mixlib-shellout (2.3.2)
@@ -168,7 +168,7 @@ GEM
       rspec-its
       specinfra (~> 2.72)
     sfl (2.3)
-    specinfra (2.73.3)
+    specinfra (2.73.4)
       net-scp
       net-ssh (>= 2.7, < 5.0)
       net-telnet
