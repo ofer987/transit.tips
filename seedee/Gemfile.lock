@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    seedee (0.1.2)
+    seedee (0.1.3)
       activesupport (~> 5.2.0)
       chef (~> 13.6.4)
       droplet_kit (~> 2.3.0)
