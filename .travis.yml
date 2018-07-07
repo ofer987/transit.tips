@@ -77,7 +77,7 @@ jobs:
       - echo "spin up a new node"
       - gem install seedee --version 0.1.2
       - echo "bootstrap a new chef-node"
-      - seedee
+      - $TRAVIS_BUILD_DIR/seedee/exe/seedee
     after_install:
       - echo "Chef Version is $(chef --version)"
       - echo "Chef is installed at $(which chef)"
