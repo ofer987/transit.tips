@@ -13,9 +13,9 @@ module Seedee
           --node-name #{node_name.to_s.strip} \
           --run-list '#{run_list}' \
           --ssh-identity-file #{ssh_identity_file} \
+          --config #{chef_configuration_file} \
           --yes
       COMMAND
-      # --config #{chef_configuration_file} \
 
       system(command)
     end
@@ -36,12 +36,7 @@ module Seedee
     end
 
     def chef_configuration_file
-      File.join(
-        travis_build_dir,
-        'secrets',
-        'chef',
-        'knife.rb'
-      )
+      ENV['CHEF_CONFIGURATION_PATH']
     end
 
     def travis_build_dir
