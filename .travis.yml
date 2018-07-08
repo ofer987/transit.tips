@@ -77,8 +77,6 @@ jobs:
       - cp $TRAVIS_BUILD_DIR/secrets/chef/* $TRAVIS_BUILD_DIR/
       - cp $TRAVIS_BUILD_DIR/secrets/trusted_certs/* $TRAVIS_BUILD_DIR/trusted_certs/
       - echo "Installed Chef DK"
-      - echo 'write chef-server IP address to hosts file'
-      - echo 'wrote chef-server IP address to hosts file'
       - echo "bootstrap a new chef-node"
       - gem install seedee --version 0.1.5
       - seedee
