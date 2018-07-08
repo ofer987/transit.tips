@@ -45,8 +45,6 @@ jobs:
     - echo "elm version = $ELM_VERSION"
     - echo "elm css version = $ELM_CSS_VERSION"
     - npm install -g elm@$ELM_VERSION elm-css@$ELM_CSS_VERSION
-    - echo print environment variables
-    - env
     install:
     - cd $TRAVIS_BUILD_DIR
     - echo "Install restbus (ruby on rails)"
@@ -60,6 +58,8 @@ jobs:
     env:
     - MY_NAME=Dan Ofer
     before_install:
+    - echo print environment variables
+    - env
     - echo "decrypt file"
     - echo $encrypted_28d45bc136a3_key
     - echo $encrypted_28d45bc136a3_iv
