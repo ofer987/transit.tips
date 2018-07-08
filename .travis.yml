@@ -74,8 +74,11 @@ jobs:
       - echo "Installing Chef DK"
       - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
       - mkdir -p $TRAVIS_BUILD_DIR/.chef/trusted_certs
+      - mkdir -p $TRAVIS_BUILD_DIR/trusted_certs
       - cp $TRAVIS_BUILD_DIR/secrets/chef/* $TRAVIS_BUILD_DIR/.chef/
+      - cp $TRAVIS_BUILD_DIR/secrets/chef/* $TRAVIS_BUILD_DIR/
       - cp $TRAVIS_BUILD_DIR/secrets/trusted_certs/* $TRAVIS_BUILD_DIR/.chef/trusted_certs/
+      - cp $TRAVIS_BUILD_DIR/secrets/trusted_certs/* $TRAVIS_BUILD_DIR/trusted_certs/
       - echo "What does $TRAVIS_BUILD_DIR/.chef have?"
       - echo `find $TRAVIS_BUILD_DIR/.chef`
       - echo "Installed Chef DK"
