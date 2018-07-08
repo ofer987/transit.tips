@@ -13,7 +13,6 @@ module Seedee
           --node-name #{node_name.to_s.strip} \
           --run-list '#{run_list}' \
           --ssh-identity-file #{ssh_identity_file} \
-          --config #{chef_configuration_file} \
           --yes
       COMMAND
 
