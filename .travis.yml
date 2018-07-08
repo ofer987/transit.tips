@@ -73,6 +73,8 @@ jobs:
     install:
       - echo "Installing Chef DK"
       - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
+      - mkdir -p $TRAVIS_BUILD_DIR/.chef/trusted_certs
+      - cp $TRAVIS_BUILD_DIR/secrets/trusted_certs/* $TRAVIS_BUILD_DIR/.chef/trusted_certs/
       - echo "Installed Chef DK"
       - echo 'write chef-server IP address to hosts file'
       - sudo echo '138.197.155.252 chef-server' >> /etc/hosts
