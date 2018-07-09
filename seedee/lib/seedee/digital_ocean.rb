@@ -46,7 +46,7 @@ module Seedee
     end
 
     def ssh_keys
-      [15_237_447]
+      [15_237_447, 21_963_843]
     end
   end
 end

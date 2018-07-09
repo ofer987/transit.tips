@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    seedee (0.1.5)
+    seedee (0.1.6)
       activesupport (~> 5.2.0)
       chef (~> 13.6.4)
       droplet_kit (~> 2.3.0)
@@ -168,7 +168,7 @@ GEM
       rspec-its
       specinfra (~> 2.72)
     sfl (2.3)
-    specinfra (2.73.4)
+    specinfra (2.74.0)
       net-scp
       net-ssh (>= 2.7, < 5.0)
       net-telnet
