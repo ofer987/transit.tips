@@ -30,7 +30,7 @@ module Seedee
         travis_build_dir,
         'secrets',
         'ssh_keys',
-        'digital_ocean_rsa'
+        'travis_ci_rsa'
       )
     end
 
