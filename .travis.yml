@@ -76,4 +76,4 @@ jobs:
 stages:
 - name: test
   if: false
-- deploy
+- name: deploy
