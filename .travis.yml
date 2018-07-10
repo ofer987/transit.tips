@@ -76,5 +76,5 @@ jobs:
     script: skip
 stages:
 - name: test
-  if: env(SKIP_TEST) != TRUE
+  if: true
 - name: deploy
