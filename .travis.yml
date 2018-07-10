@@ -80,7 +80,7 @@ jobs:
     - cp $TRAVIS_BUILD_DIR/secrets/trusted_certs/* $TRAVIS_BUILD_DIR/trusted_certs/
     - echo "Installed Chef DK"
     - echo "bootstrap a new chef-node"
-    - gem install seedee --version 0.1.6
+    - gem install seedee --version 0.1.7
     - seedee
     - echo "bootstraped a new chef-node"
     after_install:
