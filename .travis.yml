@@ -76,5 +76,5 @@ jobs:
     script: skip
 stages:
 - name: test
-  if: true
+  if: false
 - name: deploy
