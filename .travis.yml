@@ -37,24 +37,6 @@ jobs:
     - bin/rspec
   - stage: deploy
     env:
-    - RAILS_ENV=production
-    bundler_args: "--without development,test"
-    before_install:
-    - echo "Install elm-lang and elm-css"
-    - echo "elm version = $ELM_VERSION"
-    - echo "elm css version = $ELM_CSS_VERSION"
-    - npm install -g elm@$ELM_VERSION elm-css@$ELM_CSS_VERSION
-    install:
-    - cd $TRAVIS_BUILD_DIR
-    - echo "Install restbus (ruby on rails)"
-    - cd $TRAVIS_BUILD_DIR/restbus
-    - make install
-    - echo "Install client (elm)"
-    - cd $TRAVIS_BUILD_DIR/client
-    - make install
-    script: skip
-  - stage: seedee
-    env:
     - MY_NAME=Dan Ofer
     before_install:
     - echo print environment variables
@@ -92,4 +74,6 @@ jobs:
     - echo "Knife is installed at $(which knife)"
     script: skip
 stages:
-- seedee
+- name: test
+  if: false
+- deploy
