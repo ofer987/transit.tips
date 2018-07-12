@@ -1,0 +1,81 @@
+sudo: false
+os:
+- linux
+cache:
+  directories:
+  - "$TRAVIS_BUILD_DIR/client/elm-stuff/build-artifacts"
+env:
+  global:
+  - GOOGLE_MAPS_API=AIzaSyCrvF3M7oX7JEY74mo6hfpu3rgHdwuNIrw
+  - ELM_VERSION=0.18.0
+  - ELM_CSS_VERSION=0.6.1
+  - CHEF_CONFIGURATION_PATH=$TRAVIS_BUILD_DIR/secrets/chef/knife.rb
+  - RUN_TEST_STAGE=FALSE
+  - secure: K+wqxw53AfbYVTl+pbqDT8Hs1HMIVphbZcDppUMCrZ6oaXrowHtFUe6qzbK0+RZCdYqqx5Ymx+OI/JSBmXuXJsF4x7C3VEXTdSOcQ1P/7xUJaJbZIn40bOnhSuH12Rav1lCe1EcHS/NjlDRQ0S4//rPn7Gw5qA/knzrk4GBtMcTngnoc+zN5f7KH9p+8N0J8cqmLRjIvSurL0ZrOYyBRj5f4MhdGZnNb63HcORvJ6wpm3xHFl4F3PZvK8SkAJmjnLIc5j6tzBhn2SeO0mbpuw7qu/Oe/+e+qA4E7M4SZfA/VHctC6Q81RBTIUcjo/eY3t8+5FiqHSJnX25qfgwcw2YaRgb5DwbsiiaZbhOcyfTsgwiKZpznPMTY6pP3WKZr8CKbJhc9SbzwlGL10zzyKSLwWMO3JwurY2SnBAJYBPz0OHh8BcKJtSB5s1AxTy01+eGlfggWZBAl8GrRn7eK+SynjaRPT1uxxZPG7WDTCO9AuzRqWB240YmAeCG/8hJQwNUC9U/GXqRDklkr4zzVMLdzIHcjdBmX671ALgyhyBDbMpmx6vRjXKuBQkEXvjh+Hc0P0N/THQc/giIPbNLiUdmzLCW1n0d0BjFkL+I72Z2Bb6UdWXdjwW8TVooXJ4PwE6uRyJwnn204e6ie0lkPIBZTnq1ePCi1C0f1V8s2qyCU=
+  secret: GIT_RSA
+jobs:
+  include:
+  - stage: test
+    env:
+    - RAILS_ENV=test
+    bundler_args: "--without production"
+    before_install:
+    - echo "Install elm-lang and elm-css"
+    - echo "elm version = $ELM_VERSION"
+    - echo "elm css version = $ELM_CSS_VERSION"
+    - npm install -g elm@$ELM_VERSION elm-css@$ELM_CSS_VERSION
+    install:
+    - cd $TRAVIS_BUILD_DIR
+    - echo "Install restbus (ruby on rails)"
+    - cd $TRAVIS_BUILD_DIR/restbus
+    - make install
+    - echo "Install client (elm)"
+    - cd $TRAVIS_BUILD_DIR/client
+    - make install
+    script:
+    - echo "test restbus (ruby on rails)"
+    - cd $TRAVIS_BUILD_DIR/restbus
+    - bin/rspec
+  - stage: deploy
+    env:
+    - MY_NAME=Dan Ofer
+    before_install:
+    - echo print environment variables
+    - env
+    - echo "decrypt file"
+    - echo $encrypted_28d45bc136a3_key
+    - echo $encrypted_28d45bc136a3_iv
+    - openssl aes-256-cbc -K $encrypted_28d45bc136a3_key -iv $encrypted_28d45bc136a3_iv -in $TRAVIS_BUILD_DIR/travis_ci_rsa.enc -out $TRAVIS_BUILD_DIR/travis_ci_rsa -d
+    - chmod go-rwx $TRAVIS_BUILD_DIR/travis_ci_rsa
+    - eval `ssh-agent`
+    - ssh-add $TRAVIS_BUILD_DIR/travis_ci_rsa
+    - echo "clone secrets repo"
+    - git clone git@github.com:ofer987/secrets.git $TRAVIS_BUILD_DIR/secrets
+    - echo "Install cookbooks"
+    - mkdir -p $TRAVIS_BUILD_DIR/cookbooks
+    - echo "\tclone transit.tips cookbook"
+    - git clone git@github.com:ofer987/cookbook-client.git $TRAVIS_BUILD_DIR/cookbooks/transit.tips
+    install:
+    - echo "Installing Chef DK"
+    - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk
+    - mkdir -p $TRAVIS_BUILD_DIR/trusted_certs
+    - cp $TRAVIS_BUILD_DIR/secrets/chef/* $TRAVIS_BUILD_DIR/
+    - cp $TRAVIS_BUILD_DIR/secrets/trusted_certs/* $TRAVIS_BUILD_DIR/trusted_certs/
+    - echo "Installed Chef DK"
+    - echo "bootstrap a new chef-node"
+    - gem install seedee --version 0.1.7
+    - seedee
+    - echo "bootstraped a new chef-node"
+    after_install:
+    - echo "Chef Version is $(chef --version)"
+    - echo "Chef is installed at $(which chef)"
+    - echo "Chef Client Version is $(chef-client --version)"
+    - echo "Chef Client is installed at $(which chef-client)"
+    - echo "Knife Version is $(knife --version)"
+    - echo "Knife is installed at $(which knife)"
+    script: skip
+stages:
+- name: test
+  if: env(RUN_TEST_STAGE) = TRUE
+- name: deploy
+  if: branch = master
