@@ -19,10 +19,20 @@ module Seedee
       system(command)
     end
 
+    def role_nodes(role_name)
+      ::Chef::Search::Query
+        .new
+        .search("node", "role:#{role_name}")[0]
+    end
+
     private
 
     def ssh_user
       'root'
+    end
+
+    def role_name
+      @role_name ||= "client_#{SecureRandom.uuid}"
     end
 
     def ssh_identity_file
