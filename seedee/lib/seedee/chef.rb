@@ -3,8 +3,8 @@
 module Seedee
   # Talk to Chef Server
   class Chef
-    def bootstrap(droplet, node_name, recipes)
-      run_list = "recipe[#{Array(recipes).join(' ')}]"
+    def bootstrap(droplet, node_name, role_names)
+      run_list = "role[#{Array(role_names).join(' ')}]"
 
       command = <<~COMMAND
         #{File.join('knife')} bootstrap #{droplet.public_ip} \
@@ -19,10 +19,43 @@ module Seedee
       system(command)
     end
 
-    def role_nodes(role_name)
+    def create_role(name, recipes = [], description = '')
+      name = name.to_s.strip
+
+      default_attributes = {
+        'chef_client': {
+          'interval': 1800,
+          'splay': 300
+        }
+      }
+
+      ::Chef::Role.new.tap do |role|
+        role.name(name.to_s.strip)
+        role.run_list(Array(recipes).map(&:to_s).map(&:strip))
+        role.default_attributes(default_attributes)
+        role.description(description.to_s.strip)
+
+        role.save
+      end
+    end
+
+    def delete_role_and_associated_nodes(search_glob, skip_list = [])
+      search_glob = search_glob.to_s.strip
+      skip_list = Array(skip_list).map(&:to_s).map(&:strip)
+
       ::Chef::Search::Query
         .new
-        .search("node", "role:#{role_name}")[0]
+        .search('role', "name:#{search_glob}")
+        .first
+        .reject { |role| skip_list.include?(role.name)}
+        .each { |role| role.destroy }
+
+      ::Chef::Search::Query
+        .new
+        .search('node', "role:#{search_glob}")
+        .first
+        .reject { |node| skip_list.any? { |item| node.run_list.include?(item) } }
+        .each { |node| node.destroy }
     end
 
     private
