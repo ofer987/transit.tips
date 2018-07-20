@@ -3,14 +3,23 @@
 module Seedee
   # Talk to Chef Server
   class Chef
-    def bootstrap(droplet, node_name, role_names)
-      run_list = "role[#{Array(role_names).join(' ')}]"
+    attr_reader :role_type, :role_name, :recipes, :role_description
+
+    def initialize(role_type, recipes = [], role_description = '')
+      self.role_type = role_type.to_s.strip
+      self.role_name = "#{role_type}_#{SecureRandom.uuid}"
+      self.recipes = Array(recipes).map(&:to_s).map(&:strip)
+      self.role_description = role_description.to_s
+    end
+
+    def bootstrap(name, public_ip)
+      run_list = "role[#{role_name}]"
 
       command = <<~COMMAND
-        #{File.join('knife')} bootstrap #{droplet.public_ip} \
+        #{File.join('knife')} bootstrap #{public_ip.to_s.strip} \
           --ssh-user #{ssh_user} \
           --sudo \
-          --node-name #{node_name.to_s.strip} \
+          --node-name #{name.to_s.strip} \
           --run-list '#{run_list}' \
           --ssh-identity-file #{ssh_identity_file} \
           --yes
@@ -19,9 +28,7 @@ module Seedee
       system(command)
     end
 
-    def create_role(name, recipes = [], description = '')
-      name = name.to_s.strip
-
+    def create_role
       default_attributes = {
         'chef_client': {
           'interval': 1800,
@@ -30,18 +37,18 @@ module Seedee
       }
 
       ::Chef::Role.new.tap do |role|
-        role.name(name.to_s.strip)
-        role.run_list(Array(recipes).map(&:to_s).map(&:strip))
+        role.name(self.role_name)
+        role.run_list(Array(self.recipes))
         role.default_attributes(default_attributes)
-        role.description(description.to_s.strip)
+        role.description(self.description)
 
         role.save
       end
     end
 
-    def delete_role_and_associated_nodes(search_glob, skip_list = [])
-      search_glob = search_glob.to_s.strip
-      skip_list = Array(skip_list).map(&:to_s).map(&:strip)
+    def delete_role_and_associated_nodes
+      search_glob = "#{self.role_type}*"
+      skip_list = Array(self.role_name)
 
       ::Chef::Search::Query
         .new
@@ -60,12 +67,10 @@ module Seedee
 
     private
 
+    attr_writer :role_type, :role_name, :recipes, :role_description
+
     def ssh_user
       'root'
-    end
-
-    def role_name
-      @role_name ||= "client_#{SecureRandom.uuid}"
     end
 
     def ssh_identity_file

@@ -3,37 +3,55 @@
 require 'securerandom'
 
 module Seedee
-  # The servers in the Digital Ocean farm
   class Farm
-    def provision_client_node
-      role_name = "client-#{SecureRandom.uuid}"
+    def startup_all
+      startup_clients
+      startup_restbus
+    end
+
+    def startup_clients
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::client]'
       ]
 
-      puts "creating role #{role_name}"
-      role = provisioner.create_role(role_name, recipes)
+      startup('client', recipes)
+    end
 
-      name = "client-#{SecureRandom.uuid}"
+    def startup_restbus
+      recipes = [
+        'recipe[chef-client::default]',
+        'recipe[chef-client::delete_validation]',
+        'recipe[transit.tips::restbus]'
+      ]
+
+      startup('restbus', recipes)
+    end
+
+    private
+
+    def startup(type, recipes = [], description = '')
+      type = type.to_s.strip
+      recipes = Array(recipes).map(&:to_s).map(&:strip)
+      description = description.to_s.strip
+      provisioner = Chef.new(type, recipes, description)
+      cloud_provider = DigitalOcean.new
+
+      puts "creating role #{role_name}"
+      role = provisioner.create_role
+
+      name = "#{type}-#{SecureRandom.uuid}"
       puts "Provisioning node #{name}"
       droplet = cloud_provider.new_droplet(name)
 
       # wait 20 seconds for droplet to be available
       sleep(20)
 
-      bootstrap(name, role_name, droplet)
-      provisioner.delete_role_and_associated_nodes('client*', [role_name])
-    end
-
-    private
-
-    def bootstrap(name, role_name, droplet)
       puts "Boostraping node #{name} with ip #{droplet.public_ip} " \
         "having droplet attributes #{droplet.as_json}"
 
-      result = provisioner.bootstrap(droplet, name, [role_name])
+      result = provisioner.bootstrap(name, droplet.public_ip)
       raise 'knife bootstrap failed to execute' if result.nil?
       raise 'knife bootstrap returned 1' if result == false
     rescue => exception
@@ -42,14 +60,8 @@ module Seedee
 
       # Exit the script with failure status code
       raise
-    end
-
-    def cloud_provider
-      @cloud_provider ||= DigitalOcean.new
-    end
-
-    def provisioner
-      @provisioner ||= Chef.new
+    ensure
+      provisioner.delete_role_and_associated_nodes
     end
   end
 end
