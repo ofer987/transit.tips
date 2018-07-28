@@ -16,6 +16,10 @@ gem 'active_model_serializers'
 # Application server
 gem 'puma'
 
+# Internet gems
+gem 'rest-client'
+gem 'nokogiri'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

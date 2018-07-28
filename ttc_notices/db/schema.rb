@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224151143) do
+ActiveRecord::Schema.define(version: 20180728192358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,5 +27,17 @@ ActiveRecord::Schema.define(version: 20160224151143) do
   end
 
   add_index "statuses", ["tweet_id", "line_id"], name: "index_statuses_on_tweet_id_and_line_id", unique: true, using: :btree
+
+  create_table "ttc_closures", force: :cascade do |t|
+    t.integer  "line_id",           null: false
+    t.string   "from_station_name", null: false
+    t.string   "to_station_name",   null: false
+    t.datetime "start_at",          null: false
+    t.datetime "end_at",            null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "ttc_closures", ["line_id", "from_station_name", "to_station_name", "start_at", "end_at"], name: "almost_all_the_columns", unique: true, using: :btree
 
 end
