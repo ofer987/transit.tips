@@ -3,7 +3,7 @@ module Poller
     attr_reader :account
 
     def initialize(account)
-      @account = account
+      self.account = account
     end
 
     # fetches the last tweet 200 tweets if no last_id was specified
@@ -15,5 +15,9 @@ module Poller
 
       Twitter::CLIENT.user_timeline(account, opts)
     end
+
+    private
+
+    attr_writer :account
   end
 end
