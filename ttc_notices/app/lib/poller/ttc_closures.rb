@@ -20,6 +20,20 @@ module Poller
     def initialize
     end
 
+    def save_current
+      count = 0
+      get_current.each do |closure|
+        begin
+          closure.save
+          count += 1
+        rescue => exception
+          Rails.logger.error(exception)
+        end
+      end
+
+      count
+    end
+
     def get_current
       body = RestClient.get(URI).body
       document = Nokogiri::HTML(body)
@@ -38,7 +52,7 @@ module Poller
 
       return nil if matches.nil?
 
-      ::Ttc::Closure.create(
+      Ttc::Closure.create(
         line_id: matches[1].to_i,
         from_station_name: matches[2].to_s.strip,
         to_station_name: matches[3].to_s.strip,
