@@ -1,6 +1,7 @@
 class Status
   class Constructor
     class << self
+      # TODO: move to twitter:poll task
       def insert_latest_statuses!(account)
         tweets = Poller::Tweet.new(account).fetch(Status.last_status.tweet_id)
         statuses = new(tweets).build
@@ -12,9 +13,11 @@ class Status
     attr_reader :tweets
 
     def initialize(tweets)
+      # TODO: move to Pollere::Tweet#fetch
       @tweets = Array(tweets).map(&:to_h)
     end
 
+    # TODO: move to Poller::Tweet
     def build
       tweets.flat_map do |tweet|
         get_line_ids(tweet[:text]).map do |line_id|
@@ -30,6 +33,8 @@ class Status
     end
 
     private
+
+    # TODO: move to Status
 
     def get_line_ids(description)
       description.scan(/\d+/).map(&:to_i)

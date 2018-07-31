@@ -10,6 +10,7 @@ class Status < ActiveRecord::Base
 
   class << self
     def bulk_insert!(statuses)
+      # TODO: add #transaction
       count = 0
       Array(statuses).each do |status|
         begin
