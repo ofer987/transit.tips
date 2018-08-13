@@ -92,16 +92,16 @@ module Poller
     end
 
     def parse(content)
-      matches = /Line (.+): (.+) to (.+) closure on (\w+) (\w+) and (\w+)/.match(content.to_s)
+      matches = /Line\s*(.+)\s*:\s*(.+)\s*to\s*(.+)\s*closure\s*on\s*(\w+)\s*(\w+)\s*and\s*(\w+)/.match(content.to_s)
 
       return nil if matches.nil?
 
-      Ttc::Closure.create(
+      Ttc::Closure.new(
         line_id: matches[1].to_i,
         from_station_name: matches[2].to_s.strip,
         to_station_name: matches[3].to_s.strip,
-        start_at: Time.zone.local(DateTime.now.year, MONTHS[matches[4].to_sym], matches[5].to_i).beginning_of_day,
-        end_at: Time.zone.local(DateTime.now.year, MONTHS[matches[4].to_sym], matches[6].to_i).end_of_day
+        start_at: Time.zone.local(DateTime.now.year, MONTHS[matches[4].to_s.strip.to_sym], matches[5].to_i).beginning_of_day,
+        end_at: Time.zone.local(DateTime.now.year, MONTHS[matches[4].to_s.strip.to_sym], matches[6].to_i).end_of_day
       )
     end
   end
