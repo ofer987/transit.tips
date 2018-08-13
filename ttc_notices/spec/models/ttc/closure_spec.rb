@@ -1,27 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe Ttc::Closure, type: :model do
-  before :each do
-    described_class.create!(
-      line_id: 1,
-      from_station_name: 'Finch West',
-      to_station_name: 'Lawrence West',
-      start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-      end_at: DateTime.new(2018, 07, 30).end_of_day
-    )
-  end
-
-  subject do
-    described_class.new(
-      line_id: 1,
-      from_station_name: from_station_name,
-      to_station_name: 'Lawrence West',
-      start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-      end_at: DateTime.new(2018, 07, 30).end_of_day
-    )
-  end
-
   context 'cannot save duplicate records' do
+    before :each do
+      described_class.create!(
+        line_id: 1,
+        from_station_name: 'Finch West',
+        to_station_name: 'Lawrence West',
+        start_at: DateTime.new(2018, 07, 29).beginning_of_day,
+        end_at: DateTime.new(2018, 07, 30).end_of_day
+      )
+    end
+
+    subject do
+      described_class.new(
+        line_id: 1,
+        from_station_name: from_station_name,
+        to_station_name: 'Lawrence West',
+        start_at: DateTime.new(2018, 07, 29).beginning_of_day,
+        end_at: DateTime.new(2018, 07, 30).end_of_day
+      )
+    end
+
     context 'same case' do
       let(:from_station_name) { 'Finch West' }
 
@@ -42,8 +42,32 @@ RSpec.describe Ttc::Closure, type: :model do
   context 'different from_station_name' do
     let(:from_station_name) { 'Sheppard West' }
 
+    subject do
+      described_class.new(
+        line_id: 1,
+        from_station_name: from_station_name,
+        to_station_name: 'Lawrence West',
+        start_at: DateTime.new(2018, 07, 29).beginning_of_day,
+        end_at: DateTime.new(2018, 07, 30).end_of_day
+      )
+    end
+
     it 'is valid' do
       expect(subject.valid?).to eq(true)
     end
+  end
+
+  context '#to_event' do
+    subject do
+      described_class.new(
+        line_id: 1,
+        from_station_name: 'Finch West',
+        to_station_name: 'Lawrence West',
+        start_at: DateTime.new(2018, 07, 29).beginning_of_day,
+        end_at: DateTime.new(2018, 07, 30).end_of_day
+      )
+    end
+
+    its(:to_event) { is_expected.to eq('foobar') }
   end
 end

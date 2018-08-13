@@ -17,6 +17,12 @@ module Poller
       December: 12
     }
 
+    OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
+    APPLICATION_NAME = 'Transit.Tips -- TTC Notices'.freeze
+    CREDENTIALS_PATH = File.join(File.dirname(__FILE__), '..', '..', '..', 'credentials.json').freeze
+    TOKEN_PATH = File.join(File.dirname(__FILE__), '..', '..', '..', 'token.yaml').freeze
+    SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR
+
     def initialize
     end
 
@@ -44,8 +50,38 @@ module Poller
         .map { |content| parse(content) }
         .reject(&:nil?)
     end
+
+    def publish(calendar_id, events)
+      events.each do |event|
+        begin
+          service.insert_event(calendar_id, event)
+        rescue => exception
+          Rails.logger.error("Error publishing event (#{event.summary}) to calendar (#{calendar_id})")
+          Rails.logger.error(exception)
+          Rails.logger.error("Trying to publish next event")
+        end
+      end
+    end
     
     private
+
+    def service
+      return @service if !@service.nil?
+
+      @service = Google::Apis::CalendarV3::CalendarService.new
+      @service.client_options.application_name = APPLICATION_NAME
+      @service.authorization = credentials
+
+      @service
+    end
+
+    def credentials
+      client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
+      token_store = Google::Auth::Stores::FileTokenStore.new(file: TOKEN_PATH)
+      authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
+      user_id = 'default'
+      authorizer.get_credentials(user_id)
+    end
 
     def parse(content)
       matches = /Line (.+): (.+) to (.+) closure on (\w+) (\w+) and (\w+)/.match(content.to_s)
@@ -56,8 +92,8 @@ module Poller
         line_id: matches[1].to_i,
         from_station_name: matches[2].to_s.strip,
         to_station_name: matches[3].to_s.strip,
-        start_at: DateTime.new(DateTime.now.year, MONTHS[matches[4].to_sym], matches[5].to_i).beginning_of_day,
-        end_at: DateTime.new(DateTime.now.year, MONTHS[matches[4].to_sym], matches[6].to_i).end_of_day
+        start_at: Time.zone.local(DateTime.now.year, MONTHS[matches[4].to_sym], matches[5].to_i).beginning_of_day,
+        end_at: Time.zone.local(DateTime.now.year, MONTHS[matches[4].to_sym], matches[6].to_i).end_of_day
       )
     end
   end

@@ -24,5 +24,7 @@ module TtcNotices
     config.active_record.raise_in_transactional_callbacks = true
 
     ActiveModelSerializers.config.adapter = :json_api
+
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end

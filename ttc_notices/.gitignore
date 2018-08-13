@@ -42,3 +42,7 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+# Google Calendar API
+credentials.json
+token.yaml

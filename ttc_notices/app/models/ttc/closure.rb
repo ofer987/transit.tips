@@ -13,4 +13,18 @@ class Ttc::Closure < ActiveRecord::Base
 
   validates :from_station_name, uniqueness: { scope: [:line_id, :to_station_name, :start_at, :end_at], case_sensitive: false }
   validates :to_station_name, uniqueness: { scope: [:line_id, :from_station_name, :start_at, :end_at], case_sensitive: false }
+
+  def to_event
+    Google::Apis::CalendarV3::Event.new(
+      summary: "No service from #{from_station_name} to #{to_station_name}",
+      location: "#{from_station_name} Station",
+      description: "No service from #{from_station_name} to #{to_station_name} from #{start_at.to_date} to #{end_at}.to_date",
+      start: {
+        date_time: start_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
+      },
+      end: {
+        date_time: end_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
+      }
+    )
+  end
 end
