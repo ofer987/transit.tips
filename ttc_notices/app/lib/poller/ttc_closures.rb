@@ -1,3 +1,8 @@
+require 'google/apis/calendar_v3'
+require 'googleauth'
+require 'googleauth/stores/file_token_store'
+require 'fileutils'
+
 module Poller
   class TtcClosures
     URI = 'https://www.ttc.ca/Service_Advisories/Subway_closures/index.jsp'
@@ -33,7 +38,9 @@ module Poller
           closure.save
           count += 1
         rescue => exception
-          Rails.logger.error(exception)
+          Rails.logger.error("Failed to save the Ttc::Closure (#{closure.inspect})")
+          Rails.logger.error(exception.message)
+          Rails.logger.error(exception.backtrace.join("\n"))
         end
       end
 
@@ -57,7 +64,8 @@ module Poller
           service.insert_event(calendar_id, event)
         rescue => exception
           Rails.logger.error("Error publishing event (#{event.summary}) to calendar (#{calendar_id})")
-          Rails.logger.error(exception)
+          Rails.logger.error(exception.message)
+          Rails.logger.error(exception.backtrace.join("\n"))
           Rails.logger.error("Trying to publish next event")
         end
       end

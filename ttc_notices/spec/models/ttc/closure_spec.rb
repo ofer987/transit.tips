@@ -7,8 +7,8 @@ RSpec.describe Ttc::Closure, type: :model do
         line_id: 1,
         from_station_name: 'Finch West',
         to_station_name: 'Lawrence West',
-        start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-        end_at: DateTime.new(2018, 07, 30).end_of_day
+        start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+        end_at: Time.zone.local(2018, 7, 30).end_of_day
       )
     end
 
@@ -17,8 +17,8 @@ RSpec.describe Ttc::Closure, type: :model do
         line_id: 1,
         from_station_name: from_station_name,
         to_station_name: 'Lawrence West',
-        start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-        end_at: DateTime.new(2018, 07, 30).end_of_day
+        start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+        end_at: Time.zone.local(2018, 7, 30).end_of_day
       )
     end
 
@@ -47,8 +47,8 @@ RSpec.describe Ttc::Closure, type: :model do
         line_id: 1,
         from_station_name: from_station_name,
         to_station_name: 'Lawrence West',
-        start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-        end_at: DateTime.new(2018, 07, 30).end_of_day
+        start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+        end_at: Time.zone.local(2018, 7, 30).end_of_day
       )
     end
 
@@ -63,11 +63,46 @@ RSpec.describe Ttc::Closure, type: :model do
         line_id: 1,
         from_station_name: 'Finch West',
         to_station_name: 'Lawrence West',
-        start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-        end_at: DateTime.new(2018, 07, 30).end_of_day
+        start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+        end_at: Time.zone.local(2018, 7, 30).end_of_day
       )
     end
 
-    its(:to_event) { is_expected.to eq('foobar') }
+    its(:to_event) { is_expected.to be_a Google::Apis::CalendarV3::Event }
+  end
+
+  context "#current" do
+    before :each do
+      described_class.create!(
+        line_id: 1,
+        from_station_name: 'Finch West',
+        to_station_name: 'Lawrence West',
+        start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+        end_at: Time.zone.local(2018, 7, 30).end_of_day
+      )
+      described_class.create!(
+        line_id: 2,
+        from_station_name: 'Kennedy',
+        to_station_name: 'Ossington',
+        start_at: Time.zone.local(2018, 8, 2).beginning_of_day,
+        end_at: Time.zone.local(2018, 8, 4).end_of_day
+      )
+    end
+
+    subject { described_class.current }
+
+    it 'has two closures' do
+      expect(subject.size).to eq(2)
+    end
+
+    it 'has closure from Finch West to Lawrence West' do
+      expect(subject[0].from_station_name).to eq('Finch West')
+      expect(subject[0].to_station_name).to eq('Lawrence West')
+    end
+
+    it 'has closure from Kennedy to Ossington' do
+      expect(subject[1].from_station_name).to eq('Kennedy')
+      expect(subject[1].to_station_name).to eq('Ossington')
+    end
   end
 end

@@ -77,3 +77,8 @@ event = Google::Apis::CalendarV3::Event.new(
 
 result = service.insert_event(calendar_id, event)
 puts "Event created: #{result.html_link}"
+
+response = service.list_events(calendar_id, max_results: 1000)
+response.items.each do |event|
+  service.delete_event(calendar_id, event.id)
+end
