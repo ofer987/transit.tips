@@ -87,9 +87,16 @@ RSpec.describe Ttc::Closure, type: :model do
         start_at: Time.zone.local(2018, 8, 2).beginning_of_day,
         end_at: Time.zone.local(2018, 8, 4).end_of_day
       )
+      described_class.create!(
+        line_id: 2,
+        from_station_name: 'Kennedy',
+        to_station_name: 'Ossington',
+        start_at: Time.zone.local(2017, 8, 2).beginning_of_day,
+        end_at: Time.zone.local(2017, 8, 4).end_of_day
+      )
     end
 
-    subject { described_class.current }
+    subject { described_class.current(Time.zone.local(2017, 8, 3)) }
 
     it 'has two closures' do
       expect(subject.size).to eq(2)
@@ -103,6 +110,50 @@ RSpec.describe Ttc::Closure, type: :model do
     it 'has closure from Kennedy to Ossington' do
       expect(subject[1].from_station_name).to eq('Kennedy')
       expect(subject[1].to_station_name).to eq('Ossington')
+    end
+  end
+
+  context '#match?' do
+    subject do
+      described_class.new(
+        line_id: 1,
+        from_station_name: 'Finch West',
+        to_station_name: 'Lawrence West',
+        start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+        end_at: Time.zone.local(2018, 7, 30).end_of_day
+      )
+    end
+
+    context 'Same line, stations, start_at, end_at' do
+      let(:other) do
+        described_class.new(
+          line_id: 1,
+          from_station_name: 'Finch West',
+          to_station_name: 'Lawrence West',
+          start_at: Time.zone.local(2018, 7, 28).beginning_of_day,
+          end_at: Time.zone.local(2018, 7, 30).end_of_day
+        )
+      end
+
+      it 'is not a match' do
+        expect(subject.match?(other)).to eq(false)
+      end
+    end
+
+    context 'Same line, stations, start_at, end_at' do
+      let(:other) do
+        described_class.new(
+          line_id: 1,
+          from_station_name: 'Finch West',
+          to_station_name: 'Lawrence West',
+          start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+          end_at: Time.zone.local(2018, 7, 30).end_of_day
+        )
+      end
+
+      it 'is a match' do
+        expect(subject.match?(other)).to eq(true)
+      end
     end
   end
 end

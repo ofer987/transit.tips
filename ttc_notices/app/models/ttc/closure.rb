@@ -16,8 +16,16 @@ class Ttc::Closure < ActiveRecord::Base
   validates :from_station_name, uniqueness: { scope: [:line_id, :to_station_name, :start_at, :end_at], case_sensitive: false }
   validates :to_station_name, uniqueness: { scope: [:line_id, :from_station_name, :start_at, :end_at], case_sensitive: false }
 
-  def self.current
-    all
+  def self.current(date)
+    Ttc::Closure.where('start_at > ?', date)
+  end
+
+  def match?(other)
+    line_id == other.line_id &&
+      from_station_name == other.from_station_name &&
+      to_station_name == other.to_station_name &&
+      start_at == other.start_at &&
+      end_at == other.end_at
   end
 
   def to_event

@@ -28,14 +28,18 @@ module Poller
     TOKEN_PATH = File.join(File.dirname(__FILE__), '..', '..', '..', 'token.yaml').freeze
     SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR
 
-    def initialize
+    attr_reader :date
+
+    def initialize(date)
+      self.date = date
     end
 
     def save_current
       count = 0
       get_current.each do |closure|
         begin
-          closure.save
+          # Fail if this closure already exists
+          closure.save!
           count += 1
         rescue => exception
           Rails.logger.error("Failed to save the Ttc::Closure (#{closure.inspect})")
@@ -70,8 +74,26 @@ module Poller
         end
       end
     end
+
+    def delete_cancelled_closures(actual_closures)
+      Ttc::Closure.current(date).each do |item|
+        begin
+          if !actual_closures.any? { |actual| actual.match?(item) }
+            item.delete 
+            remove_from_calendar(item.event_id)
+          end
+        rescue => exception
+          Rails.logger.error("Error deleting event (#{event.summary}) to calendar (#{calendar_id})")
+          Rails.logger.error(exception.message)
+          Rails.logger.error(exception.backtrace.join("\n"))
+          Rails.logger.error("Trying to publish next event")
+        end
+      end
+    end
     
     private
+
+    attr_writer :date
 
     def service
       return @service if !@service.nil?
