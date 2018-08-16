@@ -35,6 +35,10 @@ module Poller
       self.date = date
     end
 
+    def sync_future_closures
+      delete_cancelled_closures(save_current)
+    end
+
     def save_current
       count = 0
       get_current.each do |closure|
@@ -86,11 +90,12 @@ module Poller
       Ttc::Closure.current(date).each do |item|
         begin
           if !actual_closures.any? { |actual| actual.match?(item) }
-            item.delete 
-            remove_from_calendar(item.event_id)
+            item.destroy!
+            remove_from_calendar!(item.event.google_event_id)
           end
         rescue => exception
-          Rails.logger.error("Error deleting event (#{event.summary}) to calendar (#{calendar_id})")
+          raise
+          Rails.logger.error("Error deleting ttc_closure (#{item.inspect}) to calendar (#{calendar.id})")
           Rails.logger.error(exception.message)
           Rails.logger.error(exception.backtrace.join("\n"))
           Rails.logger.error("Trying to publish next event")
@@ -101,6 +106,10 @@ module Poller
     private
 
     attr_writer :calendar, :date
+
+    def remove_from_calendar!(google_event_id)
+      service.delete_event(calendar.google_calendar_id, google_event_id_id)
+    end
 
     def service
       return @service if !@service.nil?

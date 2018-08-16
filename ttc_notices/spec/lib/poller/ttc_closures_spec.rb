@@ -96,4 +96,114 @@ describe Poller::TtcClosures do
         .by(1)
     end
   end
+
+  context '#delete_cancelled_closures' do
+    let(:calendar) { FactoryGirl.create(:fake_calendar) }
+    let(:past_closures) do
+      results = []
+      closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now - 1.year, end_at: Time.zone.now - 1.year + 1.day)
+      FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+      results << closure
+
+      closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now - 1.year + 2.days, end_at: Time.zone.now - 1.year + 4.day)
+      FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+      results << closure
+
+      results
+    end
+
+    let(:future_closures) do
+      results = []
+      closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now, end_at: Time.zone.now + 1.day)
+      FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+      results << closure
+
+      closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now + 2.days, end_at: Time.zone.now + 4.day)
+      FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+      results << closure
+
+      results
+    end
+
+    before :each do
+      past_closures
+      future_closures
+    end
+
+    let(:closures) do
+      [
+        FactoryGirl.create(:finch_to_sheppard_closure),
+        FactoryGirl.create(:lawrence_to_st_clair)
+      ]
+    end
+    let(:calendar) { FactoryGirl.create(:fake_calendar, name: 'TTCC') }
+    let(:fake_service) { double }
+    let(:insert_event_result) { double }
+
+    before :each do
+      allow(subject)
+        .to receive(:service)
+        .and_return(fake_service)
+
+      allow(fake_service)
+        .to receive(:insert_event)
+        .and_return(insert_event_result)
+
+      allow(insert_event_result)
+        .to receive(:id)
+        .and_return(SecureRandom.uuid)
+    end
+
+    context 'has the same current closures' do
+      let(:new_future_closures) { future_closures }
+
+      it 'does not delete records from the ttc_closures table' do
+        expect { subject.delete_cancelled_closures(new_future_closures) }
+          .to_not change { Event.count }
+      end
+    end
+
+    context 'has only one same closure' do
+      let(:new_future_closures) { future_closures[0..0] }
+
+      it 'deletes one record from the ttc_closures table' do
+        expect { subject.delete_cancelled_closures(new_future_closures) }
+          .to change { Event.count }
+          .by(-1)
+      end
+    end
+
+    context 'has no closures' do
+      let(:new_future_closures) { [] }
+
+      it 'deletes all records the ttc_closures table' do
+        expect { subject.delete_cancelled_closures(new_future_closures) }
+          .to change { Event.count }
+          .by(-2)
+      end
+    end
+
+    context 'has one new closure and one same closure' do
+      let(:new_future_closures) do
+        results = []
+
+        results << future_closures[0]
+
+        closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now + 10.days, end_at: Time.zone.now + 11.day)
+        FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+        results << closure
+
+        results
+      end
+
+      it 'does not delete records from the ttc_closures table' do
+        expect { subject.delete_cancelled_closures(new_future_closures) }
+          .to_not change { Event.count }
+      end
+
+      # verify that one record was deleted
+      # verify that one same record exists
+      # verify that one same record was deleted
+    end
+  end
 end

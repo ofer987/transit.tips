@@ -7,7 +7,7 @@ class Ttc::Closure < ActiveRecord::Base
   # start_at, DATETIME, NOT NULL
   # end_at, DATETIME, NOT NULL
 
-  has_one :event
+  has_one :event, foreign_key: 'ttc_closure_id'
 
   validates :line_id, presence: true
   validates :from_station_name, presence: true
