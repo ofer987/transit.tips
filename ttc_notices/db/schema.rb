@@ -17,22 +17,22 @@ ActiveRecord::Schema.define(version: 20180814171405) do
   enable_extension "plpgsql"
 
   create_table "calendars", force: :cascade do |t|
-    t.string   "calendar_id", null: false
-    t.string   "name",        null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "google_calendar_id", null: false
+    t.string   "name",               null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
-  add_index "calendars", ["calendar_id"], name: "index_calendars_on_calendar_id", unique: true, using: :btree
+  add_index "calendars", ["google_calendar_id"], name: "index_calendars_on_google_calendar_id", unique: true, using: :btree
 
   create_table "events", force: :cascade do |t|
-    t.string   "event_id",       null: false
-    t.integer  "calendar_id",    null: false
-    t.integer  "ttc_closure_id", null: false
-    t.string   "name",           null: false
-    t.text     "description",    null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.string   "google_event_id", null: false
+    t.integer  "calendar_id",     null: false
+    t.integer  "ttc_closure_id",  null: false
+    t.string   "name",            null: false
+    t.text     "description",     null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   add_index "events", ["calendar_id"], name: "index_events_on_calendar_id", using: :btree

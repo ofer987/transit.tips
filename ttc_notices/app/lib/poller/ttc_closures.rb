@@ -28,9 +28,10 @@ module Poller
     TOKEN_PATH = File.join(File.dirname(__FILE__), '..', '..', '..', 'token.yaml').freeze
     SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR
 
-    attr_reader :date
+    attr_reader :calendar, :date
 
-    def initialize(date)
+    def initialize(calendar, date)
+      self.calendar = calendar
       self.date = date
     end
 
@@ -62,28 +63,23 @@ module Poller
         .reject(&:nil?)
     end
 
-    def publish(calendar, ttc_closures)
-      # calendar = ::Calendar.where(calendar_id: calendar_id).first
+    def publish(closure)
+      google_event = closure.to_google_event
+      result = service.insert_event(calendar.google_calendar_id, google_event)
 
-      ttc_closures.each do |closure|
-        begin
-          google_calendar_event = closure.to_event
-          result = service.insert_event(calendar.calendar_id, google_calendar_event)
+      ::Event.create!(
+        calendar: calendar,
+        ttc_closure_id: closure.id,
+        google_event_id: result.id,
+        name: google_event.summary,
+        description: google_event.description
+      )
+    rescue => exception
+      Rails.logger.error("Error publishing ttc closure (#{closure.inspect}) to calendar (#{calendar.id})")
+      Rails.logger.error(exception.message)
+      Rails.logger.error(exception.backtrace.join("\n"))
 
-          ::Event.create!(
-            calendar: calendar,
-            ttc_closure_id: closure.id,
-            event_id: result.id,
-            name: google_calendar_event.summary,
-            description: google_calendar_event.description
-          )
-        rescue => exception
-          Rails.logger.error("Error publishing ttc closure (#{closure.inspect}) to calendar (#{calendar.id})")
-          Rails.logger.error(exception.message)
-          Rails.logger.error(exception.backtrace.join("\n"))
-          Rails.logger.error("Trying to publish next event")
-        end
-      end
+      raise exception
     end
 
     def delete_cancelled_closures(actual_closures)
@@ -104,7 +100,7 @@ module Poller
     
     private
 
-    attr_writer :date
+    attr_writer :calendar, :date
 
     def service
       return @service if !@service.nil?

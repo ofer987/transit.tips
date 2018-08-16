@@ -57,7 +57,7 @@ RSpec.describe Ttc::Closure, type: :model do
     end
   end
 
-  context '#to_event' do
+  context '#to_google_event' do
     subject do
       described_class.new(
         line_id: 1,
@@ -68,7 +68,7 @@ RSpec.describe Ttc::Closure, type: :model do
       )
     end
 
-    its(:to_event) { is_expected.to be_a Google::Apis::CalendarV3::Event }
+    its(:to_google_event) { is_expected.to be_a Google::Apis::CalendarV3::Event }
   end
 
   context "#current" do

@@ -30,7 +30,7 @@ class Ttc::Closure < ActiveRecord::Base
       end_at == other.end_at
   end
 
-  def to_event
+  def to_google_event
     ::Google::Apis::CalendarV3::Event.new(
       summary: "No service from #{from_station_name} to #{to_station_name}",
       location: "#{from_station_name} Station",

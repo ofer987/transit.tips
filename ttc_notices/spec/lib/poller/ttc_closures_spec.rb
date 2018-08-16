@@ -3,7 +3,8 @@ require 'rails_helper'
 # require_relative '../../app/models/ttc/closure.rb'
 
 describe Poller::TtcClosures do
-  subject(:poller) { described_class.new(Time.zone.now) }
+  let(:calendar) { nil }
+  subject(:poller) { described_class.new(calendar, Time.zone.now) }
 
   context '#get_current' do
     skip
@@ -52,26 +53,14 @@ describe Poller::TtcClosures do
       it 'saves the other records' do
         allow(poller).to receive(:get_current).and_return [
           # invalid record
-          Ttc::Closure.new(
-            line_id: 1,
-            from_station_name: nil,
-            to_station_name: 'Lawrence West',
-            start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-            end_at: DateTime.new(2018, 07, 30).end_of_day
-          ),
+          FactoryGirl.build(:invalid_closure),
           # valid record
-          Ttc::Closure.new(
-            line_id: 1,
-            from_station_name: 'Finch West',
-            to_station_name: 'Lawrence West',
-            start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-            end_at: DateTime.new(2018, 07, 30).end_of_day
-          )
+          FactoryGirl.build(:lawrence_to_st_clair)
         ]
 
         expect { poller.save_current }
           .to change { Ttc::Closure.count }
-          .by_at_least(1)
+          .by(1)
       end
     end
   end
@@ -79,28 +68,11 @@ describe Poller::TtcClosures do
   context '#publish' do
     let(:closures) do
       [
-        Ttc::Closure.create!(
-          line_id: 1,
-          from_station_name: 'Sheppard West',
-          to_station_name: 'Wilson',
-          start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-          end_at: DateTime.new(2018, 07, 30).end_of_day
-        ),
-        Ttc::Closure.create!(
-          line_id: 1,
-          from_station_name: 'Finch West',
-          to_station_name: 'Lawrence West',
-          start_at: DateTime.new(2018, 07, 29).beginning_of_day,
-          end_at: DateTime.new(2018, 07, 30).end_of_day
-        )
+        FactoryGirl.create(:finch_to_sheppard_closure),
+        FactoryGirl.create(:lawrence_to_st_clair)
       ]
     end
-    let(:calendar) do
-      Calendar.create!(
-        calendar_id: '3435',
-        name: 'TTCC'
-      )
-    end
+    let(:calendar) { FactoryGirl.create(:fake_calendar, name: 'TTCC') }
     let(:fake_service) { double }
     let(:insert_event_result) { double }
 
@@ -119,9 +91,9 @@ describe Poller::TtcClosures do
     end
 
     it 'saves an event model to the database' do
-      expect { subject.publish(calendar, closures) }
+      expect { subject.publish(closures.first) }
         .to change { Event.count }
-        .by(2)
+        .by(1)
     end
   end
 end
