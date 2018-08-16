@@ -62,12 +62,23 @@ module Poller
         .reject(&:nil?)
     end
 
-    def publish(calendar_id, events)
-      events.each do |event|
+    def publish(calendar, ttc_closures)
+      # calendar = ::Calendar.where(calendar_id: calendar_id).first
+
+      ttc_closures.each do |closure|
         begin
-          service.insert_event(calendar_id, event)
+          google_calendar_event = closure.to_event
+          result = service.insert_event(calendar.calendar_id, google_calendar_event)
+
+          ::Event.create!(
+            calendar: calendar,
+            ttc_closure_id: closure.id,
+            event_id: result.id,
+            name: google_calendar_event.summary,
+            description: google_calendar_event.description
+          )
         rescue => exception
-          Rails.logger.error("Error publishing event (#{event.summary}) to calendar (#{calendar_id})")
+          Rails.logger.error("Error publishing ttc closure (#{closure.inspect}) to calendar (#{calendar.id})")
           Rails.logger.error(exception.message)
           Rails.logger.error(exception.backtrace.join("\n"))
           Rails.logger.error("Trying to publish next event")
@@ -114,7 +125,12 @@ module Poller
     end
 
     def parse(content)
+      puts content
       matches = /Line\s*(.+)\s*:\s*(.+)\s*to\s*(.+)\s*closure\s*on\s*(\w+)\s*(\w+)\s*and\s*(\w+)/.match(content.to_s)
+
+      if matches.nil?
+        puts "no matches???"
+      end
 
       return nil if matches.nil?
 

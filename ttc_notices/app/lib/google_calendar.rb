@@ -58,8 +58,6 @@ response.items.each do |event|
   puts "- #{event.summary} (#{start})"
 end
 
-# return
-
 puts 'insert event'
 event = Google::Apis::CalendarV3::Event.new(
   summary: 'Lawrence West is spelled correctly',
@@ -76,6 +74,7 @@ event = Google::Apis::CalendarV3::Event.new(
 )
 
 result = service.insert_event(calendar_id, event)
+binding.pry
 puts "Event created: #{result.html_link}"
 
 response = service.list_events(calendar_id, max_results: 1000)

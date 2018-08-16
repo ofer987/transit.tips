@@ -1,8 +1,9 @@
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
-      t.string :event_id: null: false
+      t.string :event_id, null: false
       t.references :calendar, index: true, foreign_key: true, null: false
+      t.references :ttc_closure, index: true, foreign_key: true, null: false
       t.string :name, null: false
       t.text :description, null: false
 

@@ -7,6 +7,8 @@ class Ttc::Closure < ActiveRecord::Base
   # start_at, DATETIME, NOT NULL
   # end_at, DATETIME, NOT NULL
 
+  has_one :event
+
   validates :line_id, presence: true
   validates :from_station_name, presence: true
   validates :to_station_name, presence: true
@@ -32,7 +34,7 @@ class Ttc::Closure < ActiveRecord::Base
     ::Google::Apis::CalendarV3::Event.new(
       summary: "No service from #{from_station_name} to #{to_station_name}",
       location: "#{from_station_name} Station",
-      description: "No service from #{from_station_name} to #{to_station_name} from #{start_at.to_date} to #{end_at}.to_date",
+      description: "No service from #{from_station_name} to #{to_station_name} from #{start_at.to_date} to #{end_at.to_date}",
       start: {
         date_time: start_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
       },
