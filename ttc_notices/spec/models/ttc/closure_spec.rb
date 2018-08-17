@@ -113,6 +113,160 @@ RSpec.describe Ttc::Closure, type: :model do
     end
   end
 
+  context "#unpublished" do
+    let(:calendar) { FactoryGirl.create(:fake_calendar) }
+
+    context 'three closures' do
+      subject { described_class.unpublished }
+
+      context 'three closures are published' do
+        before :each do
+          closure = described_class.create!(
+            id: 0,
+            line_id: 1,
+            from_station_name: 'Finch West',
+            to_station_name: 'Lawrence West',
+            start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+            end_at: Time.zone.local(2018, 7, 30).end_of_day
+          )
+          FactoryGirl.create(:event, id: 0, ttc_closure_id: closure.id, calendar: calendar)
+
+          closure = described_class.create!(
+            id: 1,
+            line_id: 2,
+            from_station_name: 'Kennedy',
+            to_station_name: 'Ossington',
+            start_at: Time.zone.local(2018, 8, 2).beginning_of_day,
+            end_at: Time.zone.local(2018, 8, 4).end_of_day
+          )
+          FactoryGirl.create(:event, id: 1, ttc_closure_id: closure.id, calendar: calendar)
+
+          closure = described_class.create!(
+            id: 2,
+            line_id: 2,
+            from_station_name: 'Kennedy',
+            to_station_name: 'Ossington',
+            start_at: Time.zone.local(2017, 8, 2).beginning_of_day,
+            end_at: Time.zone.local(2017, 8, 4).end_of_day
+          )
+          FactoryGirl.create(:event, id: 2, ttc_closure_id: closure.id, calendar: calendar)
+        end
+
+        it 'has no unpublished closures' do
+          expect(subject.map(&:id)).to be_empty
+        end
+      end
+
+      context 'two closures are published' do
+        before :each do
+          closure = described_class.create!(
+            id: 0,
+            line_id: 1,
+            from_station_name: 'Finch West',
+            to_station_name: 'Lawrence West',
+            start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+            end_at: Time.zone.local(2018, 7, 30).end_of_day
+          )
+          FactoryGirl.create(:event, id: 0, ttc_closure_id: closure.id, calendar: calendar)
+
+          closure = described_class.create!(
+            id: 1,
+            line_id: 2,
+            from_station_name: 'Kennedy',
+            to_station_name: 'Ossington',
+            start_at: Time.zone.local(2018, 8, 2).beginning_of_day,
+            end_at: Time.zone.local(2018, 8, 4).end_of_day
+          )
+          FactoryGirl.create(:event, id: 1, ttc_closure_id: closure.id, calendar: calendar)
+
+          closure = described_class.create!(
+            id: 2,
+            line_id: 2,
+            from_station_name: 'Kennedy',
+            to_station_name: 'Ossington',
+            start_at: Time.zone.local(2017, 8, 2).beginning_of_day,
+            end_at: Time.zone.local(2017, 8, 4).end_of_day
+          )
+        end
+
+        it 'has one unpublished closure' do
+          expect(subject.map(&:id)).to eq [2]
+        end
+      end
+
+      context 'one closure is published' do
+        before :each do
+          closure = described_class.create!(
+            id: 0,
+            line_id: 1,
+            from_station_name: 'Finch West',
+            to_station_name: 'Lawrence West',
+            start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+            end_at: Time.zone.local(2018, 7, 30).end_of_day
+          )
+          FactoryGirl.create(:event, id: 0, ttc_closure_id: closure.id, calendar: calendar)
+
+          closure = described_class.create!(
+            id: 1,
+            line_id: 2,
+            from_station_name: 'Kennedy',
+            to_station_name: 'Ossington',
+            start_at: Time.zone.local(2018, 8, 2).beginning_of_day,
+            end_at: Time.zone.local(2018, 8, 4).end_of_day
+          )
+
+          closure = described_class.create!(
+            id: 2,
+            line_id: 2,
+            from_station_name: 'Kennedy',
+            to_station_name: 'Ossington',
+            start_at: Time.zone.local(2017, 8, 2).beginning_of_day,
+            end_at: Time.zone.local(2017, 8, 4).end_of_day
+          )
+        end
+
+        it 'has two unpublished closures' do
+          expect(subject.map(&:id)).to eq [1, 2]
+        end
+      end
+
+      context 'none of the closures are published' do
+        before :each do
+          closure = described_class.create!(
+            id: 0,
+            line_id: 1,
+            from_station_name: 'Finch West',
+            to_station_name: 'Lawrence West',
+            start_at: Time.zone.local(2018, 7, 29).beginning_of_day,
+            end_at: Time.zone.local(2018, 7, 30).end_of_day
+          )
+
+          closure = described_class.create!(
+            id: 1,
+            line_id: 2,
+            from_station_name: 'Kennedy',
+            to_station_name: 'Ossington',
+            start_at: Time.zone.local(2018, 8, 2).beginning_of_day,
+            end_at: Time.zone.local(2018, 8, 4).end_of_day
+          )
+
+          closure = described_class.create!(
+            id: 2,
+            line_id: 2,
+            from_station_name: 'Kennedy',
+            to_station_name: 'Ossington',
+            start_at: Time.zone.local(2017, 8, 2).beginning_of_day,
+            end_at: Time.zone.local(2017, 8, 4).end_of_day
+          )
+        end
+
+        it 'has three unpublished closures' do
+          expect(subject.map(&:id)).to eq [0, 1, 2]
+        end
+      end
+    end
+  end
+
   context '#match?' do
     subject do
       described_class.new(

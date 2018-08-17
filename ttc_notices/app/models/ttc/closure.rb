@@ -19,7 +19,11 @@ class Ttc::Closure < ActiveRecord::Base
   validates :to_station_name, uniqueness: { scope: [:line_id, :from_station_name, :start_at, :end_at], case_sensitive: false }
 
   def self.current(date)
-    Ttc::Closure.where('start_at > ?', date)
+    where('start_at > ?', date)
+  end
+
+  def self.unpublished
+    all - joins(:event)
   end
 
   def match?(other)
