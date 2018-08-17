@@ -5,7 +5,7 @@ class CreateEvents < ActiveRecord::Migration
       t.references :calendar, index: true, foreign_key: true, null: false
       t.references :ttc_closure, index: true, foreign_key: true, null: false
       t.string :name, null: false
-      t.text :description, null: false
+      t.text :description, null: false, default: ''
 
       t.timestamps null: false
     end
