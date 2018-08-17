@@ -102,11 +102,11 @@ describe Poller::TtcClosures do
     let(:past_closures) do
       results = []
       closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now - 1.year, end_at: Time.zone.now - 1.year + 1.day)
-      FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+      FactoryGirl.create(:event, id: 0, ttc_closure_id: closure.id, calendar: calendar)
       results << closure
 
       closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now - 1.year + 2.days, end_at: Time.zone.now - 1.year + 4.day)
-      FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+      FactoryGirl.create(:event, id: 1, ttc_closure_id: closure.id, calendar: calendar)
       results << closure
 
       results
@@ -114,12 +114,12 @@ describe Poller::TtcClosures do
 
     let(:future_closures) do
       results = []
-      closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now, end_at: Time.zone.now + 1.day)
-      FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+      closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now + 1.day, end_at: Time.zone.now + 2.day)
+      FactoryGirl.create(:event, id: 2, ttc_closure_id: closure.id, calendar: calendar)
       results << closure
 
       closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now + 2.days, end_at: Time.zone.now + 4.day)
-      FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+      FactoryGirl.create(:event, id: 3, ttc_closure_id: closure.id, calendar: calendar)
       results << closure
 
       results
@@ -146,8 +146,8 @@ describe Poller::TtcClosures do
         .and_return(fake_service)
 
       allow(fake_service)
-        .to receive(:insert_event)
-        .and_return(insert_event_result)
+        .to receive(:delete_event)
+        .and_return(nil)
 
       allow(insert_event_result)
         .to receive(:id)
@@ -190,7 +190,7 @@ describe Poller::TtcClosures do
         results << future_closures[0]
 
         closure = FactoryGirl.create(:finch_to_sheppard_closure, start_at: Time.zone.now + 10.days, end_at: Time.zone.now + 11.day)
-        FactoryGirl.create(:event, id: rand(100), ttc_closure_id: closure.id, calendar: calendar)
+        FactoryGirl.create(:event, id: 4, ttc_closure_id: closure.id, calendar: calendar)
         results << closure
 
         results
@@ -202,8 +202,34 @@ describe Poller::TtcClosures do
       end
 
       # verify that one record was deleted
+      it 'deletes the cancelled future closure' do
+        subject.delete_cancelled_closures(new_future_closures)
+
+        expect { future_closures[1].reload }
+          .to raise_exception(ActiveRecord::RecordNotFound)
+      end
+
+      it "deletes the cancelled closure's associated event" do
+        subject.delete_cancelled_closures(new_future_closures)
+
+        expect(Event.where(ttc_closure_id: future_closures[1].id).first)
+          .to be_nil
+      end
+
       # verify that one same record exists
-      # verify that one same record was deleted
+      it 'did not delete the valid future closure' do
+        subject.delete_cancelled_closures(new_future_closures)
+
+        expect { future_closures[0].reload }
+          .to_not raise_exception
+      end
+
+      it "did not delete the valid closure's associated event" do
+        subject.delete_cancelled_closures(new_future_closures)
+
+        expect(Event.where(ttc_closure_id: future_closures[0].id).first)
+          .to_not be_nil
+      end
     end
   end
 end

@@ -108,7 +108,7 @@ module Poller
     attr_writer :calendar, :date
 
     def remove_from_calendar!(google_event_id)
-      service.delete_event(calendar.google_calendar_id, google_event_id_id)
+      service.delete_event(calendar.google_calendar_id, google_event_id)
     end
 
     def service
