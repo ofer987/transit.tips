@@ -26,6 +26,12 @@ class Ttc::Closure < ActiveRecord::Base
     all - joins(:event)
   end
 
+  def published?
+    return false if event.nil?
+
+    !event.new_record?
+  end
+
   def match?(other)
     line_id == other.line_id &&
       from_station_name == other.from_station_name &&

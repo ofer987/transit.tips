@@ -6,5 +6,5 @@ class Event < ActiveRecord::Base
   # description, TEXT, NOT NULL, DEFAULT: ''
 
   belongs_to :calendar
-  belongs_to :ttc_closure, foreign_key: 'ttc_closure_id'
+  belongs_to :ttc_closure, foreign_key: 'ttc_closure_id', class_name: Ttc::Closure
 end

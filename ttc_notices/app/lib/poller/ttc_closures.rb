@@ -35,13 +35,32 @@ module Poller
       self.date = date
     end
 
-    def sync_future_closures
-      delete_cancelled_closures(save_current)
+    def list
+      response = service.list_events(
+        calendar.google_calendar_id,
+        max_results: 100,
+        single_events: true,
+        order_by: 'startTime',
+        time_min: Time.now.iso8601
+      )
+
+      response.items.map do |event|
+        start = event.start.date || event.start.date_time
+
+        "- #{event.summary} (#{start})"
+      end
     end
 
-    def save_current
-      count = 0
-      get_current.each do |closure|
+    def sync_future_closures!
+      current = get_current
+      save(current)
+      delete_cancelled_closures!(current)
+
+      current
+    end
+
+    def save(closures)
+      closures.each do |closure|
         begin
           # Fail if this closure already exists
           closure.save!
@@ -52,8 +71,6 @@ module Poller
           Rails.logger.error(exception.backtrace.join("\n"))
         end
       end
-
-      count
     end
 
     def get_current
@@ -67,7 +84,7 @@ module Poller
         .reject(&:nil?)
     end
 
-    def publish(closure)
+    def publish!(closure)
       google_event = closure.to_google_event
       result = service.insert_event(calendar.google_calendar_id, google_event)
 
@@ -86,15 +103,15 @@ module Poller
       raise exception
     end
 
-    def delete_cancelled_closures(actual_closures)
+    def delete_cancelled_closures!(actual_closures)
       Ttc::Closure.current(date).each do |item|
         begin
           if !actual_closures.any? { |actual| actual.match?(item) }
             item.destroy!
+            # TODO: what if item.event is nil?????
             remove_from_calendar!(item.event.google_event_id)
           end
         rescue => exception
-          raise
           Rails.logger.error("Error deleting ttc_closure (#{item.inspect}) to calendar (#{calendar.id})")
           Rails.logger.error(exception.message)
           Rails.logger.error(exception.backtrace.join("\n"))

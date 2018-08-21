@@ -310,4 +310,34 @@ RSpec.describe Ttc::Closure, type: :model do
       end
     end
   end
+
+  context '#published?' do
+    let(:closure) { FactoryGirl.create(:finch_to_sheppard_closure) }
+
+    subject { closure }
+
+    # before :each do
+    #   closure.event = event
+    # end
+
+    context 'has an event' do
+      let(:calendar) { FactoryGirl.create(:fake_calendar) }
+
+      context 'that is saved to the database' do
+        let!(:event) { FactoryGirl.create(:event, calendar: calendar, ttc_closure: closure) }
+
+        its(:published?) { is_expected.to eq true }
+      end
+
+      context 'that is not saved to the database' do
+        let!(:event) { FactoryGirl.build(:event, calendar: calendar, ttc_closure: closure) }
+
+        its(:published?) { is_expected.to eq false }
+      end
+    end
+
+    context 'does not have an event' do
+      its(:published?) { is_expected.to eq false }
+    end
+  end
 end
