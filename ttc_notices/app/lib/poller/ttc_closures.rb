@@ -64,7 +64,6 @@ module Poller
         begin
           # Fail if this closure already exists
           closure.save!
-          count += 1
         rescue => exception
           Rails.logger.error("Failed to save the Ttc::Closure (#{closure.inspect})")
           Rails.logger.error(exception.message)
