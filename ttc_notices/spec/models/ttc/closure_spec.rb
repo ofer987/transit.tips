@@ -278,7 +278,7 @@ RSpec.describe Ttc::Closure, type: :model do
       )
     end
 
-    context 'Same line, stations, start_at, end_at' do
+    context 'different start_at' do
       let(:other) do
         described_class.new(
           line_id: 1,

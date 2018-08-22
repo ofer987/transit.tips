@@ -36,8 +36,12 @@ class Ttc::Closure < ActiveRecord::Base
     line_id == other.line_id &&
       from_station_name == other.from_station_name &&
       to_station_name == other.to_station_name &&
-      start_at == other.start_at &&
-      end_at == other.end_at
+      start_at.utc.year == other.start_at.utc.year && 
+      start_at.utc.month == other.start_at.utc.month && 
+      start_at.utc.day == other.start_at.utc.day && 
+      end_at.utc.year == other.end_at.utc.year && 
+      end_at.utc.month == other.end_at.utc.month && 
+      end_at.utc.day == other.end_at.utc.day
   end
 
   def to_google_event
