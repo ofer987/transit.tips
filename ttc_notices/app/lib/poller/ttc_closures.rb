@@ -108,7 +108,9 @@ module Poller
           if !actual_closures.any? { |actual| actual.match?(item) }
             item.destroy!
             # TODO: what if item.event is nil?????
-            remove_from_calendar!(item.event.google_event_id)
+            if !item.nil? && !item.event.nil?
+              remove_from_calendar!(item.event.google_event_id)
+            end
           end
         rescue => exception
           Rails.logger.error("Error deleting ttc_closure (#{item.inspect}) to calendar (#{calendar.id})")
