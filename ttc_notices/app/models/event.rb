@@ -7,4 +7,11 @@ class Event < ActiveRecord::Base
 
   belongs_to :calendar
   belongs_to :ttc_closure, foreign_key: 'ttc_closure_id', class_name: Ttc::Closure
+
+  def google_event
+    calendar = Calendar.find(calendar_id)
+
+    poller = Poller::TtcClosures.new(calendar, Time.zone.now)
+    poller.get_event(google_event_id)
+  end
 end

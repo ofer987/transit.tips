@@ -120,6 +120,10 @@ module Poller
         end
       end
     end
+
+    def get_event(google_event_id)
+      service.get_event(calendar.google_calendar_id, google_event_id)
+    end
     
     private
 
