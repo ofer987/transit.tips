@@ -10,7 +10,7 @@ module Clockwork
   logger = ::Logger.new(log_path)
 
   twitter_job = 'twitter:poll'
-  ttc_closures_job = 'ttc_closures::poll'
+  ttc_closures_job = 'ttc_closures:poll'
 
   handler do |job|
     logger.info "[#{DateTime.now}]: Running #{job}"
@@ -22,7 +22,7 @@ module Clockwork
     end
 
     every(1.day, ttc_closures_job) do
-      `cd #{File.join(here_path, '..') && rake #{ttc_closures_job}`
+      `cd #{File.join(here_path, '..')} && rake #{ttc_closures_job}`
     end
   rescue => e
     message =
