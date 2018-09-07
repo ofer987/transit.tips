@@ -8,9 +8,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Twitter client
 gem 'twitter'
 
-# Database server (PostgreSQL)
-gem 'pg'
-
 gem 'active_model_serializers'
 
 # Application server
@@ -43,6 +40,9 @@ group :development, :test do
 
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner'
+
+  # Database server (PostgreSQL)
+  gem 'pg'
 end
 
 group :production do
