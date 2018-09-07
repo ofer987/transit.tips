@@ -54,9 +54,12 @@ response = service.list_events(calendar_id,
 puts 'Upcoming events:'
 puts 'No upcoming events found' if response.items.empty?
 response.items.each do |event|
-  start = event.start.date || event.start.date_time
-  puts "- #{event.summary} (#{start})"
+  start_at = event.start.date || event.start.date_time
+  end_at = event.end.date || event.end.date_time
+  puts "- #{event.summary} (#{start_at}) (#{end_at})"
 end
+
+exit
 
 puts 'insert event'
 event = Google::Apis::CalendarV3::Event.new(
