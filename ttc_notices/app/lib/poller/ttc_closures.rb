@@ -94,6 +94,8 @@ module Poller
         name: google_event.summary,
         description: google_event.description
       )
+
+      Rails.logger.info("Published #{closure.inspect}")
     rescue => exception
       Rails.logger.error("Error publishing ttc closure (#{closure.inspect}) to calendar (#{calendar.id})")
       Rails.logger.error(exception.message)
@@ -107,8 +109,9 @@ module Poller
         begin
           if !actual_closures.any? { |actual| actual.match?(item) }
             item.destroy!
-            # TODO: what if item.event is nil?????
+            # TODO: Change to nil-object pattern
             if !item.nil? && !item.event.nil?
+              Rails.logger.info("Deleting closure (#{closure.inspect}) for event (#{event.inspect})")
               remove_from_calendar!(item.event.google_event_id)
             end
           end
