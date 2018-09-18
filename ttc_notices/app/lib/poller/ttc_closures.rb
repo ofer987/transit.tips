@@ -79,6 +79,8 @@ module Poller
       document
         .css('.main-content h4')
         .map(&:content)
+        .map { |content| Html.replace_non_breaking_space(content) }
+        .map { |content| content.strip }
         .map { |content| parse(content) }
         .reject(&:nil?)
     end
@@ -156,6 +158,9 @@ module Poller
 
     def parse(content)
       puts content
+
+      return nil if content.downcase.match?(/cancelled$/)
+
       matches = /Line\s*(.+)\s*:\s*(.+)\s*to\s*(.+)\s*closure\s*on\s*(\w+)\s*(\w+)\s*and\s*(\w+)/.match(content.to_s)
 
       if matches.nil?

@@ -1,13 +1,10 @@
 require 'rails_helper'
 
-# require_relative '../../app/models/ttc/closure.rb'
-
 describe Poller::TtcClosures do
   let(:calendar) { nil }
   subject(:poller) { described_class.new(calendar, Time.zone.now) }
 
   context '#get_current' do
-    skip
     subject { poller.get_current }
 
     it 'has closures' do
@@ -25,17 +22,30 @@ describe Poller::TtcClosures do
         expect(subject).to be_a Ttc::Closure
       end
 
-      its(:line_id) { 1 }
-      its(:from_station_name) { 'Finch West' }
-      its(:to_station_name) { 'Lawrence West' }
-      its(:start_at) { DateTime.new(2018, 07, 29).beginning_of_day }
-      its(:end_at) { DateTime.new(2018, 07, 30).end_of_day }
+      it { expect(subject.line_id).to eq(1) }
+      it { expect(subject.from_station_name).to eq('Sheppard West') }
+      it { expect(subject.to_station_name).to eq('Lawrence West') }
+      it { expect(subject.start_at.day).to eq(15) }
+      it { expect(subject.end_at.day).to eq(16) }
+    end
+
+    context 'second item' do
+      subject { poller.get_current[1] }
+
+      it 'is a Ttc::Closure' do
+        expect(subject).to be_a Ttc::Closure
+      end
+
+      it { expect(subject.line_id).to eq(1) }
+      it { expect(subject.from_station_name).to eq('Finch West') }
+      it { expect(subject.to_station_name).to eq('Lawrence West') }
+      it { expect(subject.start_at.day).to eq(6) }
+      it { expect(subject.end_at.day).to eq(7) }
     end
   end
 
   context '#save_current' do
-    skip
-    it 'writes new records' do
+    it 'writes new records', skip: true do
       expect { poller.save_current }
         .to change { Ttc::Closure.count }
         .by_at_least(1)
@@ -49,7 +59,7 @@ describe Poller::TtcClosures do
       expect(saved_count).to eq(new_count - count)
     end
 
-    context 'one of the records is not valid' do
+    context 'one of the records is not valid', skip: true do
       it 'saves the other records' do
         allow(poller).to receive(:get_current).and_return [
           # invalid record
