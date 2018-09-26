@@ -84,10 +84,7 @@ module Seedee
       raise 'knife bootstrap returned 1' if result == false
     rescue => exception
       puts exception
-      cloud_provider.destroy_droplet(droplet.id)
-
-      # Exit the script with failure status code
-      raise
+      cloud_provider.destroy_droplet(droplet_id)
     ensure
       provisioner.delete_role_and_associated_nodes
     end
