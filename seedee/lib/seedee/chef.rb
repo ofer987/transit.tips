@@ -3,23 +3,24 @@
 module Seedee
   # Talk to Chef Server
   class Chef
-    attr_reader :role_type, :role_name, :recipes, :role_description
+    attr_reader :role_name, :node_name, :recipes, :role_description
 
-    def initialize(role_type, recipes = [], role_description = '')
-      self.role_type = role_type.to_s.strip
-      self.role_name = "#{role_type}_#{SecureRandom.uuid}"
+    def initialize(role_name, recipes = [], role_description = '')
+      self.role_name = role_name.to_s.strip
+      self.node_name = "#{role_name}-#{SecureRandom.uuid}"
       self.recipes = Array(recipes).map(&:to_s).map(&:strip)
       self.role_description = role_description.to_s
     end
 
-    def bootstrap(name, public_ip)
+    def bootstrap(public_ip)
+      public_ip = public_ip.to_s.strip
       run_list = "role[#{role_name}]"
 
       command = <<~COMMAND
-        #{File.join('knife')} bootstrap #{public_ip.to_s.strip} \
+        #{File.join('knife')} bootstrap #{public_ip} \
           --ssh-user #{ssh_user} \
           --sudo \
-          --node-name #{name.to_s.strip} \
+          --node-name #{node_name.to_s.strip} \
           --run-list '#{run_list}' \
           --ssh-identity-file #{ssh_identity_file} \
           --yes
@@ -40,15 +41,15 @@ module Seedee
         role.name(self.role_name)
         role.run_list(Array(self.recipes))
         role.default_attributes(default_attributes)
-        role.description(self.description)
+        role.description(self.role_description)
 
         role.save
       end
     end
 
     def delete_role_and_associated_nodes
-      search_glob = "#{self.role_type}*"
-      skip_list = Array(self.role_name)
+      search_glob = "#{self.role_name}*"
+      skip_list = Array(self.node_name)
 
       ::Chef::Search::Query
         .new
@@ -67,7 +68,7 @@ module Seedee
 
     private
 
-    attr_writer :role_type, :role_name, :recipes, :role_description
+    attr_writer :role_name, :node_name, :recipes, :role_description
 
     def ssh_user
       'root'
