@@ -20,6 +20,18 @@ module Seedee
       ]
 
       DigitalOcean.new.destroy_droplets(['transit-tips', type])
+      Chef.new(type, recipes, '').delete_role
+      Chef.new(type, recipes, '').get_nodes.each do |node|
+        begin
+          puts "deleting node = #{node}"
+          node.destroy
+          puts "deleted node = #{node}"
+        rescue => exception
+          puts "error deleting node = #{node}"
+          puts exception
+          puts exception.backtrace
+        end
+      end
       startup(type, recipes)
     end
 
@@ -32,6 +44,18 @@ module Seedee
       ]
 
       DigitalOcean.new.destroy_droplets(['transit-tips', type])
+      Chef.new(type, recipes, '').delete_role
+      Chef.new(type, recipes, '').get_nodes.each do |node|
+        begin
+          puts "deleting node = #{node}"
+          node.destroy
+          puts "deleted node = #{node}"
+        rescue => exception
+          puts "error deleting node = #{node}"
+          puts exception
+          puts exception.backtrace
+        end
+      end
       startup(type, recipes)
     end
 
@@ -44,6 +68,18 @@ module Seedee
       ]
 
       DigitalOcean.new.destroy_droplets(['transit-tips', type])
+      Chef.new(type, recipes, '').delete_role
+      Chef.new(type, recipes, '').get_nodes.each do |node|
+        begin
+          puts "deleting node = #{node}"
+          node.destroy
+          puts "deleted node = #{node}"
+        rescue => exception
+          puts "error deleting node = #{node}"
+          puts exception
+          puts exception.backtrace
+        end
+      end
       startup(type, recipes)
     end
 
@@ -56,6 +92,18 @@ module Seedee
       ]
 
       DigitalOcean.new.destroy_droplets(['transit-tips', type])
+      Chef.new(type, recipes, '').delete_role
+      Chef.new(type, recipes, '').get_nodes.each do |node|
+        begin
+          puts "deleting node = #{node}"
+          node.destroy
+          puts "deleted node = #{node}"
+        rescue => exception
+          puts "error deleting node = #{node}"
+          puts exception
+          puts exception.backtrace
+        end
+      end
       startup(type, recipes)
     end
 
