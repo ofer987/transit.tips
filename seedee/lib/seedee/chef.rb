@@ -72,6 +72,20 @@ module Seedee
       puts "deleted node with role = '#{search_glob}'"
     end
 
+    def delete_role
+      puts "deleting role with role_name = '#{role_name}'"
+      ::Chef::Search::Query
+        .new
+        .search('role', "name:#{role_name}")
+        .first
+        .each { |role| role.destroy }
+      puts "deleted role with role_name = '#{role_name}'"
+    rescue => exception
+      puts "error deleting role with node_name = '#{role_name}'"
+      puts exception.backtrace
+      puts exception
+    end
+
     def delete_node
       puts "deleting node with node_name = '#{node_name}'"
       ::Chef::Search::Query
