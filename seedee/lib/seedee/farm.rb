@@ -4,96 +4,86 @@ require 'securerandom'
 
 module Seedee
   class Farm
-    def startup_all
+    attr_reader :type, :recipes, :description, :count
+
+    def self.startup_all
       startup_clients
       startup_restbus
       startup_ttc_notices
       startup_load_balancer
     end
 
-    def startup_clients
+    def self.startup_clients
       type = 'client'
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::client]'
       ]
+      count = 1
+      description = ''
 
-      DigitalOcean.new.destroy_droplets(['transit-tips', type])
-      Chef.new(type, recipes, '').delete_role
-      Chef.new(type, recipes, '').get_nodes.each do |node|
-        begin
-          puts "deleting node = #{node}"
-          node.destroy
-          puts "deleted node = #{node}"
-        rescue => exception
-          puts "error deleting node = #{node}"
-          puts exception
-          puts exception.backtrace
-        end
-      end
-      startup(type, recipes)
+      instance = new(type, recipes, count, description)
+      instance.destroy
+      instance.startup
     end
 
-    def startup_restbus
+    def self.startup_restbus
       type = 'restbus'
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::restbus]'
       ]
+      count = 1
+      description = ''
 
-      DigitalOcean.new.destroy_droplets(['transit-tips', type])
-      Chef.new(type, recipes, '').delete_role
-      Chef.new(type, recipes, '').get_nodes.each do |node|
-        begin
-          puts "deleting node = #{node}"
-          node.destroy
-          puts "deleted node = #{node}"
-        rescue => exception
-          puts "error deleting node = #{node}"
-          puts exception
-          puts exception.backtrace
-        end
-      end
-      startup(type, recipes)
+      instance = new(type, recipes, count, description)
+      instance.destroy
+      instance.startup
     end
 
-    def startup_ttc_notices
+    def self.startup_ttc_notices
       type = 'ttc-notices'
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::ttc_notices]'
       ]
+      count = 1
+      description = ''
 
-      DigitalOcean.new.destroy_droplets(['transit-tips', type])
-      Chef.new(type, recipes, '').delete_role
-      Chef.new(type, recipes, '').get_nodes.each do |node|
-        begin
-          puts "deleting node = #{node}"
-          node.destroy
-          puts "deleted node = #{node}"
-        rescue => exception
-          puts "error deleting node = #{node}"
-          puts exception
-          puts exception.backtrace
-        end
-      end
-      startup(type, recipes)
+      instance = new(type, recipes, count, description)
+      instance.destroy
+      instance.startup
     end
 
-    def startup_load_balancer
+    def self.startup_load_balancer
       type = 'load-balancer'
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::load_balancer]'
       ]
+      count = 1
+      description = ''
 
-      DigitalOcean.new.destroy_droplets(['transit-tips', type])
-      Chef.new(type, recipes, '').delete_role
-      Chef.new(type, recipes, '').get_nodes.each do |node|
+      instance = new(type, recipes, count, description)
+      instance.destroy
+      instance.startup
+    end
+
+    def initialize(type, recipes, description = '', count = 1)
+      self.type = type.to_s
+      self.recipes = Array(recipes).map(&:to_s).map(&:strip)
+      self.description = description.to_s.strip
+      self.count = count.to_i
+    end
+
+    def destroy
+      cloud_provider.destroy_droplets_for_tags(['transit-tips', self.type])
+      provisioner.delete_role
+      provisioner.get_nodes.each do |node|
         begin
           puts "deleting node = #{node}"
           node.destroy
@@ -104,34 +94,17 @@ module Seedee
           puts exception.backtrace
         end
       end
-      startup(type, recipes)
     end
 
-    private
-
-    def privision(droplet, type, recipes = [], description)
-      result = provisioner.bootstrap(droplet.public_ip)
-    end
-
-    def destroy_nodes(tags)
-      cloud_provider = DigitalOcean.new
-      cloud_provider.destroy_droplets(tags)
-    end
-
-    def startup(type, recipes = [], description = '')
+    def startup
       droplet_id = nil
-      type = type.to_s.strip
-      recipes = Array(recipes).map(&:to_s).map(&:strip)
-      description = description.to_s.strip
-      provisioner = Chef.new(type, recipes, description)
-      cloud_provider = DigitalOcean.new
 
-      puts "creating role #{type}"
+      puts "creating role #{self.type}"
       role = provisioner.create_role
 
       name = provisioner.node_name
       puts "Provisioning node #{name}"
-      droplet = cloud_provider.new_droplet(name, ['transit-tips', type])
+      droplet = cloud_provider.new_droplet(name, ['transit-tips', self.type])
       droplet_id = droplet.id
 
       # wait 20 seconds for droplet to be available
@@ -148,11 +121,23 @@ module Seedee
       cloud_provider.destroy_droplet(droplet_id)
       provisioner.delete_node
     ensure
-      # TODO: move it outside of the function if want to bootstrap 
+      # TODO: move it outside of the function if want to bootstrap
       # multiple nodes
       # puts 'deleting nodes and role'
       # provisioner.delete_role_and_associated_nodes
       # cloud_provider.
+    end
+
+    private
+
+    attr_writer :type, :recipes, :description, :count
+
+    def provisioner
+      @provisioner ||= Chef.new(self.type, self.recipes, self.description)
+    end
+
+    def cloud_provider
+      DigitalOcean.new
     end
   end
 end

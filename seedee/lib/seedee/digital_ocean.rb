@@ -26,7 +26,7 @@ module Seedee
       await_active_droplet client.droplets.create(droplet)
     end
 
-    def destroy_droplets(tags)
+    def destroy_droplets_for_tags(tags)
       tags = Array(tags).map(&:to_s).map(&:strip)
 
       puts "deleting droplets with tags = '#{tags}'"
