@@ -76,7 +76,7 @@ module Seedee
       puts "deleting node with node_name = '#{node_name}'"
       ::Chef::Search::Query
         .new
-        .search('role', "name:#{node_name}")
+        .search('node', "name:#{node_name}")
         .first
         .each { |node| node.destroy }
       puts "deleted node with node_name = '#{node_name}'"
