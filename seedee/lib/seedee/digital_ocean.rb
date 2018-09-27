@@ -9,7 +9,8 @@ module Seedee
     ACCESS_TOKEN = ENV['DIGITAL_OCEAN_TOKEN']
     TRAVIS_BUILD_DIR = ENV['TRAVIS_BUILD_DIR']
 
-    def new_droplet(name)
+    def new_droplet(name, tags = [])
+      tags = Array(tags).map(&:to_s).map(&:strip)
       user_data = File.read(File.join(Seedee::ROOT, 'modify-hosts'))
       droplet = DropletKit::Droplet.new(
         name: name.to_s.strip,
@@ -18,16 +19,31 @@ module Seedee
         size: 's-1vcpu-1gb',
         user_data: user_data,
         monitoring: true,
-        ssh_keys: Array(ssh_keys)
+        ssh_keys: Array(ssh_keys),
+        tags: tags
       )
 
       await_active_droplet client.droplets.create(droplet)
     end
 
+    def destroy_droplets(tags)
+      tags = Array(tags).map(&:to_s).map(&:strip)
+
+      puts "deleting droplets with tags = '#{tags}'"
+      client.droplets
+        .all(tag_name: tags)
+        .each { |droplet| destroy_droplet(droplet.id) }
+      puts "deleted droplets with tags = '#{tags}'"
+    end
+
     def destroy_droplet(id)
+      puts "deleting droplet with id = '#{id}'"
       client.droplets.delete(id: id.to_s)
-    rescue StandardError
+      puts "deleted droplet with id = '#{id}'"
+    rescue => exception
       puts "error deleting droplet with id = '#{id}'"
+      puts exception.backtrace
+      puts exception
     end
 
     def await_active_droplet(droplet)

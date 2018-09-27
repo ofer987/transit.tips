@@ -12,49 +12,62 @@ module Seedee
     end
 
     def startup_clients
+      type = 'client'
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::client]'
       ]
 
-      startup('client', recipes)
+      DigitalOcean.new.destroy_droplets(['transit-tips', type])
+      startup(type, recipes)
     end
 
     def startup_restbus
+      type = 'restbus'
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::restbus]'
       ]
 
-      startup('restbus', recipes)
+      DigitalOcean.new.destroy_droplets(['transit-tips', type])
+      startup(type, recipes)
     end
 
     def startup_ttc_notices
+      type = 'ttc-notices'
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::ttc_notices]'
       ]
 
-      startup('ttc_notices', recipes)
+      DigitalOcean.new.destroy_droplets(['transit-tips', type])
+      startup(type, recipes)
     end
 
     def startup_load_balancer
+      type = 'load-balancer'
       recipes = [
         'recipe[chef-client::default]',
         'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::load_balancer]'
       ]
 
-      startup('load_balancer', recipes)
+      DigitalOcean.new.destroy_droplets(['transit-tips', type])
+      startup(type, recipes)
     end
 
     private
 
     def privision(droplet, type, recipes = [], description)
       result = provisioner.bootstrap(droplet.public_ip)
+    end
+
+    def destroy_nodes(tags)
+      cloud_provider = DigitalOcean.new
+      cloud_provider.destroy_droplets(tags)
     end
 
     def startup(type, recipes = [], description = '')
@@ -70,7 +83,7 @@ module Seedee
 
       name = provisioner.node_name
       puts "Provisioning node #{name}"
-      droplet = cloud_provider.new_droplet(name)
+      droplet = cloud_provider.new_droplet(name, ['transit-tips', type])
       droplet_id = droplet.id
 
       # wait 20 seconds for droplet to be available
@@ -85,8 +98,13 @@ module Seedee
     rescue => exception
       puts exception
       cloud_provider.destroy_droplet(droplet_id)
+      provisioner.delete_node
     ensure
-      provisioner.delete_role_and_associated_nodes
+      # TODO: move it outside of the function if want to bootstrap 
+      # multiple nodes
+      # puts 'deleting nodes and role'
+      # provisioner.delete_role_and_associated_nodes
+      # cloud_provider.
     end
   end
 end
