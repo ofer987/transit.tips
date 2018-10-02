@@ -100,10 +100,18 @@ module Seedee
       puts exception
     end
 
+    def get_nodes_for_role
+      ::Chef::Search::Query
+        .new
+        .search('node', "role:#{role_name}")
+        .first
+    end
+
     def get_nodes
       ::Chef::Search::Query
         .new
-        .search('node', "role:#{role_name}")[0]
+        .search('node', "role:#{role_name}")
+        .first
         .reject { |i| i.nil? }
         .reject { |i| i['ipaddress'].blank? }
         .reject { |i| i['roles'].empty? }

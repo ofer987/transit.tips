@@ -83,7 +83,7 @@ module Seedee
     def destroy
       cloud_provider.destroy_droplets_for_tags(['transit-tips', self.type])
       provisioner.delete_role
-      provisioner.get_nodes.each do |node|
+      provisioner.get_nodes_for_role.each do |node|
         begin
           puts "deleting node = #{node}"
           node.destroy
