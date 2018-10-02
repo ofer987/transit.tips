@@ -121,9 +121,6 @@ module Seedee
       droplet = cloud_provider.new_droplet(name, ['transit-tips', self.type])
       droplet_id = droplet.id
 
-      # wait 20 seconds for droplet to be available
-      sleep(20)
-
       puts "Boostrapping node #{name} with ip #{droplet.public_ip} " \
         "having droplet attributes #{droplet.as_json}"
 
