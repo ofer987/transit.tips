@@ -81,8 +81,22 @@ module Seedee
     end
 
     def destroy
-      cloud_provider.destroy_droplets_for_tags(['transit-tips', self.type])
-      provisioner.delete_role
+      begin
+        cloud_provider.destroy_droplets_for_tags(['transit-tips', self.type])
+      rescue => exception
+        puts "error droplets with tags = 'transit-tips', '#{self.type}'"
+        puts exception.backtrace
+        puts exception
+      end
+
+      begin
+        provisioner.delete_role
+      rescue => exception
+        puts "error deleting role = #{type}"
+        puts exception.backtrace
+        puts exception
+      end
+
       provisioner.get_nodes_for_role.each do |node|
         begin
           puts "deleting node = #{node}"
