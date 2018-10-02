@@ -90,8 +90,8 @@ module Seedee
           puts "deleted node = #{node}"
         rescue => exception
           puts "error deleting node = #{node}"
-          puts exception
           puts exception.backtrace
+          puts exception
         end
       end
     end
@@ -117,6 +117,8 @@ module Seedee
       raise 'knife bootstrap failed to execute' if result.nil?
       raise 'knife bootstrap returned 1' if result == false
     rescue => exception
+      puts 'Error provisioning a new node'
+      puts exception.backtrace
       puts exception
       cloud_provider.destroy_droplet(droplet_id)
       provisioner.delete_node
