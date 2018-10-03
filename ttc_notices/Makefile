@@ -6,7 +6,7 @@ install: build
 
 build:
 	bundle install
-	rake db:migrate
+	bin/rake db:migrate
 
 clean: uninstall
 
