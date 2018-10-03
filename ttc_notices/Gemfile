@@ -24,6 +24,15 @@ group :development do
   gem 'web-console', '~> 2.0'
 end
 
+group :production do
+  gem 'clockwork'
+  gem 'daemons'
+end
+
+group :kitchen do
+  gem 'sqlite3'
+end
+
 group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
@@ -40,15 +49,9 @@ group :development, :test do
 
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner'
-
-  # Database server (PostgreSQL)
-  gem 'pg'
 end
 
-group :production do
-  gem 'clockwork'
-  gem 'daemons'
-
+group :development, :test, :production do
   # Database server (PostgreSQL)
   gem 'pg'
 end
