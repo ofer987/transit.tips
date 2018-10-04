@@ -30,6 +30,9 @@ group :production do
 end
 
 group :kitchen do
+  gem 'clockwork'
+  gem 'daemons'
+
   gem 'sqlite3'
 end
 
