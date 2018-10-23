@@ -29,13 +29,6 @@ group :production do
   gem 'daemons'
 end
 
-group :kitchen do
-  gem 'clockwork'
-  gem 'daemons'
-
-  gem 'sqlite3'
-end
-
 group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'

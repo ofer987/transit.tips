@@ -16,13 +16,6 @@ test:
   <<: *default
   database: twitter_test
 
-kitchen:
-  <<: *default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
-  database: db/kitchen.sqlite3
-
 production:
   <<: *default
   database: transit_tips
