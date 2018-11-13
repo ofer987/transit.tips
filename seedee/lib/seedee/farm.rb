@@ -6,6 +6,21 @@ module Seedee
   class Farm
     attr_reader :type, :recipes, :description, :count
 
+    def self.create_base_image
+      type = 'base-image'
+      recipes = [
+        'recipe[chef-client::default]',
+        'recipe[chef-client::delete_validation]',
+        'recipe[base_image::default]'
+      ]
+      count = 1
+      description = ''
+
+      instance = new(type, recipes, count, description)
+      instance.destroy
+      instance.startup
+    end
+
     def self.startup_all
       startup_clients
       startup_restbus
