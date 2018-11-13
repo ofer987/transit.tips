@@ -128,6 +128,8 @@ module Seedee
       droplet = cloud_provider.new_droplet(name, ['transit-tips', self.type])
       droplet_id = droplet.id
 
+      sleep(20)
+
       puts "Boostrapping node #{name} with ip #{droplet.public_ip} " \
         "having droplet attributes #{droplet.as_json}"
 
@@ -157,7 +159,7 @@ module Seedee
     end
 
     def cloud_provider
-      DigitalOcean.new
+      @cloud_provider ||= DigitalOcean.new
     end
   end
 end
