@@ -3,11 +3,11 @@
 require 'seedee/version'
 require 'active_support/all'
 require 'chef'
+require 'chef/knife/vault_base'
+require 'chef-vault'
 
 # Todo replace with configuration file or environment values
-Chef::Config.node_name = 'ofer987'
-Chef::Config.client_key = '/Users/ofer987/.chef/rsa_chef'
-Chef::Config.chef_server_url = 'https://138.197.155.252/organizations/otium'
+Chef::Config.from_file File.join(ENV['HOME'], '.chef', 'config.rb')
 
 # Top-level module
 module Seedee
@@ -16,4 +16,5 @@ module Seedee
   autoload :Farm, 'seedee/farm'
   autoload :DigitalOcean, 'seedee/digital_ocean'
   autoload :Chef, 'seedee/chef'
+  autoload :Vaults, 'seedee/vaults'
 end
