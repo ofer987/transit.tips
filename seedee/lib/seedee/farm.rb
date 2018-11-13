@@ -31,8 +31,6 @@ module Seedee
     def self.startup_clients
       type = 'client'
       recipes = [
-        'recipe[chef-client::default]',
-        'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::client]'
       ]
       count = 1
@@ -46,8 +44,6 @@ module Seedee
     def self.startup_restbus
       type = 'restbus'
       recipes = [
-        'recipe[chef-client::default]',
-        'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::restbus]'
       ]
       count = 1
@@ -61,8 +57,6 @@ module Seedee
     def self.startup_ttc_notices
       type = 'ttc-notices'
       recipes = [
-        'recipe[chef-client::default]',
-        'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::ttc_notices]'
       ]
       count = 1
@@ -76,8 +70,6 @@ module Seedee
     def self.startup_load_balancer
       type = 'load-balancer'
       recipes = [
-        'recipe[chef-client::default]',
-        'recipe[chef-client::delete_validation]',
         'recipe[transit.tips::load_balancer]'
       ]
       count = 1
