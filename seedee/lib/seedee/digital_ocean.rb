@@ -15,7 +15,7 @@ module Seedee
       droplet = DropletKit::Droplet.new(
         name: name.to_s.strip,
         region: 'tor1',
-        image: 'ubuntu-16-04-x64',
+        image: '40153733', # snapshot that includes base-image
         size: 's-1vcpu-1gb',
         user_data: user_data,
         monitoring: true,
