@@ -18,6 +18,7 @@ test:
 
 production:
   <<: *default
+  host: 104.131.21.166
   database: transit_tips
   username: <%= ENV['TRANSIT_TIPS_DATABASE_USER'] %>
   password: <%= ENV['TRANSIT_TIPS_DATABASE_PASSWORD'] %>
