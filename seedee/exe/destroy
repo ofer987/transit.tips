@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'seedee'
+
+ARGV.each do |tag|
+  Seedee::Farm.new(tag, []).destroy
+end
