@@ -12,7 +12,7 @@ module Ttc
           Nokogiri::HTML(values['stationDirectionText']).text
         end
 
-        def as_json
+        def as_json(_ = nil)
           {
             direction: direction,
             destination: values['trainDestinationStation'],

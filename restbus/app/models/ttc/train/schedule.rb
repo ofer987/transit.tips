@@ -18,7 +18,7 @@ module Ttc
         STATIONS[station]
       end
 
-      def as_json
+      def as_json(_ = nil)
         {
           subwayLine: line,
           subwayLineId: line_id,
