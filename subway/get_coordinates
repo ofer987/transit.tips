@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+# frozen_string_literal
+
+require 'pry-byebug'
+require 'awesome_print'
+require 'json'
+require 'rest-client'
+require '../restbus/app/models/ttc/train/lines.rb'
+
+subway_lines = Ttc::Train::LINES
+stations = subway_lines
+  .flat_map { |(_, line)| line[:stations].map { |(_, station)| station } }
+station_names = subway_lines
+  .flat_map { |(_, line)| line[:stations].map { |(_, station)| station[:name] } }
+
+searches = station_names.map { |name| "#{name} station, Toronto" }
+
+uri = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
+
+searches.each do |search|
+  params = {
+    key: ENV['GOOGLE_API_KEY'],
+    query: search,
+    type: 'subway_station'
+  }
+
+  begin
+    response = RestClient.get uri, { params: params }
+    json = JSON.parse(response.body)
+    Array(json['results']).each do |result|
+      if Array(result['types']).include?('subway_station')
+        puts "#{result['name']}: (#{result['geometry']['location']['lat']}, #{result['geometry']['location']['lng']})"
+
+        stations.select { |station| station[:google_maps_name] == result['name'] }.each do |station|
+          station[:latitude] = result['geometry']['location']['lat']
+          station[:longitude] = result['geometry']['location']['lng']
+        end
+      end
+    end
+  rescue => exception
+    puts exception.message
+    puts exception.backtrace
+  end
+end
+
+puts subway_lines
+binding.pry
+ap subway_lines
