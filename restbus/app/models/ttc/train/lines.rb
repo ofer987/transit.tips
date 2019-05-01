@@ -28,15 +28,17 @@ module Ttc
           },
           :Broadview => {
             :id => 53,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Broadview"
+            :latitude => 43.6768705,
+            :longitude => -79.3583223,
+            :name => "Broadview",
+            google_maps_name: 'Broadview'
           },
           :"Castle Frank" => {
             :id => 52,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Castle Frank"
+            :latitude => 43.6737967,
+            :longitude => -79.3686408,
+            :name => "Castle Frank",
+            google_maps_name: 'Castle Frank'
           },
           :Chester => {
             :google_maps_name => "Chester",
@@ -75,9 +77,10 @@ module Ttc
           },
           :"Dundas West" => {
             :id => 41,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Dundas West"
+            :latitude => 43.6569726,
+            :longitude => -79.4528916,
+            :name => "Dundas West",
+            google_maps_name: 'Dundas West'
           },
           :Greenwood => {
             :id => 57,
@@ -88,9 +91,10 @@ module Ttc
           },
           :"High Park" => {
             :id => 39,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "High Park"
+            :latitude => 43.6537376,
+            :longitude => -79.4672307,
+            :name => "High Park",
+            google_maps_name: 'High Park'
           },
           :Islington => {
             :id => 34,
@@ -101,15 +105,17 @@ module Ttc
           },
           :Jane => {
             :id => 37,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Jane"
+            :latitude => 43.6499455,
+            :longitude => -79.4838309,
+            :name => "Jane",
+            google_maps_name: 'Jane Station'
           },
           :Keele => {
             :id => 40,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Keele"
+            :latitude => 43.6555172,
+            :longitude => -79.459801,
+            :name => "Keele",
+            google_maps_name: 'Keele'
           },
           :Kennedy => {
             :google_maps_name => "Kennedy",
@@ -120,9 +126,10 @@ module Ttc
           },
           :Kipling => {
             :id => 33,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Kipling"
+            :latitude => 43.6377892,
+            :longitude => -79.5354071,
+            :name => "Kipling",
+            google_maps_name: 'Kipling'
           },
           :Lansdowne => {
             :google_maps_name => "Lansdowne",
@@ -140,9 +147,10 @@ module Ttc
           },
           :"Old Mill" => {
             :id => 36,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Old Mill"
+            :latitude => 43.6500969,
+            :longitude => -79.4949728,
+            :name => "Old Mill",
+            google_maps_name: 'Old Mill Station'
           },
           :Ossington => {
             :google_maps_name => "Ossington",
@@ -190,25 +198,29 @@ module Ttc
             :id => 48,
             :latitude => 123,
             :longitude => 456,
-            :name => "St. George"
+            :name => "St. George",
+            google_maps_name: 'St. George Station'
           },
           :"Victoria Park" => {
             :id => 61,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Victoria Park"
+            :latitude => 43.6946635,
+            :longitude => -79.2890704,
+            :name => "Victoria Park",
+            google_maps_name: 'Victoria Park Station'
           },
           :Warden => {
             :id => 62,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Warden"
+            :latitude => 43.7114402,
+            :longitude => -79.2790604,
+            :name => "Warden",
+            google_maps_name: 'Warden Station - Eastbound Platform'
           },
           :Woodbine => {
             :id => 59,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Woodbine"
+            :latitude => 43.7114402,
+            :longitude => -79.2790604,
+            :name => "Woodbine",
+            google_maps_name: 'Woodbine'
           }
         }
       },
@@ -251,9 +263,10 @@ module Ttc
           },
           :"Sheppard-Yonge" => {
             :id => 64,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Sheppard-Yonge"
+            :latitude => 43.7114402,
+            :longitude => -79.2790604,
+            :name => "Sheppard-Yonge",
+            google_maps_name: 'Sheppard-Yonge Station'
           }
         }
       },
@@ -409,9 +422,10 @@ module Ttc
           },
           :Rosedale => {
             :id => 23,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Rosedale"
+            :latitude => 43.7114402,
+            :longitude => -79.2790604,
+            :name => "Rosedale",
+            google_maps_name: 'Rosedale'
           },
           :"Sheppard West" => {
             :google_maps_name => "Sheppard West",
@@ -422,9 +436,10 @@ module Ttc
           },
           :"Sheppard-Yonge" => {
             :id => 30,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Sheppard-Yonge"
+            :latitude => 43.7114402,
+            :longitude => -79.2790604,
+            :name => "Sheppard-Yonge",
+            google_maps_name: 'Sheppard-Yonge Station'
           },
           :Spadina => {
             :google_maps_name => "Spadina Station",
@@ -458,7 +473,8 @@ module Ttc
             :id => 10,
             :latitude => 123,
             :longitude => 456,
-            :name => "St. George"
+            :name => "St. George",
+            google_maps_name: 'St. George Station'
           },
           :"St. Patrick" => {
             :google_maps_name => "St Patrick",
@@ -490,15 +506,17 @@ module Ttc
           },
           :Wellesley => {
             :id => 21,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Wellesley"
+            :latitude => 43.7114402,
+            :longitude => -79.2790604,
+            :name => "Wellesley",
+            google_maps_name: 'Wellesley'
           },
           :Wilson => {
             :id => 2,
-            :latitude => 123,
-            :longitude => 456,
-            :name => "Wilson"
+            :latitude => 43.7114402,
+            :longitude => -79.2790604,
+            :name => "Wilson",
+            google_maps_name: 'Wilson'
           },
           :"York University" => {
             :google_maps_name => "York University",
@@ -507,11 +525,12 @@ module Ttc
             :longitude => -79.4998269,
             :name => "York University"
           },
-          :"York mills" => {
+          :"York Mills" => {
             :id => 29,
             :latitude => 123,
             :longitude => 456,
-            :name => "York mills"
+            :name => "York Mills",
+            google_maps_name: 'York Mills Station'
           },
           :Yorkdale => {
             :id => 3,
