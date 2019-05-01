@@ -1,586 +1,512 @@
 module Ttc
   module Train
     LINES = {
-      :'Yonge-University-Spadina' => {
-        id: 1,
-        name: 'Yonge-University-Spadina',
-        stations: {
-          :'Downsview Park' => {
-            id: 75,
-            name: 'Downsview Park',
-            google_maps_name: 'Downsview Park',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Finch West' => {
-            id: 76,
-            name: 'Finch West',
-            google_maps_name: 'Finch West Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'York University' => {
-            id: 77,
-            name: 'York University',
-            google_maps_name: 'York University',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Pioneer Village' => {
-            id: 78,
-            name: 'Pioneer Village',
-            google_maps_name: 'Pioneer Village',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Highway 407' => {
-            id: 79,
-            name: 'Highway 407',
-            google_maps_name: 'Highway 407',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Vaughan Metropolitan Centre' => {
-            id: 80,
-            name: 'Vaughan Metropolitan Centre',
-            google_maps_name: 'Vaughan Metropolitan Centre',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Sheppard West' => {
-            id: 1,
-            name: 'Sheppard West',
-            google_maps_name: 'Sheppard West',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Wilson' => {
-            id: 2,
-            name: 'Wilson',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Yorkdale' => {
-            id: 3,
-            name: 'Yorkdale',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Lawrence West' => {
-            id: 4,
-            name: 'Lawrence West',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Glencairn' => {
-            id: 5,
-            name: 'Glencairn',
-            google_maps_name: 'Glencairn',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Eglinton West' => {
-            id: 6,
-            name: 'Eglinton West',
-            google_maps_name: 'Eglinton West',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'St. Clair West' => {
-            id: 7,
-            name: 'St. Clair West',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Dupont' => {
-            id: 8,
-            name: 'Dupont',
-            google_maps_name: 'Dupont Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Spadina' => {
-            id: 9,
-            name: 'Spadina',
-            google_maps_name: 'Spadina Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'St. George' => {
-            id: 10,
-            name: 'St. George',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Museum' => {
-            id: 11,
-            name: 'Museum',
-            google_maps_name: 'Museum Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Queen\'s Park' => {
-            id: 12,
-            name: 'Queen\'s Park',
-            google_maps_name: 'Queen\'s Park Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'St. Patrick' => {
-            id: 13,
-            name: 'St. Patrick',
-            google_maps_name: 'St Patrick',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Osgoode' => {
-            id: 14,
-            name: 'Osgoode',
-            google_maps_name: 'Osgoode Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'St. Andrew' => {
-            id: 15,
-            name: 'St. Andrew',
-            google_maps_name: 'St Andrew',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Union' => {
-            id: 16,
-            name: 'Union',
-            google_maps_name: 'Union Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'King' => {
-            id: 17,
-            name: 'King',
-            google_maps_name: 'King Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Queen' => {
-            id: 18,
-            name: 'Queen',
-            google_maps_name: 'Queen Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Dundas' => {
-            id: 19,
-            name: 'Dundas',
-            google_maps_name: 'Dundas Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'College' => {
-            id: 20,
-            name: 'College',
-            google_maps_name: 'College',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Wellesley' => {
-            id: 21,
-            name: 'Wellesley',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Bloor-Yonge' => {
-            id: 22,
-            name: 'Bloor-Yonge',
-            google_maps_name: 'Bloor-Yonge Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Rosedale' => {
-            id: 23,
-            name: 'Rosedale',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Summerhill' => {
-            id: 24,
-            name: 'Summerhill',
-            google_maps_name: 'Summerhill',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'St. Clair' => {
-            id: 25,
-            name: 'St. Clair',
-            google_maps_name: 'St Clair',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Davisville' => {
-            id: 26,
-            name: 'Davisville',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Eglinton' => {
-            id: 27,
-            name: 'Eglinton',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Lawrence' => {
-            id: 28,
-            name: 'Lawrence',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'York mills' => {
-            id: 29,
-            name: 'York mills',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Sheppard-Yonge' => {
-            id: 30,
-            name: 'Sheppard-Yonge',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'North York Centre' => {
-            id: 31,
-            name: 'North York Centre',
-            google_maps_name: 'North York Centre',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Finch' => {
-            id: 32,
-            name: 'Finch',
-            latitude: 123,
-            longitude: 456
-          },
-        },
-      },
-
-      :'Bloor-Danforth' => {
-        id: 2,
-        name: 'Bloor-Danforth',
-        stations: {
-          :'Kipling' => {
-            id: 33,
-            name: 'Kipling',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Islington' => {
-            id: 34,
-            name: 'Islington',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Royal York' => {
-            id: 35,
-            name: 'Royal York',
-            google_maps_name: 'Royal York Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Old Mill' => {
-            id: 36,
-            name: 'Old Mill',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Jane' => {
-            id: 37,
-            name: 'Jane',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Runnymede' => {
-            id: 38,
-            name: 'Runnymede',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'High Park' => {
-            id: 39,
-            name: 'High Park',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Keele' => {
-            id: 40,
-            name: 'Keele',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Dundas West' => {
-            id: 41,
-            name: 'Dundas West',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Lansdowne' => {
-            id: 42,
-            name: 'Lansdowne',
-            google_maps_name: 'Lansdowne',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Dufferin' => {
-            id: 43,
-            name: 'Dufferin',
-            google_maps_name: 'Dufferin',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Ossington' => {
-            id: 44,
-            name: 'Ossington',
-            google_maps_name: 'Ossington',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Christie' => {
-            id: 45,
-            name: 'Christie',
-            google_maps_name: 'Christie',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Bathurst' => {
-            id: 46,
-            name: 'Bathurst',
-            google_maps_name: 'Bathurst',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Spadina' => {
-            id: 47,
-            name: 'Spadina',
-            google_maps_name: 'Spadina Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'St. George' => {
-            id: 48,
-            name: 'St. George',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Bay' => {
-            id: 49,
-            name: 'Bay',
-            google_maps_name: 'Bay Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Bloor-Yonge' => {
-            id: 50,
-            name: 'Bloor-Yonge',
-            google_maps_name: 'Bloor-Yonge Station',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Sherbourne' => {
-            id: 51,
-            name: 'Sherbourne',
-            google_maps_name: 'Sherbourne',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Castle Frank' => {
-            id: 52,
-            name: 'Castle Frank',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Broadview' => {
-            id: 53,
-            name: 'Broadview',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Chester' => {
-            id: 54,
-            name: 'Chester',
-            google_maps_name: 'Chester',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Pape' => {
-            id: 55,
-            name: 'Pape',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Donlands' => {
-            id: 56,
-            name: 'Donlands',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Greenwood' => {
-            id: 57,
-            name: 'Greenwood',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Coxwell' => {
-            id: 58,
-            name: 'Coxwell',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Woodbine' => {
-            id: 59,
-            name: 'Woodbine',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Main Street' => {
-            id: 60,
-            name: 'Main Street',
-            google_maps_name: 'Main Street',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Victoria Park' => {
-            id: 61,
-            name: 'Victoria Park',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Warden' => {
-            id: 62,
-            name: 'Warden',
-            latitude: 123,
-            longitude: 456
-          },
-
-          :'Kennedy' => {
-            id: 63,
-            name: 'Kennedy',
-            google_maps_name: 'Kennedy',
-            latitude: 123,
-            longitude: 456
+      :"Bloor-Danforth" => {
+        :id => 2,
+        :name => "Bloor-Danforth",
+        :stations => {
+          :Bathurst => {
+            :google_maps_name => "Bathurst",
+            :id => 46,
+            :latitude => 43.6660011,
+            :longitude => -79.4112152,
+            :name => "Bathurst"
+          },
+          :Bay => {
+            :google_maps_name => "Bay Station",
+            :id => 49,
+            :latitude => 43.6701472,
+            :longitude => -79.3906947,
+            :name => "Bay"
+          },
+          :"Bloor-Yonge" => {
+            :google_maps_name => "Bloor-Yonge Station",
+            :id => 50,
+            :latitude => 43.6709058,
+            :longitude => -79.38563719999999,
+            :name => "Bloor-Yonge"
+          },
+          :Broadview => {
+            :id => 53,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Broadview"
+          },
+          :"Castle Frank" => {
+            :id => 52,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Castle Frank"
+          },
+          :Chester => {
+            :google_maps_name => "Chester",
+            :id => 54,
+            :latitude => 43.6782356,
+            :longitude => -79.3524545,
+            :name => "Chester"
+          },
+          :Christie => {
+            :google_maps_name => "Christie",
+            :id => 45,
+            :latitude => 43.6641094,
+            :longitude => -79.4183587,
+            :name => "Christie"
+          },
+          :Coxwell => {
+            :id => 58,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Coxwell"
+          },
+          :Donlands => {
+            :id => 56,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Donlands"
+          },
+          :Dufferin => {
+            :google_maps_name => "Dufferin",
+            :id => 43,
+            :latitude => 43.6600496,
+            :longitude => -79.4354025,
+            :name => "Dufferin"
+          },
+          :"Dundas West" => {
+            :id => 41,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Dundas West"
+          },
+          :Greenwood => {
+            :id => 57,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Greenwood"
+          },
+          :"High Park" => {
+            :id => 39,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "High Park"
+          },
+          :Islington => {
+            :id => 34,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Islington"
+          },
+          :Jane => {
+            :id => 37,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Jane"
+          },
+          :Keele => {
+            :id => 40,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Keele"
+          },
+          :Kennedy => {
+            :google_maps_name => "Kennedy",
+            :id => 63,
+            :latitude => 43.7321497,
+            :longitude => -79.2641089,
+            :name => "Kennedy"
+          },
+          :Kipling => {
+            :id => 33,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Kipling"
+          },
+          :Lansdowne => {
+            :google_maps_name => "Lansdowne",
+            :id => 42,
+            :latitude => 43.6590797,
+            :longitude => -79.442801,
+            :name => "Lansdowne"
+          },
+          :"Main Street" => {
+            :google_maps_name => "Main Street",
+            :id => 60,
+            :latitude => 43.6890219,
+            :longitude => -79.3016857,
+            :name => "Main Street"
+          },
+          :"Old Mill" => {
+            :id => 36,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Old Mill"
+          },
+          :Ossington => {
+            :google_maps_name => "Ossington",
+            :id => 44,
+            :latitude => 43.662371,
+            :longitude => -79.4263058,
+            :name => "Ossington"
+          },
+          :Pape => {
+            :id => 55,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Pape"
+          },
+          :"Royal York" => {
+            :google_maps_name => "Royal York Station",
+            :id => 35,
+            :latitude => 43.6484349,
+            :longitude => -79.5097437,
+            :name => "Royal York"
+          },
+          :Runnymede => {
+            :id => 38,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Runnymede"
+          },
+          :Sherbourne => {
+            :google_maps_name => "Sherbourne",
+            :id => 51,
+            :latitude => 43.6721674,
+            :longitude => -79.376432,
+            :name => "Sherbourne"
+          },
+          :Spadina => {
+            :google_maps_name => "Spadina Station",
+            :id => 47,
+            :latitude => 43.6673525,
+            :longitude => -79.40383469999999,
+            :name => "Spadina"
+          },
+          :"St. George" => {
+            :id => 48,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "St. George"
+          },
+          :"Victoria Park" => {
+            :id => 61,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Victoria Park"
+          },
+          :Warden => {
+            :id => 62,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Warden"
+          },
+          :Woodbine => {
+            :id => 59,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Woodbine"
           }
         }
       },
-
-      :'Scarborough-RT' => {
-        id: 3,
-        name: 'Scarborough RT',
-        stations: {}
+      :"Scarborough-RT" => {
+        :id => 3,
+        :name => "Scarborough RT",
+        :stations => {}
       },
-
-      :'Sheppard' => {
-        id: 4,
-        name: 'Sheppard',
-        stations: {
-          :'Sheppard-Yonge' => {
-            id: 64,
-            name: 'Sheppard-Yonge',
-            latitude: 123,
-            longitude: 456
+      :Sheppard => {
+        :id => 4,
+        :name => "Sheppard",
+        :stations => {
+          :Bayview => {
+            :google_maps_name => "Bayview",
+            :id => 65,
+            :latitude => 43.766874,
+            :longitude => -79.3863038,
+            :name => "Bayview"
           },
-
-          :'Bayview' => {
-            id: 65,
-            name: 'Bayview',
-            google_maps_name: 'Bayview',
-            latitude: 123,
-            longitude: 456
+          :Bessarion => {
+            :google_maps_name => "Bessarion Station - Eastbound Platform",
+            :id => 66,
+            :latitude => 43.76906719999999,
+            :longitude => -79.37589779999999,
+            :name => "Bessarion"
           },
-
-          :'Bessarion' => {
-            id: 66,
-            name: 'Bessarion',
-            google_maps_name: 'Bessarion Station - Eastbound Platform',
-            latitude: 123,
-            longitude: 456
+          :"Don Mills" => {
+            :google_maps_name => "Don Mills",
+            :id => 68,
+            :latitude => 43.7757094,
+            :longitude => -79.34532209999999,
+            :name => "Don Mills"
           },
-
-          :'Leslie' => {
-            id: 67,
-            name: 'Leslie',
-            google_maps_name: 'Leslie',
-            latitude: 123,
-            longitude: 456
+          :Leslie => {
+            :google_maps_name => "Leslie",
+            :id => 67,
+            :latitude => 43.770847,
+            :longitude => -79.36779,
+            :name => "Leslie"
           },
-
-          :'Don Mills' => {
-            id: 68,
-            name: 'Don Mills',
-            google_maps_name: 'Don Mills',
-            latitude: 123,
-            longitude: 456
+          :"Sheppard-Yonge" => {
+            :id => 64,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Sheppard-Yonge"
+          }
+        }
+      },
+      :"Yonge-University-Spadina" => {
+        :id => 1,
+        :name => "Yonge-University-Spadina",
+        :stations => {
+          :"Bloor-Yonge" => {
+            :google_maps_name => "Bloor-Yonge Station",
+            :id => 22,
+            :latitude => 43.6709058,
+            :longitude => -79.38563719999999,
+            :name => "Bloor-Yonge"
+          },
+          :College => {
+            :google_maps_name => "College",
+            :id => 20,
+            :latitude => 43.6613247,
+            :longitude => -79.3830746,
+            :name => "College"
+          },
+          :Davisville => {
+            :id => 26,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Davisville"
+          },
+          :"Downsview Park" => {
+            :google_maps_name => "Downsview Park",
+            :id => 75,
+            :latitude => 43.7535804,
+            :longitude => -79.47881430000001,
+            :name => "Downsview Park"
+          },
+          :Dundas => {
+            :google_maps_name => "Dundas Station",
+            :id => 19,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Dundas"
+          },
+          :Dupont => {
+            :google_maps_name => "Dupont Station",
+            :id => 8,
+            :latitude => 43.67485509999999,
+            :longitude => -79.40708099999999,
+            :name => "Dupont"
+          },
+          :Eglinton => {
+            :id => 27,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Eglinton"
+          },
+          :"Eglinton West" => {
+            :google_maps_name => "Eglinton West",
+            :id => 6,
+            :latitude => 43.6993703,
+            :longitude => -79.4361468,
+            :name => "Eglinton West"
+          },
+          :Finch => {
+            :id => 32,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Finch"
+          },
+          :"Finch West" => {
+            :google_maps_name => "Finch West Station",
+            :id => 76,
+            :latitude => 43.7651403,
+            :longitude => -79.4910434,
+            :name => "Finch West"
+          },
+          :Glencairn => {
+            :google_maps_name => "Glencairn",
+            :id => 5,
+            :latitude => 43.7094806,
+            :longitude => -79.4411987,
+            :name => "Glencairn"
+          },
+          :"Highway 407" => {
+            :google_maps_name => "Highway 407",
+            :id => 79,
+            :latitude => 43.783215,
+            :longitude => -79.52374789999999,
+            :name => "Highway 407"
+          },
+          :King => {
+            :google_maps_name => "King Station",
+            :id => 17,
+            :latitude => 43.6491523,
+            :longitude => -79.37785989999999,
+            :name => "King"
+          },
+          :Lawrence => {
+            :id => 28,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Lawrence"
+          },
+          :"Lawrence West" => {
+            :id => 4,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Lawrence West"
+          },
+          :Museum => {
+            :google_maps_name => "Museum Station",
+            :id => 11,
+            :latitude => 43.6671421,
+            :longitude => -79.3935868,
+            :name => "Museum"
+          },
+          :"North York Centre" => {
+            :google_maps_name => "North York Centre",
+            :id => 31,
+            :latitude => 43.7686866,
+            :longitude => -79.41254599999999,
+            :name => "North York Centre"
+          },
+          :Osgoode => {
+            :google_maps_name => "Osgoode Station",
+            :id => 14,
+            :latitude => 43.65061439999999,
+            :longitude => -79.38683139999999,
+            :name => "Osgoode"
+          },
+          :"Pioneer Village" => {
+            :google_maps_name => "Pioneer Village",
+            :id => 78,
+            :latitude => 43.7771693,
+            :longitude => -79.5103292,
+            :name => "Pioneer Village"
+          },
+          :Queen => {
+            :google_maps_name => "Queen Station",
+            :id => 18,
+            :latitude => 43.6523969,
+            :longitude => -79.3792228,
+            :name => "Queen"
+          },
+          :"Queen's Park" => {
+            :google_maps_name => "Queen's Park Station",
+            :id => 12,
+            :latitude => 43.6598804,
+            :longitude => -79.3904768,
+            :name => "Queen's Park"
+          },
+          :Rosedale => {
+            :id => 23,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Rosedale"
+          },
+          :"Sheppard West" => {
+            :google_maps_name => "Sheppard West",
+            :id => 1,
+            :latitude => 43.74969129999999,
+            :longitude => -79.4618986,
+            :name => "Sheppard West"
+          },
+          :"Sheppard-Yonge" => {
+            :id => 30,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Sheppard-Yonge"
+          },
+          :Spadina => {
+            :google_maps_name => "Spadina Station",
+            :id => 9,
+            :latitude => 43.6673525,
+            :longitude => -79.40383469999999,
+            :name => "Spadina"
+          },
+          :"St. Andrew" => {
+            :google_maps_name => "St Andrew",
+            :id => 15,
+            :latitude => 43.6476574,
+            :longitude => -79.3848079,
+            :name => "St. Andrew"
+          },
+          :"St. Clair" => {
+            :google_maps_name => "St Clair",
+            :id => 25,
+            :latitude => 43.6874845,
+            :longitude => -79.3930467,
+            :name => "St. Clair"
+          },
+          :"St. Clair West" => {
+            :id => 7,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "St. Clair West"
+          },
+          :"St. George" => {
+            :id => 10,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "St. George"
+          },
+          :"St. Patrick" => {
+            :google_maps_name => "St Patrick",
+            :id => 13,
+            :latitude => 43.6548307,
+            :longitude => -79.38834849999999,
+            :name => "St. Patrick"
+          },
+          :Summerhill => {
+            :google_maps_name => "Summerhill",
+            :id => 24,
+            :latitude => 43.6822899,
+            :longitude => -79.3907744,
+            :name => "Summerhill"
+          },
+          :Union => {
+            :google_maps_name => "Union Station",
+            :id => 16,
+            :latitude => 43.6452239,
+            :longitude => -79.380861,
+            :name => "Union"
+          },
+          :"Vaughan Metropolitan Centre" => {
+            :google_maps_name => "Vaughan Metropolitan Centre",
+            :id => 80,
+            :latitude => 43.7942439,
+            :longitude => -79.5274867,
+            :name => "Vaughan Metropolitan Centre"
+          },
+          :Wellesley => {
+            :id => 21,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Wellesley"
+          },
+          :Wilson => {
+            :id => 2,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Wilson"
+          },
+          :"York University" => {
+            :google_maps_name => "York University",
+            :id => 77,
+            :latitude => 43.7739092,
+            :longitude => -79.4998269,
+            :name => "York University"
+          },
+          :"York mills" => {
+            :id => 29,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "York mills"
+          },
+          :Yorkdale => {
+            :id => 3,
+            :latitude => 123,
+            :longitude => 456,
+            :name => "Yorkdale"
           }
         }
       }
