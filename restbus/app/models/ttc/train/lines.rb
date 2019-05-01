@@ -56,13 +56,15 @@ module Ttc
             :id => 58,
             :latitude => 123,
             :longitude => 456,
-            :name => "Coxwell"
+            :name => "Coxwell",
+            google_maps_name: 'Coxwell'
           },
           :Donlands => {
             :id => 56,
             :latitude => 123,
             :longitude => 456,
-            :name => "Donlands"
+            :name => 'Donlands',
+            google_maps_name: 'Donlands'
           },
           :Dufferin => {
             :google_maps_name => "Dufferin",
@@ -81,7 +83,8 @@ module Ttc
             :id => 57,
             :latitude => 123,
             :longitude => 456,
-            :name => "Greenwood"
+            :name => "Greenwood",
+            google_maps_name: 'Greenwood'
           },
           :"High Park" => {
             :id => 39,
@@ -93,7 +96,8 @@ module Ttc
             :id => 34,
             :latitude => 123,
             :longitude => 456,
-            :name => "Islington"
+            :name => 'Islington',
+            google_maps_name: 'Islington Station'
           },
           :Jane => {
             :id => 37,
@@ -151,7 +155,8 @@ module Ttc
             :id => 55,
             :latitude => 123,
             :longitude => 456,
-            :name => "Pape"
+            :name => "Pape",
+            google_maps_name: 'Pape Station'
           },
           :"Royal York" => {
             :google_maps_name => "Royal York Station",
@@ -164,7 +169,8 @@ module Ttc
             :id => 38,
             :latitude => 123,
             :longitude => 456,
-            :name => "Runnymede"
+            :name => 'Runnymede',
+            google_maps_name: 'Runnymede Station'
           },
           :Sherbourne => {
             :google_maps_name => "Sherbourne",
@@ -273,7 +279,8 @@ module Ttc
             :id => 26,
             :latitude => 123,
             :longitude => 456,
-            :name => "Davisville"
+            :name => "Davisville",
+            google_maps_name: 'Davisville'
           },
           :"Downsview Park" => {
             :google_maps_name => "Downsview Park",
@@ -313,7 +320,8 @@ module Ttc
             :id => 32,
             :latitude => 123,
             :longitude => 456,
-            :name => "Finch"
+            :name => "Finch",
+            google_maps_name: 'Finch'
           },
           :"Finch West" => {
             :google_maps_name => "Finch West Station",
@@ -347,13 +355,15 @@ module Ttc
             :id => 28,
             :latitude => 123,
             :longitude => 456,
-            :name => "Lawrence"
+            :name => 'Lawrence',
+            google_maps_name: 'Lawrence Station'
           },
           :"Lawrence West" => {
             :id => 4,
             :latitude => 123,
             :longitude => 456,
-            :name => "Lawrence West"
+            :name => "Lawrence West",
+            google_maps_name: 'Lawrence West Station'
           },
           :Museum => {
             :google_maps_name => "Museum Station",
@@ -441,7 +451,8 @@ module Ttc
             :id => 7,
             :latitude => 123,
             :longitude => 456,
-            :name => "St. Clair West"
+            :name => "St. Clair West",
+            google_maps_name: 'St Clair West'
           },
           :"St. George" => {
             :id => 10,
@@ -506,7 +517,8 @@ module Ttc
             :id => 3,
             :latitude => 123,
             :longitude => 456,
-            :name => "Yorkdale"
+            :name => "Yorkdale",
+            google_maps_name: 'Yorkdale Station'
           }
         }
       }
