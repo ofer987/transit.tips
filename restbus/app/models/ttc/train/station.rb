@@ -1,30 +1,53 @@
+require 'geocoder/stores/base'
+
 module Ttc
   module Train
     class Station
-      def self.closest_stations(reference_latitude, reference_longitude, threshold_kilometres = 2)
+      include Geocoder::Store::Base
+
+      def self.geocoder_options
+        @geocoder_options ||= {
+          units: :km,
+          latitude: :latitude,
+          longitude: :longitude
+        }
+      end
+
+      attr_reader :latitude, :longitude
+
+      # reverse_geocoded_by :latitude, :longitude
+      #
+      def initialize(latitude, longitude)
+        self.latitude = latitude.to_f
+        self.longitude = longitude.to_f
+      end
+
+      def closest_stations(threshold_kilometres = 2)
         closest_stations = LINES.values.map do |line|
           stations = line[:stations].values
-          closest_station = shortest_ordered_distance_to(reference_latitude, reference_longitude, stations)
+          closest_station = shortest_ordered_distance_to(stations)
 
           [line[:id], closest_station]
         end.to_h
 
         closest_stations
-          .reject { |(_, station)| station.nil? }
+          .reject { |_, station| station.nil? }
       end
 
-      def self.shortest_ordered_distance_to(reference_latitude, reference_longitude, stations, threshold_kilometres = 2)
-        datum = Geocoder.new(reference_latitude.to_f, reference_longitude.to_f)
-
+      def shortest_ordered_distance_to(stations, threshold_kilometres = 2)
         Array(stations)
-          .map { [station, datum.distance_to([station[:latitude], station[:longitude]], :km)] }
+          .map { |station| [station, distance_to([station[:latitude], station[:longitude]], :km)] }
           .to_h
-          .filter { |(_, distance)| distance <= threshold_kilometres }
+          .select { |_, distance| distance <= threshold_kilometres }
           .sort { |(_, a), (_, b)| b <=> a }
           .to_h
-          .values
+          .keys
           .first
       end
+
+      private
+
+      attr_writer :latitude, :longitude
     end
   end
 end
