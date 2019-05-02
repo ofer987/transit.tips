@@ -1,37 +1,46 @@
 module Ttc
   module Train
     class Schedule
-      attr_reader :line_id, :station, :direction, :items
+      attr_reader :line_id, :station_id, :destination_station, :events
 
-      def initialize(line_id, station_id, direction, items)
+      def initialize(line_id, station_id, destination_station, events)
         self.line_id = line_id.to_i
         self.station_id = station_id.to_i
-        self.direction = direction.to_s.strip
-        self.items = Array(items).map { |item| Item.new(item) }
+        self.destination_station = destination_station.to_s.strip
+        self.events = Array(events).map { |time| Event.new(time) }
       end
 
       def line
-        LINES.first { |(_, item)| item[:id] == line_id }
+        @line ||= LINES
+          .values
+          .select { |item| item[:id] == line_id }
+          .first
+      end
+
+      def stations
+        @stations ||= line[:stations].values
       end
 
       def station
-        line.first { |(_, item)| item[:id] == station_id }
+        @station ||= stations
+          .select { |item| item[:id] == station_id }
+          .first
       end
 
       def as_json(_ = nil)
         {
-          subwayLine: line,
-          subwayLineId: line_id,
-          station: station,
-          stationId: station_id,
-          direction: direction,
-          items: items
+          line: line[:name],
+          line_id: line_id,
+          station: station[:name],
+          station_id: station_id,
+          destination_station: destination_station,
+          events: events.as_json
         }
       end
 
       private
 
-      attr_writer :line_id, :station_id, :direction, :items
+      attr_writer :line_id, :station_id, :destination_station, :events
     end
   end
 end

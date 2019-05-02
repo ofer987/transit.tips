@@ -16,10 +16,11 @@ module Ttc
         response = RestClient.get(uri)
 
         # Should we bother to check the status code?
-        data = JSON
+        # binding.pry
+        JSON
           .parse(response.body)['ntasData']
-          .group_by { |item| item['trainDirection'] }
-          .map { |(direction, items)| Schedule.new(line_id, station_id, direction, items) }
+          .group_by { |item| item['trainDestinationStation'] }
+          .map { |(destination_station, events)| Schedule.new(line_id, station_id, destination_station, events) }
       end
 
       private
