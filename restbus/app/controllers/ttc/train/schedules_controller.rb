@@ -1,8 +1,7 @@
 class Ttc::Train::SchedulesController < ApplicationController
   def show
-    render json: Ttc::Train::Client
-      .new(line, station)
-      .arrivals
+    
+    render json: schedules(closest_stations)
   rescue HttpStatusError => exception
     render status: exception.code, json: { error: exception.message, backtrace: exception.backtrace }
   rescue => exception
@@ -11,19 +10,37 @@ class Ttc::Train::SchedulesController < ApplicationController
 
   private
 
-  def line
-    if params[:line].nil?
-      raise HttpStatusError.new(:bad_request, 'missing query parameter (line)')
-    end
-
-    params[:line]
+  def closest_stations
+    Ttc::Train::Station.closest_stations(latitude, longitude)
   end
 
-  def station
-    if params[:station].nil?
-      raise HttpStatusError.new(:bad_request, 'missing query parameter (station)')
+  def schedules(lines)
+    lines.map do |(line_id, station)|
+      {
+        line_id: line_id,
+        station_id: station[:id],
+        schedule: arrivals(line, station)
+      }
+    end
+  end
+
+  def schedule(line_name, station_name)
+    Client.new(line_name, station_name).schedule
+  end
+
+  def longitude
+    if params[:longitude].nil?
+      raise HttpStatusError.new(:bad_request, 'missing query parameter longitude')
     end
 
-    params[:station]
+    params[:longitude]
+  end
+
+  def latitude
+    if params[:latitude].nil?
+      raise HttpStatusError.new(:bad_request, 'missing query parameter latitude')
+    end
+
+    params[:latitude]
   end
 end

@@ -1,21 +1,21 @@
 module Ttc
   module Train
     class Schedule
-      attr_reader :line, :station, :direction, :items
+      attr_reader :line_id, :station, :direction, :items
 
-      def initialize(line, station, direction, items)
-        self.line = line.to_s.strip
-        self.station = station.to_s.strip
+      def initialize(line_id, station_id, direction, items)
+        self.line_id = line_id.to_i
+        self.station_id = station_id.to_i
         self.direction = direction.to_s.strip
         self.items = Array(items).map { |item| Item.new(item) }
       end
 
-      def line_id
-        LINES[line]
+      def line
+        LINES.first { |(_, item)| item[:id] == line_id }
       end
 
-      def station_id
-        STATIONS[station]
+      def station
+        line.first { |(_, item)| item[:id] == station_id }
       end
 
       def as_json(_ = nil)
@@ -31,7 +31,7 @@ module Ttc
 
       private
 
-      attr_writer :line, :station, :direction, :items
+      attr_writer :line_id, :station_id, :direction, :items
     end
   end
 end
