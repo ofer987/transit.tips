@@ -7,7 +7,7 @@ require 'json'
 require 'rest-client'
 require '../restbus/app/models/ttc/train/lines.rb'
 
-def get_coordinates_2(stations, uri, station_name)
+def get_coordinates_3(stations, uri, station_name)
   params = {
     key: ENV['GOOGLE_API_KEY'],
     query: station_name,
@@ -23,6 +23,35 @@ def get_coordinates_2(stations, uri, station_name)
       stations.select { |station| station[:google_maps_name] == result['name'] }.each do |station|
         station[:latitude] = result['geometry']['location']['lat']
         station[:longitude] = result['geometry']['location']['lng']
+      end
+    end
+  end
+rescue => exception
+  puts exception.message
+  puts exception.backtrace
+end
+
+def get_coordinates_2(stations, uri, station_name)
+  params = {
+    key: ENV['GOOGLE_API_KEY'],
+    query: "#{station_name} Station, Toronto",
+    type: 'subway_station'
+  }
+
+  response = RestClient.get uri, { params: params }
+  json = JSON.parse(response.body)
+  results = Array(json['results'])
+  if results.empty?
+    get_coordinates_3(stations, uri, station_name)
+  else
+    results.each do |result|
+      if Array(result['types']).include?('subway_station')
+        puts "#{result['name']}: (#{result['geometry']['location']['lat']}, #{result['geometry']['location']['lng']})"
+
+        stations.select { |station| station[:google_maps_name] == result['name'] }.each do |station|
+          station[:latitude] = result['geometry']['location']['lat']
+          station[:longitude] = result['geometry']['location']['lng']
+        end
       end
     end
   end
@@ -70,6 +99,7 @@ station_names.each do |name|
   get_coordinates(stations, uri, name)
 end
 
-# puts subway_lines
+binding.pry
+puts subway_lines
 # binding.pry
 # ap subway_lines
