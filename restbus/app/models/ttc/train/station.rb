@@ -22,15 +22,15 @@ module Ttc
         self.longitude = longitude.to_f
       end
 
-      def closest_stations(threshold_kilometres = 2)
-        closest_stations = LINES.values.map do |line|
+      def nearest_stations(threshold_kilometres = 2)
+        nearest_stations = LINES.values.map do |line|
           stations = line[:stations].values
-          closest_station = shortest_ordered_distance_to(stations)
+          nearest_station = shortest_ordered_distance_to(stations)
 
-          [line[:id], closest_station]
+          [line[:id], nearest_station]
         end.to_h
 
-        closest_stations
+        nearest_stations
           .reject { |_, station| station.nil? }
       end
 
