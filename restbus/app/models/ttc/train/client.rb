@@ -4,7 +4,7 @@ module Ttc
       attr_reader :line_id, :station_id
 
       def uri
-        "http://www.ttc.ca/Subway/loadNtas.action?subwayLine=#{line_id.to_i}&stationId=#{station_id.to_i}"
+        "http://www.ttc.ca/Subway/loadNtas.action?subwayLine=#{line_id}&stationId=#{station_id}"
       end
 
       def initialize(line_id, station_id)
@@ -12,7 +12,7 @@ module Ttc
         self.station_id = station_id.to_i
       end
 
-      def schedule
+      def events
         response = RestClient.get(uri)
 
         # Should we bother to check the status code?

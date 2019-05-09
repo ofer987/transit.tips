@@ -1,7 +1,6 @@
 class Ttc::Train::SchedulesController < ApplicationController
   def show
-    
-    render json: schedules(closest_stations)
+    render json: as_json
   rescue HttpStatusError => exception
     render status: exception.code, json: { error: exception.message, backtrace: exception.backtrace }
   rescue => exception
@@ -10,22 +9,36 @@ class Ttc::Train::SchedulesController < ApplicationController
 
   private
 
-  def closest_stations
-    Ttc::Train::Station.closest_stations(latitude, longitude)
+  def nearest_stations
+    Ttc::Train::Station.nearest_stations(latitude, longitude)
   end
 
-  def schedules(lines)
-    lines.map do |(line_id, station)|
+  def as_json(_)
+    {
+      longitude: longitude,
+      latitude: latitude,
+      lines: lines
+    }
+  end
+
+  def lines
+    nearest_stations.map do |(line, station)|
       {
-        line_id: line_id,
-        station_id: station[:id],
-        schedule: arrivals(line, station)
+        id: line[:id],
+        name: line[:name],
+        stations: [{
+          id: station[:id],
+          name: station[:name],
+          longitude: station[:longitude],
+          latitude: station[:latitude],
+          directions: Array(events(line[:id], station[:id]))
+        }],
       }
     end
   end
 
-  def schedule(line_name, station_name)
-    Client.new(line_name, station_name).schedule
+  def events(line_id, station_id)
+    Client.new(line_id, station_id).events
   end
 
   def longitude

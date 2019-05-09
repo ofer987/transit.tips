@@ -1,6 +1,6 @@
 module Ttc
   module Train
-    class Schedule
+    class Direction
       class Event
         attr_reader :values
 
@@ -11,7 +11,7 @@ module Ttc
         def as_json(_ = nil)
           {
             in: values['timeString'],
-            preciselyIn: values['timeInt'],
+            precisely_in: values['timeInt'],
             message: values['trainMessage']
           }
         end

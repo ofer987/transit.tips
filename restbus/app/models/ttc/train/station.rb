@@ -27,7 +27,7 @@ module Ttc
           stations = line[:stations].values
           nearest_station = shortest_ordered_distance_to(stations)
 
-          [line[:id], nearest_station]
+          [line, nearest_station]
         end.to_h
 
         nearest_stations
