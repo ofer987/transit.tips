@@ -1,4 +1,4 @@
-module Json.Convert exposing (toModel)
+module Json.Convertor exposing (toModel)
 
 import Json exposing (..)
 import Model
@@ -14,30 +14,37 @@ toSchedule : Schedule -> Model.Schedule
 toSchedule json =
     Model.Schedule
         (Model.Location json.latitude json.longitude)
-        (Model.Lines json.lines)
+        (List.map toLine json.lines)
 
 
-toLine : Line -> Model.Route
+toLine : Line -> Model.Line
 toLine json =
     Model.Line
         json.id
-        ""
+        json.name
         (List.map toStation json.events)
 
 
-toStation : Event -> Model.Station
+toStation : Station -> Model.Station
 toStation json =
     Model.Station
-        json.station_id
-        json.station
-        (Model.Location json.longitude json.latitude)
+        json.id
+        json.name
+        (Model.Location json.latitude json.longitude)
         json.destination_station
-        (List.map toEvent toEvents)
+        (List.map toDirection toDirection)
+
+
+toDirection : Direction -> Model.Direction
+toDirection json =
+    Model.Direction
+        json.destination_station
+        (List.map toEvent json.events)
 
 
 toEvent : Event -> Model.Event
 toEvent json =
     Model.Event
-        ""
+        json.approximately_in
         json.precisely_in
         json.message

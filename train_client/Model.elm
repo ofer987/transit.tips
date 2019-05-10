@@ -26,6 +26,12 @@ type alias Location =
     }
 
 
+type alias Schedule =
+    { location : Location
+    , lines : List Line
+    }
+
+
 type alias Line =
     { id : Int
     , name : String
@@ -37,10 +43,7 @@ type alias Station =
     { id : Int
     , name : String
     , location : Location
-    , destinationStationName : String
-    , events : Events
-
-    -- , directions : List Direction
+    , directions : List Direction
     }
 
 
@@ -54,11 +57,4 @@ type alias Event =
     { arrivingIn : String
     , arrivingPreciselyIn : Float
     , message : String
-    }
-
-
-type alias Schedule =
-    { location : Location
-    , address : Maybe String
-    , lines : List Line
     }

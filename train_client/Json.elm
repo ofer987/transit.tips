@@ -2,30 +2,36 @@ module Json exposing (..)
 
 
 type alias Schedule =
-    { longitude : Float
-    , latitude : Float
+    { latitude : Float
+    , longitude : Float
     , lines : List Line
     }
 
 
 type alias Line =
-    { line_id : Int
-    , station_id : Int
-    , events : List Event
+    { id : Int
+    , name : String
+    , stations : List Station
     }
 
 
-type alias Event =
-    { line : String
-    , line_id : Int
-    , station : String
-    , station_id : Int
-    , longitude : Float
+type alias Station =
+    { id : Int
+    , name : String
     , latitude : Float
-    , destination_station : String
+    , longitude : Float
+    , directions : List Direction
+    }
+
+
+type alias Direction =
+    { destination_station : String
     , events : List Event
     }
+
+
 type alias Event =
-    { precisely_in : Float
+    { approximately_in : String
+    , precisely_in : Float
     , message : String
     }
