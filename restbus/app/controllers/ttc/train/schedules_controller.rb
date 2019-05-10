@@ -10,10 +10,10 @@ class Ttc::Train::SchedulesController < ApplicationController
   private
 
   def nearest_stations
-    Ttc::Train::Station.nearest_stations(latitude, longitude)
+    Ttc::Train::Station.new(latitude, longitude).nearest_stations
   end
 
-  def as_json(_)
+  def as_json(_ = nil)
     {
       longitude: longitude,
       latitude: latitude,
@@ -38,7 +38,7 @@ class Ttc::Train::SchedulesController < ApplicationController
   end
 
   def events(line_id, station_id)
-    Client.new(line_id, station_id).events
+    Ttc::Train::Client.new(line_id, station_id).events
   end
 
   def longitude

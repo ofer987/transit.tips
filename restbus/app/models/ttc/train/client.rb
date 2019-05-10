@@ -20,7 +20,7 @@ module Ttc
         JSON
           .parse(response.body)['ntasData']
           .group_by { |item| item['trainDestinationStation'] }
-          .map { |(destination_station, events)| Schedule.new(line_id, station_id, destination_station, events) }
+          .map { |(destination_station, events)| Direction.new(destination_station, events) }
       end
 
       private

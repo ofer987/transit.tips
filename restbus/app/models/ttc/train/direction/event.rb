@@ -10,7 +10,7 @@ module Ttc
 
         def as_json(_ = nil)
           {
-            in: values['timeString'],
+            approximately_in: values['timeString'],
             precisely_in: values['timeInt'],
             message: values['trainMessage']
           }
