@@ -10,7 +10,7 @@ type Msg
     | UnavailableLocation PortFunnel.Geolocation.Error
     | RequestSchedule Location
     | ReceivedSchedule (Result Http.Error Json.Schedule)
-    | Error String
+    | Errored String
 
 
 type Model

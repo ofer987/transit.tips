@@ -11,7 +11,7 @@ type alias Schedule =
 type alias Line =
     { id : Int
     , name : String
-    , stations : List Station
+    , station : Station
     }
 
 

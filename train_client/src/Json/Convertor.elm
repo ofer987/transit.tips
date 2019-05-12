@@ -22,7 +22,7 @@ toLine json =
     Model.Line
         json.id
         json.name
-        (List.map toStation json.events)
+        (toStation json.station)
 
 
 toStation : Station -> Model.Station
@@ -31,8 +31,7 @@ toStation json =
         json.id
         json.name
         (Model.Location json.latitude json.longitude)
-        json.destination_station
-        (List.map toDirection toDirection)
+        (List.map toDirection json.directions)
 
 
 toDirection : Direction -> Model.Direction

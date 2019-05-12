@@ -1,7 +1,11 @@
 module Update exposing (update)
 
 import Http
-import PortFunnel.Geolocation
+import PortFunnel.Geolocation as Geolocation
+import Task
+import String
+import Json.Convertor
+import Json.Decoder
 import Model exposing (..)
 
 
@@ -32,13 +36,13 @@ update msg model =
                 request =
                     requestSchedule location.longitude location.latitude
             in
-                ( model, cmd )
+                ( model, request )
 
         ReceivedSchedule (Ok json) ->
             let
                 schedule =
                     json
-                        |> Json.Convert.toSchedule
+                        |> Json.Convertor.toModel
             in
                 ( Received schedule, Cmd.none )
 
@@ -67,19 +71,23 @@ update msg model =
 requestSchedule : Float -> Float -> Cmd Msg
 requestSchedule latitude longitude =
     let
+        restbusUrl : String
+        restbusUrl =
+            "http://localhost:3000"
+
         baseUrl : String
         baseUrl =
             restbusUrl
 
         url : String
         url =
-            baseUrl ++ "/ttc/train/schedules/show?latitude=" ++ (toString latitude) ++ "&longitude=" + (toString longitude)
+            baseUrl ++ "/ttc/train/schedules/show?latitude=" ++ (String.fromFloat latitude) ++ "&longitude=" + (String.fromFloat longitude)
 
         expect : Http.Expect Msg
         expect =
             Http.expectJson
                 ReceivedSchedule
-                (Json.Decode.schedule latitude longitude)
+                (Json.Decoder.model latitude longitude)
     in
         Http.get
             { url = url
