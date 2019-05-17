@@ -24,7 +24,7 @@ line =
         Line
         (field "id" int)
         (field "name" string)
-        (field "station" station)
+        (field "stations" (list station))
 
 
 station : Decoder Station

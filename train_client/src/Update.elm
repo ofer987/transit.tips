@@ -1,35 +1,21 @@
 module Update exposing (update)
 
+import Dict exposing (Dict)
 import Http
+import PortFunnel exposing (FunnelSpec, GenericMessage, ModuleDesc, StateAccessors)
 import PortFunnel.Geolocation as Geolocation
 import Task
+import Platform.Cmd as Cmd
 import String
 import Json.Convertor
 import Json.Decoder
+import Json.Encode exposing (Value)
 import Model exposing (..)
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation ->
-            ( InProgress, Task.attempt useLocation Geolocation.now )
-
-        UnavailableLocation error ->
-            let
-                message =
-                    case error of
-                        Geolocation.PermissionDenied value ->
-                            value
-
-                        Geolocation.LocationUnavailable value ->
-                            value
-
-                        Geolocation.Timeout value ->
-                            value
-            in
-                ( Error message, Cmd.none )
-
         RequestSchedule location ->
             let
                 request : Cmd Msg
@@ -43,15 +29,18 @@ update msg model =
                 schedule =
                     json
                         |> Json.Convertor.toModel
+
+                location =
+                    Location 0.0 0.0
             in
-                ( Received schedule, Cmd.none )
+                ( HasSchedule schedule location, Cmd.none )
 
         ReceivedSchedule (Err error) ->
             let
                 message =
                     case error of
-                        Http.BadUrl message ->
-                            message
+                        Http.BadUrl value ->
+                            value
 
                         Http.Timeout ->
                             "Timeout"
@@ -59,11 +48,11 @@ update msg model =
                         Http.NetworkError ->
                             "Network error"
 
-                        Http.BadStatus response ->
-                            toString response.status.code
+                        Http.BadStatus status ->
+                            String.fromInt status
 
-                        Http.BadPayload message _ ->
-                            message
+                        Http.BadBody value ->
+                            "error: " ++ value
             in
                 ( Error message, Cmd.none )
 
@@ -81,7 +70,7 @@ requestSchedule latitude longitude =
 
         url : String
         url =
-            baseUrl ++ "/ttc/train/schedules/show?latitude=" ++ (String.fromFloat latitude) ++ "&longitude=" + (String.fromFloat longitude)
+            baseUrl ++ "/ttc/train/schedules/show?latitude=" ++ (String.fromFloat latitude) ++ "&longitude=" ++ (String.fromFloat longitude)
 
         expect : Http.Expect Msg
         expect =
@@ -93,13 +82,3 @@ requestSchedule latitude longitude =
             { url = url
             , expect = expect
             }
-
-
-useLocation : Result Geolocation.Error Geolocation.Location -> Msg
-useLocation result =
-    case result of
-        Ok location ->
-            RequestSchedule (Model.Location location.latitude location.longitude)
-
-        Err err ->
-            UnavailableLocation routeId err

@@ -2,21 +2,17 @@ module Model exposing (..)
 
 import Json exposing (..)
 import Http
-import PortFunnel.Geolocation
+import PortFunnel.Geolocation as Geolocation
 
 
 type Msg
-    = GetLocation
-    | UnavailableLocation PortFunnel.Geolocation.Error
-    | RequestSchedule Location
+    = RequestSchedule Location
     | ReceivedSchedule (Result Http.Error Json.Schedule)
-    | Errored String
 
 
 type Model
-    = Nil
-    | InProgress
-    | Received Schedule
+    = HasLocation Location
+    | HasSchedule Schedule Location
     | Error String
 
 
