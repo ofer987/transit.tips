@@ -11,11 +11,13 @@ model =
 
 schedule : Float -> Float -> Decoder Schedule
 schedule latitude longitude =
+    -- It is ignoring the latitude and longitude values from the response
+    -- TODO: change this!
     Json.map3
         Schedule
         (succeed latitude)
         (succeed longitude)
-        (list line)
+        (field "lines" (list line))
 
 
 line : Decoder Line

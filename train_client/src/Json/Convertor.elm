@@ -12,17 +12,32 @@ toModel =
 
 toSchedule : Schedule -> Model.Schedule
 toSchedule json =
-    Model.Schedule
-        (Model.Location json.latitude json.longitude)
-        (List.map toLine json.lines)
+    let
+        lineModels =
+            json.lines
+                |> List.map toLine
+                |> List.filterMap identity
+    in
+        Model.Schedule
+            (Model.Location json.latitude json.longitude)
+            lineModels
 
 
-toLine : Line -> Model.Line
+toLine : Line -> Maybe Model.Line
 toLine json =
-    Model.Line
-        json.id
-        json.name
-        (toStation json.station)
+    case List.head json.stations of
+        Just station ->
+            let
+                stationModel =
+                    Model.Line
+                        json.id
+                        json.name
+                        (toStation station)
+            in
+                Just stationModel
+
+        Nothing ->
+            Nothing
 
 
 toStation : Station -> Model.Station

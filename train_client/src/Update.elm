@@ -18,7 +18,7 @@ update msg model =
             let
                 request : Cmd Msg
                 request =
-                    requestSchedule location.longitude location.latitude
+                    requestSchedule location.latitude location.longitude
             in
                 ( model, request )
 
@@ -29,7 +29,7 @@ update msg model =
                         |> Json.Convertor.toModel
 
                 location =
-                    Location 0.0 0.0
+                    schedule.location
             in
                 ( HasSchedule schedule location, Cmd.none )
 
