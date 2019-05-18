@@ -2,8 +2,6 @@ module Update exposing (update)
 
 import Dict exposing (Dict)
 import Http
-import PortFunnel exposing (FunnelSpec, GenericMessage, ModuleDesc, StateAccessors)
-import PortFunnel.Geolocation as Geolocation
 import Task
 import Platform.Cmd as Cmd
 import String

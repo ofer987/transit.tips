@@ -2,7 +2,6 @@ module Model exposing (..)
 
 import Json exposing (..)
 import Http
-import PortFunnel.Geolocation as Geolocation
 
 
 type Msg
