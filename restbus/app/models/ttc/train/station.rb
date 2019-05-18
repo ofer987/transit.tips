@@ -39,7 +39,7 @@ module Ttc
           .map { |station| [station, distance_to([station[:latitude], station[:longitude]], :km)] }
           .to_h
           .select { |_, distance| distance <= threshold_kilometres }
-          .sort { |(_, a), (_, b)| b <=> a }
+          .sort { |(_, a), (_, b)| a <=> b }
           .to_h
           .keys
           .first
