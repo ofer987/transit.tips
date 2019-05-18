@@ -12,13 +12,19 @@ module Ttc
         self.station_id = station_id.to_i
       end
 
+      def line
+        LINES.values
+          .select { |line| line[:id] == line_id }
+          .first
+      end
+
       def events
         response = RestClient.get(uri)
 
         # Should we bother to check the status code?
-        # binding.pry
         JSON
           .parse(response.body)['ntasData']
+          .select { |item| item['subwayLine'] == line[:internal_name] }
           .group_by { |item| item['trainDestinationStation'] }
           .map { |(destination_station, events)| Direction.new(destination_station, events) }
       end

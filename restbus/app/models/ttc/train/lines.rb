@@ -4,6 +4,7 @@ module Ttc
       :"Bloor-Danforth" => {
         :id => 2,
         :name => "Bloor-Danforth",
+        :internal_name => 'BD',
         :stations => {
           :Bathurst => {
             :google_maps_name => "Bathurst",
@@ -227,11 +228,13 @@ module Ttc
       :"Scarborough-RT" => {
         :id => 3,
         :name => "Scarborough RT",
+        :internal_name => 'SRT',
         :stations => {}
       },
       :Sheppard => {
         :id => 4,
         :name => "Sheppard",
+        :internal_name => 'SHEP',
         :stations => {
           :Bayview => {
             :google_maps_name => "Bayview",
@@ -273,6 +276,7 @@ module Ttc
       :"Yonge-University-Spadina" => {
         :id => 1,
         :name => "Yonge-University-Spadina",
+        :internal_name => 'YUS',
         :stations => {
           :"Bloor-Yonge" => {
             :google_maps_name => "Bloor-Yonge Station",
