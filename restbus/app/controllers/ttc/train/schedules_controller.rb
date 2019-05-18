@@ -46,7 +46,7 @@ class Ttc::Train::SchedulesController < ApplicationController
       raise HttpStatusError.new(:bad_request, 'missing query parameter longitude')
     end
 
-    params[:longitude]
+    params[:longitude].to_f
   end
 
   def latitude
@@ -54,6 +54,6 @@ class Ttc::Train::SchedulesController < ApplicationController
       raise HttpStatusError.new(:bad_request, 'missing query parameter latitude')
     end
 
-    params[:latitude]
+    params[:latitude].to_f
   end
 end
