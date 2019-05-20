@@ -6,7 +6,7 @@ import Model exposing (..)
 import Model.Nearby
 
 
-init : ( Model, Cmd Controller )
+init : ( Location, Cmd Controller )
 init =
     let
         arguments =
@@ -16,7 +16,8 @@ init =
             NearbyModel arguments Model.Nearby.Nil
 
         cmd =
-            Task.succeed Model.Nearby.GetLocation
+            Model.Nearby.GetLocation
+                |> Task.succeed
                 |> Task.perform (Nearby arguments Model.Nearby.Nil)
                 |> Platform.Cmd.map Process
     in
