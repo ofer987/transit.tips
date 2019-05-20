@@ -4,13 +4,16 @@ import Html exposing (Html, div, span, text)
 import Html.Attributes exposing (id)
 import Model exposing (..)
 import MyCss exposing (..)
-import Html.CssHelpers
+
+
+-- import Html.CssHelpers
+
 import Model.Common exposing (..)
 import View.Routes
 
 
-{ class, classList } =
-    Html.CssHelpers.withNamespace "TransitTips"
+-- { class, classList } =
+--     Html.CssHelpers.withNamespace "TransitTips"
 
 
 view : Routes -> Html Controller

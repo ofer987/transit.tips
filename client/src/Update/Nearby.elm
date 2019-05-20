@@ -2,7 +2,7 @@ module Update.Nearby exposing (update)
 
 import Json.Convert.Predictions
 import Task
-import Date
+import Time
 import Http
 import Geolocation
 import Constants exposing (..)
@@ -74,7 +74,7 @@ update msg model =
                 ( Error message, Cmd.none )
 
         RequestTime schedule ->
-            ( model, Task.perform (ReceiveTime schedule) Date.now )
+            ( model, Task.perform (ReceiveTime schedule) Time.now )
 
         ReceiveTime schedule date ->
             ( ReceivedDate schedule date, Cmd.none )

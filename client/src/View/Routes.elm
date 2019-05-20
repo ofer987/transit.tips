@@ -1,7 +1,10 @@
 module View.Routes exposing (view)
 
 import MyCss exposing (CssClasses)
-import Html.CssHelpers
+
+
+-- import Html.CssHelpers
+
 import Html exposing (Html, div, span, text)
 import Model exposing (..)
 import Model.Route
@@ -9,8 +12,8 @@ import Model.Direction
 import Model.Common exposing (..)
 
 
-{ id, class, classList } =
-    Html.CssHelpers.withNamespace "TransitTips"
+-- { id, class, classList } =
+--     Html.CssHelpers.withNamespace "TransitTips"
 
 
 view : Routes -> Html Controller

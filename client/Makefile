@@ -4,19 +4,19 @@ default: install
 
 install: build clean
 
-build: Constants.elm main.js index.css
+build: src/Constants.elm main.js
 
-main.js: *.elm Update/*.elm Model/*.elm View/*.elm View/Alert/*.elm View/Search/*.elm Json/*.elm Json/Convert/*.elm Json/Decode/*.elm
-	elm make Main.elm --output main.js --yes
+main.js: src/*.elm src/Update/*.elm src/Model/*.elm src/View/*.elm src/View/Alert/*.elm src/View/Search/*.elm src/Json/*.elm src/Json/Convert/*.elm src/Json/Decode/*.elm
+	elm make src/Main.elm --output main.js
 
-index.css: Stylesheets.elm MyCss.elm
-	elm css Stylesheets.elm
+# index.css: Stylesheets.elm MyCss.elm
+# 	elm css Stylesheets.elm
 
-Constants.elm: Constants.elm.erb
-	erb restbus_url="$(RESTBUS_URL)" Constants.elm.erb > Constants.elm;
+src/Constants.elm: src/Constants.elm.erb
+	erb restbus_url="$(RESTBUS_URL)" src/Constants.elm.erb > src/Constants.elm;
 
 clean:
-	rm Constants.elm 2> /dev/null
+	rm src/Constants.elm 2> /dev/null
 
 uninstall:
-	rm -rf main.js index.css elm-stuff Constants.elm 2> /dev/null
+	rm -rf main.js elm-stuff src/Constants.elm 2> /dev/null

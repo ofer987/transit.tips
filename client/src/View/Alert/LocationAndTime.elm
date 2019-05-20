@@ -2,13 +2,13 @@ module View.Alert.LocationAndTime exposing (view)
 
 import Html exposing (Html, div, text, a)
 import Html.Attributes exposing (href)
-import Date exposing (Date)
+import Time exposing (Time)
 import Strftime exposing (format)
 import Model exposing (..)
 import Bootstrap.Alert as Alert
 
 
-view : Float -> Float -> String -> Date -> Html Controller
+view : Float -> Float -> String -> Time -> Html Controller
 view latitude longitude address date =
     let
         mapsUrl =
@@ -19,7 +19,7 @@ view latitude longitude address date =
     in
         a
             [ href mapsUrl ]
-            [ Alert.info [text message] ]
+            [ Alert.info [ text message ] ]
 
 
 where_ : String -> String
@@ -27,6 +27,6 @@ where_ address =
     "Schedule for " ++ address
 
 
-when_ : Date -> String
+when_ : Time -> String
 when_ date =
     format "%H:%M:%S" date
