@@ -16,7 +16,7 @@ class Endpoints
     else
       raise HttpStatusError.new(response.code, 'an error has occurred')
     end
-  rescue RestClient::NotFound => exception
+  rescue RestClient::NotFound => _
     { status: 404, json: {} }
   end
 
@@ -24,7 +24,7 @@ class Endpoints
     Geocoder.address [latitude, longitude]
   end
 
-  def as_json
+  def as_json(_)
     {
       latitude: latitude,
       longitude: longitude,
