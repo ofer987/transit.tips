@@ -4,7 +4,6 @@ import Json.Convert.Predictions
 import Task
 import Time
 import Http
-import Geolocation
 import Constants exposing (..)
 import Model.Nearby exposing (..)
 import Model.Common exposing (..)
@@ -15,24 +14,6 @@ import Json.Decode.Predictions
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation ->
-            ( Nil, Task.attempt useLocation Geolocation.now )
-
-        UnavailableLocation error ->
-            let
-                message =
-                    case error of
-                        Geolocation.PermissionDenied value ->
-                            value
-
-                        Geolocation.LocationUnavailable value ->
-                            value
-
-                        Geolocation.Timeout value ->
-                            value
-            in
-                ( Error message, Cmd.none )
-
         RequestSchedule location ->
             let
                 request =
@@ -90,13 +71,3 @@ requestNearby latitude longitude =
             baseUrl ++ "/?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
     in
         Http.get url Json.Decode.Predictions.nearby
-
-
-useLocation : Result Geolocation.Error Geolocation.Location -> Msg
-useLocation result =
-    case result of
-        Ok location ->
-            RequestSchedule (Model.Common.Location location.latitude location.longitude)
-
-        Err err ->
-            UnavailableLocation err

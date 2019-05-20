@@ -5,7 +5,6 @@ import Utility.Task
 import Result exposing (Result)
 import Maybe
 import Http
-import Geolocation
 import Constants exposing (..)
 import Model.Common exposing (..)
 import Model.Search exposing (..)
@@ -21,24 +20,6 @@ import Json.Convert.Predictions
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetLocation agencyIds routeId ->
-            ( InProgress, Task.attempt (useLocation agencyIds routeId) Geolocation.now )
-
-        UnavailableLocation routeId error ->
-            let
-                message =
-                    case error of
-                        Geolocation.PermissionDenied value ->
-                            value
-
-                        Geolocation.LocationUnavailable value ->
-                            value
-
-                        Geolocation.Timeout value ->
-                            value
-            in
-                ( Error message, Cmd.none )
-
         RequestRoute (firstAgencyId :: otherAgencyIds) routeId location ->
             let
                 request : String -> Http.Request Json.Route.Schedule
@@ -170,13 +151,3 @@ requestPredictions agencyId routeId stopId latitude longitude =
             baseUrl ++ "/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
     in
         Http.get url (Json.Decode.Predictions.schedule latitude longitude)
-
-
-useLocation : List String -> String -> Result Geolocation.Error Geolocation.Location -> Msg
-useLocation agencyIds routeId result =
-    case result of
-        Ok location ->
-            RequestRoute agencyIds routeId (Model.Common.Location location.latitude location.longitude)
-
-        Err err ->
-            UnavailableLocation routeId err
