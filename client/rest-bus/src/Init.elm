@@ -7,18 +7,24 @@ import Model.Nearby
 
 
 init : ( Location, Cmd Controller )
-init =
+init location =
     let
         arguments =
-            newArguments
+            {}
 
         model =
-            NearbyModel arguments Model.Nearby.Nil
+            NearbyModel arguments (Model.HasLocation location)
+
+        msg =
+            Nearby arguments model RequestSchedule
+
+        nearbyCmd =
+            location
+                |> Task.succeed
+                |> Task.perform msg
 
         cmd =
-            Model.Nearby.GetLocation
-                |> Task.succeed
-                |> Task.perform (Nearby arguments Model.Nearby.Nil)
+            nearbyCmd
                 |> Platform.Cmd.map Process
     in
         ( model, cmd )

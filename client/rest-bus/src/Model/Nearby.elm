@@ -15,5 +15,6 @@ type Msg
 
 type Model
     = Nil
+    | HasLocation Location
     | ReceivedDate Schedule Date
     | Error String
