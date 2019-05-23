@@ -1,5 +1,6 @@
 module Model exposing (..)
 
+import Model.Common exposing (Location)
 import Model.Nearby as Nearby
 import Model.Search as Search
 
@@ -25,9 +26,10 @@ type Model
 type alias Arguments =
     { agencyIds : List String
     , routeId : String
+    , location : Location
     }
 
 
 newArguments : Arguments
 newArguments =
-    Arguments [] ""
+    Arguments [] "" (Location 0.0 0.0)

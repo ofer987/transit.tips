@@ -5,6 +5,8 @@ import Utility.Task
 import Result exposing (Result)
 import Maybe
 import Http
+import String exposing (fromInt, fromFloat)
+import Platform.Cmd
 import Constants exposing (..)
 import Model.Common exposing (..)
 import Model.Search exposing (..)
@@ -22,7 +24,7 @@ update msg model =
     case msg of
         RequestRoute (firstAgencyId :: otherAgencyIds) routeId location ->
             let
-                request : String -> Http.Request Json.Route.Schedule
+                request : String -> Cmd Msg
                 request agencyId =
                     requestRoute location.longitude location.latitude agencyId routeId
 
@@ -30,9 +32,7 @@ update msg model =
                 cmd =
                     (firstAgencyId :: otherAgencyIds)
                         |> List.map request
-                        |> List.map Http.toTask
-                        |> Utility.Task.flow
-                        |> Task.attempt ReceiveRoute
+                        |> Platform.Cmd.batch
             in
                 ( model, cmd )
 
@@ -57,9 +57,7 @@ update msg model =
                 cmd =
                     nearestStops
                         |> List.map (\stop -> requestPredictions stop.parent.parent.agencyId stop.parent.parent.id stop.id stop.parent.parent.parent.location.latitude stop.parent.parent.parent.location.longitude)
-                        |> List.map Http.toTask
-                        |> Task.sequence
-                        |> Task.attempt ReceivePredictions
+                        |> Platform.Cmd.batch
             in
                 ( model, cmd )
 
@@ -67,8 +65,8 @@ update msg model =
             let
                 message =
                     case error of
-                        Http.BadUrl message ->
-                            message
+                        Http.BadUrl value ->
+                            value
 
                         Http.Timeout ->
                             "Timeout"
@@ -76,11 +74,11 @@ update msg model =
                         Http.NetworkError ->
                             "Network error"
 
-                        Http.BadStatus response ->
-                            toString response.status.code
+                        Http.BadStatus status ->
+                            fromInt status
 
-                        Http.BadPayload message _ ->
-                            message
+                        Http.BadBody value ->
+                            "Error: " ++ value
             in
                 ( Error message, Cmd.none )
 
@@ -110,8 +108,8 @@ update msg model =
             let
                 message =
                     case error of
-                        Http.BadUrl message ->
-                            message
+                        Http.BadUrl value ->
+                            value
 
                         Http.Timeout ->
                             "Timeout"
@@ -119,16 +117,16 @@ update msg model =
                         Http.NetworkError ->
                             "Network error"
 
-                        Http.BadStatus response ->
-                            toString response.status.code
+                        Http.BadStatus status ->
+                            String.fromInt status
 
-                        Http.BadPayload message _ ->
-                            message
+                        Http.BadBody value ->
+                            "Error: " ++ value
             in
                 ( Error message, Cmd.none )
 
 
-requestRoute : Float -> Float -> String -> String -> Http.Request Json.Route.Schedule
+requestRoute : Float -> Float -> String -> String -> Cmd Msg
 requestRoute latitude longitude agencyId routeId =
     let
         baseUrl =
@@ -136,12 +134,20 @@ requestRoute latitude longitude agencyId routeId =
 
         url =
             baseUrl ++ "/agencies/" ++ agencyId ++ "/routes/" ++ routeId
+
+        expect : Http.Expect Msg
+        expect =
+            Http.expectJson
+                ReceiveRoute
+                (Json.Decode.Route.schedule latitude longitude agencyId)
     in
-        Json.Decode.Route.schedule latitude longitude agencyId
-            |> Http.get url
+        Http.get
+            { url = url
+            , expect = expect
+            }
 
 
-requestPredictions : String -> String -> String -> Float -> Float -> Http.Request Json.Predictions.Schedule
+requestPredictions : String -> String -> String -> Float -> Float -> Cmd Msg
 requestPredictions agencyId routeId stopId latitude longitude =
     let
         baseUrl =
@@ -149,5 +155,13 @@ requestPredictions agencyId routeId stopId latitude longitude =
 
         url =
             baseUrl ++ "/agencies/" ++ agencyId ++ "/routes/" ++ routeId ++ "/stops/" ++ stopId ++ "/predictions"
+
+        expect =
+            Http.expectJson
+                ReceivePredictions
+                (Json.Decode.Predictions.schedule latitude longitude)
     in
-        Http.get url (Json.Decode.Predictions.schedule latitude longitude)
+        Http.get
+            { url = url
+            , expect = expect
+            }

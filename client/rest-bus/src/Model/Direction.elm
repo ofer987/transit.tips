@@ -17,13 +17,24 @@ title agency value =
 
 ttcTitle : String -> String
 ttcTitle value =
-    value
-        |> Regex.find (Regex.AtMost 1) (Regex.regex "(?:towards|to) (.*)\\s*")
-        |> List.map .submatches
-        |> List.concat
-        |> List.map (Maybe.withDefault value)
-        |> List.head
-        |> Maybe.withDefault value
+    let
+        regex : Regex.Regex
+        regex =
+            "(?:towards|to) (.*)\\s*"
+                |> Regex.fromString
+                |> Maybe.withDefault Regex.never
+
+        matches : List String
+        matches =
+            value
+                |> Regex.findAtMost 1 regex
+                |> List.map .submatches
+                |> List.concat
+                |> List.filterMap identity
+    in
+        matches
+            |> List.head
+            |> Maybe.withDefault value
 
 
 sort : Directions -> Directions

@@ -2,26 +2,30 @@ module View.Alert.Time exposing (view)
 
 import Html exposing (Html, div, text, a)
 import Html.Attributes exposing (href)
-import Time exposing (Time)
+import Time exposing (Posix)
 import Strftime exposing (format)
 import Model exposing (..)
 import Bootstrap.Alert as Alert
+import String exposing (fromFloat)
 
 
-view : Float -> Float -> Time -> Html Controller
+view : Float -> Float -> Posix -> Html Controller
 view latitude longitude date =
     let
         mapsUrl =
-            "https://www.google.com/maps/place/" ++ toString latitude ++ "," ++ toString longitude
+            "https://www.google.com/maps/place/" ++ fromFloat latitude ++ "," ++ fromFloat longitude
 
         message =
             when_ date
     in
         a
             [ href mapsUrl ]
-            [ Alert.info [ text message ] ]
+            [ Alert.simpleInfo
+                []
+                [ text message ]
+            ]
 
 
-when_ : Time -> String
+when_ : Posix -> String
 when_ date =
-    format "%H:%M:%S" date
+    format "%H:%M:%S" Time.utc date

@@ -14,14 +14,22 @@ nearby =
         (field "routes" (list route))
 
 
-schedule : Float -> Float -> Decoder Schedule
+schedule : Float -> Float -> Decoder (List Schedule)
 schedule latitude longitude =
-    Json.map4
-        Schedule
-        (succeed latitude)
-        (succeed longitude)
-        (succeed Nothing)
-        (list route)
+    let
+        item =
+            Json.map4
+                Schedule
+                (succeed latitude)
+                (succeed longitude)
+                (succeed Nothing)
+                (list route)
+
+        result =
+            Json.list
+                item
+    in
+        result
 
 
 route : Decoder Route

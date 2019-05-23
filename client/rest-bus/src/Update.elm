@@ -1,6 +1,7 @@
 module Update exposing (update)
 
 import Model exposing (..)
+import Model.Common exposing (Location)
 import Model.Nearby
 import Model.Search
 import Model.Schedule
@@ -16,27 +17,39 @@ update controller model =
     case controller of
         NearbyController ->
             let
+                location =
+                    Location 0.0 0.0
+
                 arguments =
                     newArguments
 
-                nextCmd =
-                    Task.succeed Model.Nearby.GetLocation
-                        |> Task.perform (Nearby arguments Model.Nearby.Nil)
+                initalCmd =
+                    Model.Nearby.RequestSchedule location
+                        |> Task.succeed
+                        |> Task.perform (Nearby arguments (Model.Nearby.HasLocation location))
                         |> Platform.Cmd.map Process
 
                 nextModel =
                     NearbyModel arguments Model.Nearby.Nil
             in
-                ( nextModel, nextCmd )
+                ( nextModel, initalCmd )
 
         -- Do nothing
         SearchController _ "" ->
             ( model, Cmd.none )
 
+        SearchController [] _ ->
+            ( model, Cmd.none )
+
         SearchController agencyIds routeId ->
             let
+                -- TODO: get initial location
+                location =
+                    Location 0.0 0.0
+
                 nextCmd =
-                    Task.succeed (Model.Search.GetLocation agencyIds routeId)
+                    Model.Search.RequestRoute agencyIds routeId location
+                        |> Task.succeed
                         |> Task.perform (Search arguments Model.Search.Nil)
                         |> Platform.Cmd.map Process
 
@@ -71,10 +84,10 @@ update controller model =
             in
                 ( nextModel, Cmd.none )
 
-        Process (Nearby arguments model msg) ->
+        Process (Nearby arguments mdl msg) ->
             let
                 result =
-                    Update.Nearby.update msg model
+                    Update.Nearby.update msg mdl
 
                 nearby =
                     Tuple.first result
@@ -92,6 +105,9 @@ update controller model =
                         Model.Nearby.Nil ->
                             arguments
 
+                        Model.Nearby.HasLocation location ->
+                            arguments
+
                         Model.Nearby.ReceivedDate schedule _ ->
                             { arguments | agencyIds = Model.Schedule.agencyIds schedule }
 
@@ -100,10 +116,10 @@ update controller model =
             in
                 ( nextModel, nextCmd )
 
-        Process (Search arguments model msg) ->
+        Process (Search arguments mdl msg) ->
             let
                 result =
-                    Update.Search.update msg model
+                    Update.Search.update msg mdl
 
                 nextModel =
                     SearchModel arguments (Tuple.first result)

@@ -4,14 +4,21 @@ import Json.Decode as Json exposing (Decoder, field, at, maybe, string, float, l
 import Json.Route exposing (Schedule, Route, Direction, Stop)
 
 
-schedule : Float -> Float -> String -> Decoder Schedule
+schedule : Float -> Float -> String -> Decoder (List Schedule)
 schedule latitude longitude agencyId =
-    Json.map4
-        Schedule
-        (succeed latitude)
-        (succeed longitude)
-        (succeed Nothing)
-        (route agencyId)
+    let
+        item =
+            Json.map4
+                Schedule
+                (succeed latitude)
+                (succeed longitude)
+                (succeed Nothing)
+                (route agencyId)
+
+        result =
+            Json.list item
+    in
+        result
 
 
 route : String -> Decoder Route

@@ -3,28 +3,26 @@ module Init exposing (init)
 import Task
 import Platform.Cmd
 import Model exposing (..)
+import Model.Common exposing (Location)
 import Model.Nearby
 
 
-init : ( Location, Cmd Controller )
+init : Location -> ( Model, Cmd Controller )
 init location =
     let
         arguments =
-            {}
+            newArguments
 
         model =
-            NearbyModel arguments (Model.HasLocation location)
+            NearbyModel arguments (Model.Nearby.HasLocation location)
 
-        msg =
-            Nearby arguments model RequestSchedule
-
-        nearbyCmd =
-            location
-                |> Task.succeed
-                |> Task.perform msg
-
+        --
+        -- msg =
+        --     Nearby arguments model (RequestSchedule location)
         cmd =
-            nearbyCmd
+            Model.Nearby.RequestSchedule location
+                |> Task.succeed
+                |> Task.perform (Nearby arguments (Model.Nearby.HasLocation location))
                 |> Platform.Cmd.map Process
     in
         ( model, cmd )

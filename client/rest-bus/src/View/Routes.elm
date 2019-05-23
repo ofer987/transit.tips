@@ -6,6 +6,8 @@ import MyCss exposing (CssClasses)
 -- import Html.CssHelpers
 
 import Html exposing (Html, div, span, text)
+import Css.Global exposing (class)
+import String exposing (fromInt)
 import Model exposing (..)
 import Model.Route
 import Model.Direction
@@ -105,6 +107,6 @@ arrivalView location minutes =
     div
         [ class [ MyCss.Arrival ] ]
         [ span [ class [ MyCss.Location ] ] [ text location ]
-        , span [ class [ MyCss.Minutes ] ] [ text (toString minutes) ]
+        , span [ class [ MyCss.Minutes ] ] [ text (fromInt minutes) ]
         , div [ class [ MyCss.Clearing ] ] []
         ]

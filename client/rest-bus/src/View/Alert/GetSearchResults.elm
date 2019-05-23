@@ -7,4 +7,6 @@ import Bootstrap.Alert as Alert
 
 view : String -> Html Controller
 view routeId =
-    Alert.info [ text ("Getting Schedule for route " ++ routeId) ]
+    Alert.simpleInfo
+        []
+        [ text ("Getting Schedule for route " ++ routeId) ]

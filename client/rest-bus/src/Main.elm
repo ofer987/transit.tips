@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Html
-import Init
+import Init exposing (init)
 import Model exposing (Model, Controller)
 import Update exposing (update)
 import View exposing (view)
@@ -14,7 +14,7 @@ import View exposing (view)
 main : Program Never Model Controller
 main =
     Browser.element
-        { init = Init.init
+        { init = init
         , update = update
         , subscriptions = subscriptions
         , view = view

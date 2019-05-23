@@ -37,10 +37,10 @@ sort original =
 isInt : String -> Bool
 isInt value =
     case toInt value of
-        Ok _ ->
+        Just _ ->
             True
 
-        Err _ ->
+        Nothing ->
             False
 
 
@@ -53,10 +53,10 @@ sortByInt original =
         strToInt : String -> Int
         strToInt string =
             case toInt string of
-                Ok int ->
+                Just int ->
                     int
 
-                Err _ ->
+                Nothing ->
                     0
     in
         List.sortBy (\route -> strToInt route.id) filtered

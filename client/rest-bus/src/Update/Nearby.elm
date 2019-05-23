@@ -4,6 +4,7 @@ import Json.Convert.Predictions
 import Task
 import Time
 import Http
+import String exposing (fromInt, fromFloat)
 import Constants exposing (..)
 import Model.Nearby exposing (..)
 import Model.Common exposing (..)
@@ -16,11 +17,11 @@ update msg model =
     case msg of
         RequestSchedule location ->
             let
-                request =
+                cmd =
                     requestNearby location.latitude location.longitude
 
-                cmd =
-                    Http.send ReceiveSchedule request
+                -- cmd =
+                --     Http.send ReceiveSchedule request
             in
                 ( model, cmd )
 
@@ -37,8 +38,8 @@ update msg model =
             let
                 message =
                     case error of
-                        Http.BadUrl message ->
-                            message
+                        Http.BadUrl value ->
+                            value
 
                         Http.Timeout ->
                             "Timeout"
@@ -46,11 +47,11 @@ update msg model =
                         Http.NetworkError ->
                             "Network error"
 
-                        Http.BadStatus response ->
-                            toString response.status.code
+                        Http.BadStatus status ->
+                            fromInt status
 
-                        Http.BadPayload message _ ->
-                            message
+                        Http.BadBody value ->
+                            "Error: " ++ value
             in
                 ( Error message, Cmd.none )
 
@@ -61,13 +62,21 @@ update msg model =
             ( ReceivedDate schedule date, Cmd.none )
 
 
-requestNearby : Float -> Float -> Http.Request Json.Predictions.Schedule
+requestNearby : Float -> Float -> Cmd Msg
 requestNearby latitude longitude =
     let
         baseUrl =
             restbusUrl
 
         url =
-            baseUrl ++ "/?latitude=" ++ (toString latitude) ++ "&longitude=" ++ (toString longitude)
+            baseUrl ++ "/?latitude=" ++ (fromFloat latitude) ++ "&longitude=" ++ (fromFloat longitude)
+
+        expect =
+            Http.expectJson
+                ReceiveSchedule
+                (Json.Decode.Predictions.nearby)
     in
-        Http.get url Json.Decode.Predictions.nearby
+        Http.get
+            { url = url
+            , expect = expect
+            }

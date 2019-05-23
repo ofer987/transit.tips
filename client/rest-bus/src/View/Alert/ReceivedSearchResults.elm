@@ -7,4 +7,6 @@ import Bootstrap.Alert as Alert
 
 view : Html Controller
 view =
-    Alert.info [ text "Received Schedule" ]
+    Alert.simpleInfo
+        []
+        [ text "Received Schedule" ]

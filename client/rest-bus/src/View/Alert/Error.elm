@@ -7,7 +7,8 @@ import Bootstrap.Alert as Alert
 
 view : String -> Html Controller
 view error =
-    Alert.danger
+    Alert.simpleDanger
+        []
         [ div
             []
             [ text error ]
