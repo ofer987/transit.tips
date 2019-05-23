@@ -17,7 +17,8 @@
         <!-- TODO: rename train_client to client/ttc-trains  -->
         <div id="ttc-trains"></div>
 
-        <script type="text/javascript" src="main.js">
+        <script type="text/javascript" src="rest-bus/main.js"></script>
+        <script type="text/javascript" src="ttc-trains/main.js"></script>
         </script>
         <script type="text/javascript">
             navigator.geolocation.getCurrentPosition(function(pos) {
@@ -27,12 +28,12 @@
                 };
 
                 Elm.RestBus.Main.init({
-                    node: document.getElementById("main"),
+                    node: document.getElementById("rest-bus"),
                     flags: latLng
                 });
 
                 Elm.TtcTrains.Main.init({
-                    node: document.getElementById("main"),
+                    node: document.getElementById("ttc-trains"),
                     flags: latLng
                 });
             });
