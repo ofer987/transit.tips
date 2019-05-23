@@ -50,7 +50,7 @@ update msg model =
                             String.fromInt status
 
                         Http.BadBody value ->
-                            "error: " ++ value
+                            "Error: " ++ value
             in
                 ( Error message, Cmd.none )
 
