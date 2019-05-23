@@ -4,6 +4,7 @@ import Browser
 import Html
 import Init exposing (init)
 import Model exposing (Model, Controller)
+import Model.Common exposing (Location)
 import Update exposing (update)
 import View exposing (view)
 
@@ -11,7 +12,7 @@ import View exposing (view)
 -- INIT
 
 
-main : Program Never Model Controller
+main : Program Location Model Controller
 main =
     Browser.element
         { init = init

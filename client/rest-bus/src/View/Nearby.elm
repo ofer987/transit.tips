@@ -26,6 +26,15 @@ view arguments model =
                 , View.Loading.view
                 ]
 
+        -- TODO: fix this
+        Model.Nearby.HasLocation _ ->
+            container
+                [ onClick NearbyController ]
+                [ CDN.stylesheet
+                , View.Alert.GetSchedule.view
+                , View.Loading.view
+                ]
+
         Model.Nearby.ReceivedDate schedule date ->
             let
                 alert =

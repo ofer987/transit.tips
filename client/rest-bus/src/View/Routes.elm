@@ -6,7 +6,7 @@ import MyCss exposing (CssClasses)
 -- import Html.CssHelpers
 
 import Html exposing (Html, div, span, text)
-import Css.Global exposing (class)
+import Html.Attributes exposing (class)
 import String exposing (fromInt)
 import Model exposing (..)
 import Model.Route
@@ -27,14 +27,14 @@ view routes =
                     value
     in
         div
-            [ class [ MyCss.Routes ] ]
+            [ class "MyCss.Routes" ]
             (List.map routeView list)
 
 
 routeView : Route -> Html Controller
 routeView route =
     div
-        [ class [ MyCss.Route ] ]
+        [ class "MyCss.Route" ]
         [ text route.title
         , directionsView route.directions
         ]
@@ -49,7 +49,7 @@ directionsView directions =
                     value
     in
         div
-            [ class [ MyCss.Directions ] ]
+            [ class "MyCss.Directions" ]
             (List.map directionView list)
 
 
@@ -63,7 +63,7 @@ directionView direction =
             Model.Route.toAgency agencyId
     in
         div
-            [ class [ MyCss.Direction ] ]
+            [ class "MyCss.Direction" ]
             [ text (Model.Direction.title agency direction.title)
             , stopsView direction.stops
             ]
@@ -78,14 +78,14 @@ stopsView stops =
                     value
     in
         div
-            [ class [ MyCss.Stops ] ]
+            [ class "MyCss.Stops" ]
             (List.map stopView list)
 
 
 stopView : Stop -> Html Controller
 stopView stop =
     div
-        [ class [ MyCss.Stop ] ]
+        [ class "MyCss.Stop" ]
         [ arrivalsView stop.arrivals ]
 
 
@@ -98,15 +98,15 @@ arrivalsView arrivals =
                     value
     in
         div
-            [ class [ MyCss.Arrivals ] ]
+            [ class "MyCss.Arrivals" ]
             (List.map (\arrival -> arrivalView arrival.parent.title arrival.minutes) list)
 
 
 arrivalView : String -> Int -> Html Controller
 arrivalView location minutes =
     div
-        [ class [ MyCss.Arrival ] ]
-        [ span [ class [ MyCss.Location ] ] [ text location ]
-        , span [ class [ MyCss.Minutes ] ] [ text (fromInt minutes) ]
-        , div [ class [ MyCss.Clearing ] ] []
+        [ class "MyCss.Arrival" ]
+        [ span [ class "MyCss.Location" ] [ text location ]
+        , span [ class "MyCss.Minutes" ] [ text (fromInt minutes) ]
+        , div [ class "MyCss.Clearing" ] []
         ]

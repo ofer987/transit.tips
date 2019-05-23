@@ -1,6 +1,7 @@
 module View.Search exposing (view, searchFormView, nearbyFormView)
 
 import Model exposing (..)
+import Model.Common exposing (Location)
 import Model.Search
 import View.Alert.Error
 import View.Loading
@@ -8,7 +9,7 @@ import View.Schedule
 import View.Alert.GetSearchResults
 import View.Alert.ReceivedSearchResults
 import Html exposing (Html, div, text, input, button, form)
-import Html.Attributes exposing (type_, defaultValue)
+import Html.Attributes exposing (type_, value)
 import Html.Events exposing (onInput, onClick, onSubmit)
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
@@ -61,8 +62,8 @@ searchFormView arguments =
         [ text "Enter route"
         , input
             [ type_ "text"
-            , defaultValue arguments.routeId
-            , onInput (\value -> UpdateArguments (Arguments arguments.agencyIds value))
+            , value arguments.routeId
+            , onInput (\value -> UpdateArguments (Arguments arguments.agencyIds value (Location 0.0 0.0)))
             ]
             []
         , button

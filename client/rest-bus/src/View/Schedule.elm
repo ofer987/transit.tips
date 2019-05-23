@@ -1,7 +1,7 @@
 module View.Schedule exposing (view)
 
 import Html exposing (Html, div, span, text)
-import Html.Attributes exposing (id)
+import Html.Attributes exposing (class, id)
 import Model exposing (..)
 import MyCss exposing (..)
 
@@ -28,8 +28,8 @@ view routes =
 head : Html Controller
 head =
     div
-        [ class [ MyCss.Headings ] ]
-        [ span [ id "direction", class [ MyCss.Direction ] ] [ text "Direction" ]
-        , span [ id "arrival", class [ MyCss.Arrival ] ] [ text "Arrival (in minutes)" ]
-        , div [ class [ MyCss.Clearing ] ] []
+        [ class "MyCss.Headings" ]
+        [ span [ id "direction", class "MyCss.Direction" ] [ text "Direction" ]
+        , span [ id "arrival", class "MyCss.Arrival" ] [ text "Arrival (in minutes)" ]
+        , div [ class "MyCss.Clearing" ] []
         ]
