@@ -5,8 +5,9 @@ import MyCss exposing (CssClasses)
 
 -- import Html.CssHelpers
 
-import Html exposing (Html, div, span, text)
-import Html.Attributes exposing (class)
+import Html.Styled exposing (Html, styled, div, span, text)
+import Html.Styled.Attributes exposing (class)
+import Css exposing (padding2, px)
 import String exposing (fromInt)
 import Model exposing (..)
 import Model.Route
@@ -48,7 +49,8 @@ directionsView directions =
                 Directions value ->
                     value
     in
-        div
+        styled div
+            []
             [ class "MyCss.Directions" ]
             (List.map directionView list)
 
@@ -62,7 +64,8 @@ directionView direction =
         agency =
             Model.Route.toAgency agencyId
     in
-        div
+        styled div
+            [ padding2 (px 5) (px 20) ]
             [ class "MyCss.Direction" ]
             [ text (Model.Direction.title agency direction.title)
             , stopsView direction.stops

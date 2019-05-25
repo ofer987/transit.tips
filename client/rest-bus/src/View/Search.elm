@@ -8,9 +8,10 @@ import View.Loading
 import View.Schedule
 import View.Alert.GetSearchResults
 import View.Alert.ReceivedSearchResults
-import Html exposing (Html, div, text, input, button, form)
-import Html.Attributes exposing (type_, value)
-import Html.Events exposing (onInput, onClick, onSubmit)
+import Html exposing (Html)
+import Html.Styled exposing (styled, div, text, input, button, form)
+import Html.Styled.Attributes exposing (type_, value)
+import Html.Styled.Events exposing (onInput, onClick, onSubmit)
 import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
 

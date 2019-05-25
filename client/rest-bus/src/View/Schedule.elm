@@ -1,7 +1,7 @@
 module View.Schedule exposing (view)
 
-import Html exposing (Html, div, span, text)
-import Html.Attributes exposing (class, id)
+import Html.Styled exposing (Html, styled, div, span, text)
+import Html.Styled.Attributes exposing (class, id)
 import Model exposing (..)
 import MyCss exposing (..)
 
