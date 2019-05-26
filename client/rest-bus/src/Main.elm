@@ -1,7 +1,7 @@
 module RestBus.Main exposing (..)
 
 import Browser
-import Html
+import Html.Styled exposing (toUnstyled)
 import Init exposing (init)
 import Model exposing (Model, Controller)
 import Model.Common exposing (Location)
@@ -18,7 +18,7 @@ main =
         { init = init
         , update = update
         , subscriptions = subscriptions
-        , view = view
+        , view = view >> toUnstyled
         }
 
 

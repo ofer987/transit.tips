@@ -1,10 +1,6 @@
 module View.Routes exposing (view)
 
 import MyCss exposing (CssClasses)
-
-
--- import Html.CssHelpers
-
 import Html.Styled exposing (Html, styled, div, span, text)
 import Html.Styled.Attributes exposing (class)
 import Css exposing (padding2, px)

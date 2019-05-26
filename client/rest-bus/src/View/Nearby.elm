@@ -1,6 +1,7 @@
 module View.Nearby exposing (view)
 
-import Html exposing (Html, div, text)
+import Html.Styled exposing (Html, fromUnstyled, toUnstyled, styled, div, text)
+import Html exposing (div)
 import Html.Events exposing (onClick)
 import Model exposing (..)
 import Model.Nearby
@@ -19,21 +20,23 @@ view : Arguments -> Model.Nearby.Model -> Html Controller
 view arguments model =
     case model of
         Model.Nearby.Nil ->
-            container
-                [ onClick NearbyController ]
-                [ CDN.stylesheet
-                , View.Alert.GetSchedule.view
-                , View.Loading.view
-                ]
+            fromUnstyled <|
+                container
+                    [ (onClick NearbyController) ]
+                    [ CDN.stylesheet
+                    , View.Alert.GetSchedule.view
+                    , toUnstyled View.Loading.view
+                    ]
 
         -- TODO: fix this
         Model.Nearby.HasLocation _ ->
-            container
-                [ onClick NearbyController ]
-                [ CDN.stylesheet
-                , View.Alert.GetSchedule.view
-                , View.Loading.view
-                ]
+            fromUnstyled <|
+                container
+                    [ onClick NearbyController ]
+                    [ CDN.stylesheet
+                    , View.Alert.GetSchedule.view
+                    , toUnstyled View.Loading.view
+                    ]
 
         Model.Nearby.ReceivedDate schedule date ->
             let
@@ -45,19 +48,21 @@ view arguments model =
                         Nothing ->
                             View.Alert.Time.view schedule.location.latitude schedule.location.longitude date
             in
-                container
-                    []
-                    [ CDN.stylesheet
-                    , alert
-                    , View.Search.searchFormView arguments
-                    , div
-                        [ onClick NearbyController ]
-                        [ View.Schedule.view schedule.routes ]
-                    ]
+                fromUnstyled <|
+                    container
+                        []
+                        [ CDN.stylesheet
+                        , alert
+                        , toUnstyled (View.Search.searchFormView arguments)
+                        , div
+                            [ onClick NearbyController ]
+                            [ toUnstyled <| View.Schedule.view schedule.routes ]
+                        ]
 
         Model.Nearby.Error error ->
-            container
-                [ onClick NearbyController ]
-                [ CDN.stylesheet
-                , View.Alert.Error.view error
-                ]
+            fromUnstyled <|
+                container
+                    [ onClick NearbyController ]
+                    [ CDN.stylesheet
+                    , View.Alert.Error.view error
+                    ]

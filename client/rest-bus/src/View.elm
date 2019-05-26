@@ -1,7 +1,7 @@
 module View exposing (view)
 
 import String
-import Html exposing (Html, div, text)
+import Html.Styled exposing (Html, div, text)
 import Model exposing (..)
 import View.Nearby
 import View.Search

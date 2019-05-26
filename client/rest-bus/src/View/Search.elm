@@ -8,8 +8,7 @@ import View.Loading
 import View.Schedule
 import View.Alert.GetSearchResults
 import View.Alert.ReceivedSearchResults
-import Html exposing (Html)
-import Html.Styled exposing (styled, div, text, input, button, form)
+import Html.Styled exposing (Html, toUnstyled, fromUnstyled, styled, div, text, input, button, form)
 import Html.Styled.Attributes exposing (type_, value)
 import Html.Styled.Events exposing (onInput, onClick, onSubmit)
 import Bootstrap.CDN as CDN
@@ -20,39 +19,42 @@ view : Arguments -> Model.Search.Model -> Html Controller
 view arguments model =
     case model of
         Model.Search.Nil ->
-            container
-                []
-                [ CDN.stylesheet
-                , View.Alert.Error.view "Could not find any route"
-                , View.Loading.view
-                ]
+            fromUnstyled <|
+                container
+                    []
+                    [ CDN.stylesheet
+                    , View.Alert.Error.view "Could not find any route"
+                    , toUnstyled View.Loading.view
+                    ]
 
         Model.Search.InProgress ->
-            container
-                []
-                [ CDN.stylesheet
-                , View.Alert.GetSearchResults.view arguments.routeId
-                , View.Loading.view
-                ]
+            Html.Styled.fromUnstyled <|
+                container
+                    []
+                    [ CDN.stylesheet
+                    , (View.Alert.GetSearchResults.view arguments.routeId)
+                    , toUnstyled View.Loading.view
+                    ]
 
         Model.Search.ReceivedPredictions schedule ->
-            container
-                []
-                [ CDN.stylesheet
-                , View.Alert.ReceivedSearchResults.view
-                , searchFormView arguments
-                , nearbyFormView
-                , View.Schedule.view schedule.routes
-                ]
+            Html.Styled.fromUnstyled <|
+                container
+                    []
+                    [ CDN.stylesheet
+                    , View.Alert.ReceivedSearchResults.view
+                    , toUnstyled (searchFormView arguments)
+                    , toUnstyled nearbyFormView
+                    , toUnstyled (View.Schedule.view schedule.routes)
+                    ]
 
         Model.Search.Error error ->
             div
                 []
-                [ CDN.stylesheet
-                , View.Alert.Error.view error
+                [ fromUnstyled CDN.stylesheet
+                , fromUnstyled (View.Alert.Error.view error)
                 , searchFormView arguments
                 , nearbyFormView
-                , View.Alert.Error.view error
+                , fromUnstyled (View.Alert.Error.view error)
                 ]
 
 

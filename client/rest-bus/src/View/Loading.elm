@@ -1,9 +1,9 @@
 module View.Loading exposing (view)
 
-import Html exposing (Html, div)
-import Html.Attributes exposing (id, class)
-
+import Html.Styled exposing (Html, styled, div)
+import Html.Styled.Attributes exposing (id, class)
 import Model exposing (Controller)
+
 
 view : Html Controller
 view =
