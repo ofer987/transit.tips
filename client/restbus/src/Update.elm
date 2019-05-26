@@ -17,16 +17,21 @@ update controller model =
     case controller of
         NearbyController ->
             let
-                location =
-                    Location 0.0 0.0
-
                 arguments =
-                    newArguments
+                    case model of
+                        Nil ->
+                            newArguments
+
+                        NearbyModel args _ ->
+                            args
+
+                        SearchModel args _ ->
+                            args
 
                 initalCmd =
-                    Model.Nearby.RequestSchedule location
+                    Model.Nearby.RequestSchedule arguments.location
                         |> Task.succeed
-                        |> Task.perform (Nearby arguments (Model.Nearby.HasLocation location))
+                        |> Task.perform (Nearby arguments (Model.Nearby.HasLocation arguments.location))
                         |> Platform.Cmd.map Process
 
                 nextModel =
@@ -43,12 +48,8 @@ update controller model =
 
         SearchController agencyIds routeId ->
             let
-                -- TODO: get initial location
-                location =
-                    Location 0.0 0.0
-
                 nextCmd =
-                    Model.Search.RequestRoute agencyIds routeId location
+                    Model.Search.RequestRoute agencyIds routeId arguments.location
                         |> Task.succeed
                         |> Task.perform (Search arguments Model.Search.Nil)
                         |> Platform.Cmd.map Process

@@ -11,7 +11,7 @@ init : Location -> ( Model, Cmd Controller )
 init location =
     let
         arguments =
-            newArguments
+            Arguments [] "" location
 
         model =
             NearbyModel arguments (Model.Nearby.HasLocation location)
