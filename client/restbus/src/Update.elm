@@ -12,15 +12,15 @@ import Tuple
 import Platform.Cmd
 
 
-update : Controller -> Model -> ( Model, Cmd Controller )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update controller model =
     case controller of
-        NearbyController ->
+        InitialNearby ->
             let
                 arguments =
                     case model of
                         Nil ->
-                            newArguments
+                            emptyInput
 
                         NearbyModel args _ ->
                             args
@@ -40,13 +40,13 @@ update controller model =
                 ( nextModel, initalCmd )
 
         -- Do nothing
-        SearchController _ "" ->
+        InitialSearch _ "" ->
             ( model, Cmd.none )
 
-        SearchController [] _ ->
+        InitialSearch [] _ ->
             ( model, Cmd.none )
 
-        SearchController agencyIds routeId ->
+        InitialSearch agencyIds routeId ->
             let
                 nextCmd =
                     Model.Search.RequestRoute agencyIds routeId arguments.location
@@ -57,7 +57,7 @@ update controller model =
                 arguments =
                     case model of
                         Nil ->
-                            newArguments
+                            emptyInput
 
                         NearbyModel arguments_ _ ->
                             arguments_
@@ -70,7 +70,7 @@ update controller model =
             in
                 ( nextModel, nextCmd )
 
-        UpdateArguments arguments ->
+        Update arguments ->
             let
                 nextModel =
                     case model of
@@ -85,10 +85,10 @@ update controller model =
             in
                 ( nextModel, Cmd.none )
 
-        Process (Nearby arguments mdl msg) ->
+        Process (Nearby msg) ->
             let
                 result =
-                    Update.Nearby.update msg mdl
+                    Update.Nearby.update msg model
 
                 nearby =
                     Tuple.first result
