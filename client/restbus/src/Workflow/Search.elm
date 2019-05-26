@@ -96,6 +96,8 @@ update msg model =
                         |> List.map .routes
                         |> List.concatMap toRoutesList
 
+                -- TODO get location from Model.inputs
+                -- But how to pass it to here?
                 location =
                     Location 0.0 0.0
 

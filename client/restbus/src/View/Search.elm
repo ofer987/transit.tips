@@ -66,7 +66,7 @@ searchFormView arguments =
         , input
             [ type_ "text"
             , value arguments.routeId
-            , onInput (\value -> Update (Input arguments.agencyIds value (Location 0.0 0.0)))
+            , onInput (\value -> Update { arguments | routeId = value })
             ]
             []
         , button
