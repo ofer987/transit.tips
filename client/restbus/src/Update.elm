@@ -30,7 +30,7 @@ update message model =
                         |> Platform.Cmd.map Process
 
                 nextModel =
-                    { model | inputs = inputs, nearby = Model.Nearby.Nil }
+                    { model | inputs = inputs, results = DisplayNearby Model.Nearby.Nil }
             in
                 ( nextModel, initalCmd )
 
@@ -53,7 +53,7 @@ update message model =
                     model.inputs
 
                 nextModel =
-                    { model | inputs = inputs, search = Model.Search.Nil }
+                    { model | inputs = inputs, results = DisplaySearch Model.Search.Nil }
             in
                 ( nextModel, nextCmd )
 
@@ -67,7 +67,15 @@ update message model =
         Process (Nearby msg) ->
             let
                 nearbyModel =
-                    model.nearby
+                    case model.results of
+                        Nil ->
+                            Model.Nearby.Nil
+
+                        DisplayNearby subModel ->
+                            subModel
+
+                        DisplaySearch _ ->
+                            Model.Nearby.Nil
 
                 result =
                     Workflow.Nearby.update msg nearbyModel
@@ -76,7 +84,7 @@ update message model =
                     Tuple.first result
 
                 nextModel =
-                    { model | nearby = nearby }
+                    { model | results = DisplayNearby nearby }
 
                 nextCmd =
                     Tuple.second result
@@ -101,7 +109,15 @@ update message model =
         Process (Search msg) ->
             let
                 searchModel =
-                    model.search
+                    case model.results of
+                        Nil ->
+                            Model.Search.Nil
+
+                        DisplayNearby _ ->
+                            Model.Search.Nil
+
+                        DisplaySearch subModel ->
+                            subModel
 
                 result =
                     Workflow.Search.update msg searchModel
@@ -110,7 +126,7 @@ update message model =
                     Tuple.first result
 
                 nextModel =
-                    { model | search = search }
+                    { model | results = DisplaySearch search }
 
                 nextCmd =
                     Tuple.second result

@@ -7,24 +7,24 @@ import View.Nearby
 import View.Search
 
 
-view : Model -> Html Controller
+view : Model -> Html Msg
 view model =
-    case model of
+    case model.results of
         Nil ->
             div [] []
 
-        NearbyModel arguments model_ ->
+        DisplayNearby subModel ->
             div
                 []
-                [ View.Nearby.view arguments model_ ]
+                [ View.Nearby.view model.inputs subModel ]
 
-        SearchModel arguments model_ ->
+        DisplaySearch subModel ->
             div
                 []
-                [ View.Search.view arguments model_ ]
+                [ View.Search.view model.inputs subModel ]
 
 
-viewArguments : Arguments -> Html Controller
+viewArguments : Arguments -> Html Msg
 viewArguments arguments =
     div
         []

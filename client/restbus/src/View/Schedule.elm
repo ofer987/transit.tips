@@ -9,7 +9,7 @@ import Model.Common exposing (..)
 import View.Routes
 
 
-view : Routes -> Html Controller
+view : Routes -> Html Msg
 view routes =
     div
         []
@@ -18,7 +18,7 @@ view routes =
         ]
 
 
-head : Html Controller
+head : Html Msg
 head =
     styled div
         [ margin4 (px 15) (px 0) (px 5) (px 0) ]

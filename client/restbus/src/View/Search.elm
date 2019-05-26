@@ -15,7 +15,7 @@ import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
 
 
-view : Arguments -> Model.Search.Model -> Html Controller
+view : Input -> Model.Search.Model -> Html Msg
 view arguments model =
     case model of
         Model.Search.Nil ->
@@ -58,15 +58,15 @@ view arguments model =
                 ]
 
 
-searchFormView : Arguments -> Html Controller
+searchFormView : Input -> Html Msg
 searchFormView arguments =
     form
-        [ onSubmit (SearchController arguments.agencyIds arguments.routeId) ]
+        [ onSubmit (InitialSearch arguments.agencyIds arguments.routeId) ]
         [ text "Enter route"
         , input
             [ type_ "text"
             , value arguments.routeId
-            , onInput (\value -> UpdateArguments (Arguments arguments.agencyIds value (Location 0.0 0.0)))
+            , onInput (\value -> Update (Input arguments.agencyIds value (Location 0.0 0.0)))
             ]
             []
         , button
@@ -75,10 +75,10 @@ searchFormView arguments =
         ]
 
 
-nearbyFormView : Html Controller
+nearbyFormView : Html Msg
 nearbyFormView =
     form
-        [ onSubmit NearbyController ]
+        [ onSubmit InitialNearby ]
         [ button
             [ type_ "submit" ]
             [ text "Search nearby" ]

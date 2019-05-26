@@ -19,8 +19,7 @@ type Workflow
 
 type alias Model =
     { inputs : Input
-    , nearby : Nearby.Model
-    , search : Search.Model
+    , results : Results
     }
 
 
@@ -29,6 +28,12 @@ type alias Input =
     , routeId : String
     , location : Location
     }
+
+
+type Results
+    = Nil
+    | DisplayNearby Nearby.Model
+    | DisplaySearch Search.Model
 
 
 emptyInput : Input
