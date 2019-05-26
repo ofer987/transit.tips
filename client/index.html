@@ -13,11 +13,11 @@
     </head>
     <body>
         <!-- TODO: rename client to client/restbus  -->
-        <div id="rest-bus"></div>
+        <div id="restbus"></div>
         <!-- TODO: rename train_client to client/ttc-trains  -->
         <div id="ttc-trains"></div>
 
-        <script type="text/javascript" src="rest-bus/main.js"></script>
+        <script type="text/javascript" src="restbus/main.js"></script>
         <script type="text/javascript" src="ttc-trains/main.js"></script>
         </script>
         <script type="text/javascript">
@@ -28,7 +28,7 @@
                 };
 
                 Elm.RestBus.Main.init({
-                    node: document.getElementById("rest-bus"),
+                    node: document.getElementById("restbus"),
                     flags: latLng
                 });
 

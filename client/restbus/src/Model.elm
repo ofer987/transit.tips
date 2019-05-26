@@ -30,6 +30,10 @@ type alias Arguments =
     }
 
 
+
+-- TODO: create a new model that stores all data in it
+
+
 newArguments : Arguments
 newArguments =
     Arguments [] "" (Location 0.0 0.0)
