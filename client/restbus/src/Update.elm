@@ -13,8 +13,8 @@ import Platform.Cmd
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update controller model =
-    case controller of
+update message model =
+    case message of
         InitialNearby ->
             let
                 arguments =
@@ -29,9 +29,12 @@ update controller model =
                             args
 
                 initalCmd =
+                    -- Task x Nearby.Msg
+                    -- perform (Nearby.Msg -> Workflow)
+                    -- map (Workflow -> Msg)
                     Model.Nearby.RequestSchedule arguments.location
                         |> Task.succeed
-                        |> Task.perform (Nearby arguments (Model.Nearby.HasLocation arguments.location))
+                        |> Task.perform Nearby
                         |> Platform.Cmd.map Process
 
                 nextModel =
@@ -51,7 +54,7 @@ update controller model =
                 nextCmd =
                     Model.Search.RequestRoute agencyIds routeId arguments.location
                         |> Task.succeed
-                        |> Task.perform (Search arguments Model.Search.Nil)
+                        |> Task.perform Search
                         |> Platform.Cmd.map Process
 
                 arguments =
@@ -87,8 +90,19 @@ update controller model =
 
         Process (Nearby msg) ->
             let
+                nearbyModel =
+                    case model of
+                        Nil ->
+                            Model.Nearby.Nil
+
+                        NearbyModel _ subModel ->
+                            subModel
+
+                        SearchModel _ subModel ->
+                            Model.Nearby.Nil
+
                 result =
-                    Update.Nearby.update msg model
+                    Update.Nearby.update msg nearbyModel
 
                 nearby =
                     Tuple.first result
@@ -98,36 +112,68 @@ update controller model =
 
                 nextCmd =
                     Tuple.second result
-                        |> Platform.Cmd.map (Nearby nextArguments (Tuple.first result))
+                        |> Platform.Cmd.map Nearby
                         |> Platform.Cmd.map Process
 
                 nextArguments =
-                    case nearby of
-                        Model.Nearby.Nil ->
-                            arguments
+                    case model of
+                        Nil ->
+                            emptyInput
 
-                        Model.Nearby.HasLocation location ->
-                            arguments
+                        NearbyModel input _ ->
+                            input
 
-                        Model.Nearby.ReceivedDate schedule _ ->
-                            { arguments | agencyIds = Model.Schedule.agencyIds schedule }
+                        SearchModel input _ ->
+                            input
 
-                        Model.Nearby.Error _ ->
-                            arguments
+                -- case nearby of
+                --     Model.Nearby.Nil ->
+                --         arguments
+                --
+                --     Model.Nearby.HasLocation location ->
+                --         arguments
+                --
+                --     Model.Nearby.ReceivedDate schedule _ ->
+                --         { arguments | agencyIds = Model.Schedule.agencyIds schedule }
+                --
+                --     Model.Nearby.Error _ ->
+                --         arguments
             in
                 ( nextModel, nextCmd )
 
-        Process (Search arguments mdl msg) ->
+        Process (Search msg) ->
             let
+                searchModel =
+                    case model of
+                        Nil ->
+                            Model.Search.Nil
+
+                        NearbyModel _ subModel ->
+                            Model.Search.Nil
+
+                        SearchModel _ subModel ->
+                            subModel
+
                 result =
-                    Update.Search.update msg mdl
+                    Update.Search.update msg searchModel
+
+                nextArguments =
+                    case model of
+                        Nil ->
+                            emptyInput
+
+                        NearbyModel input _ ->
+                            input
+
+                        SearchModel input _ ->
+                            input
 
                 nextModel =
-                    SearchModel arguments (Tuple.first result)
+                    SearchModel nextArguments (Tuple.first result)
 
                 nextCmd =
                     Tuple.second result
-                        |> Platform.Cmd.map (Search arguments (Tuple.first result))
+                        |> Platform.Cmd.map Search
                         |> Platform.Cmd.map Process
             in
                 ( nextModel, nextCmd )
