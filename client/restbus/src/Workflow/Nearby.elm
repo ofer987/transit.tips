@@ -1,4 +1,4 @@
-module Update.Nearby exposing (update)
+module Workflow.Nearby exposing (update)
 
 import Json.Convert.Predictions
 import Task

@@ -1,4 +1,4 @@
-module Update.Search exposing (update)
+module Workflow.Search exposing (update)
 
 import Task
 import Utility.Task

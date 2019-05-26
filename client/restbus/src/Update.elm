@@ -5,8 +5,8 @@ import Model.Common exposing (Location)
 import Model.Nearby
 import Model.Search
 import Model.Schedule
-import Update.Nearby
-import Update.Search
+import Workflow.Nearby
+import Workflow.Search
 import Task
 import Tuple
 import Platform.Cmd
