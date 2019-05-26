@@ -17,10 +17,11 @@ type Workflow
     | Search Search.Msg
 
 
-type Model
-    = Nil
-    | NearbyModel Input Nearby.Model
-    | SearchModel Input Search.Model
+type alias Model =
+    { inputs : Input
+    , nearby : Nearby.Model
+    , search : Search.Model
+    }
 
 
 type alias Input =
