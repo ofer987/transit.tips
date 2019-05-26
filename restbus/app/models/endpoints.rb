@@ -24,7 +24,7 @@ class Endpoints
     Geocoder.address [latitude, longitude]
   end
 
-  def as_json(_)
+  def as_json(_ = nil)
     {
       latitude: latitude,
       longitude: longitude,
