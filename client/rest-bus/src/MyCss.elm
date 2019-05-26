@@ -3,14 +3,6 @@ module MyCss exposing (..)
 import Css exposing (..)
 
 
--- import Css.Elements exposing (body, table, tbody, span, td, th)
--- import Css.Colors exposing (gray, blue, black, purple, green)
--- import Css.Namespace exposing (namespace)
--- grey : Color
--- grey =
---     gray
-
-
 type CssClasses
     = Routes
     | Directions

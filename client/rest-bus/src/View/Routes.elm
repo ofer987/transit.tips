@@ -3,7 +3,7 @@ module View.Routes exposing (view)
 import MyCss exposing (CssClasses)
 import Html.Styled exposing (Html, styled, div, span, text)
 import Html.Styled.Attributes exposing (class)
-import Css exposing (padding2, px)
+import Css exposing (padding2, px, property, margin2, float, left, right)
 import String exposing (fromInt)
 import Model exposing (..)
 import Model.Route
@@ -96,16 +96,18 @@ arrivalsView arrivals =
                 Arrivals value ->
                     value
     in
-        div
+        styled div
+            [ margin2 (px 5) (px 0) ]
             [ class "MyCss.Arrivals" ]
             (List.map (\arrival -> arrivalView arrival.parent.title arrival.minutes) list)
 
 
 arrivalView : String -> Int -> Html Controller
 arrivalView location minutes =
-    div
+    styled div
+        [ margin2 (px 20) (px 0) ]
         [ class "MyCss.Arrival" ]
-        [ span [ class "MyCss.Location" ] [ text location ]
-        , span [ class "MyCss.Minutes" ] [ text (fromInt minutes) ]
-        , div [ class "MyCss.Clearing" ] []
+        [ styled span [ float left ] [ class "MyCss.Location" ] [ text location ]
+        , styled span [ float right ] [ class "MyCss.Minutes" ] [ text (fromInt minutes) ]
+        , styled div [ property "clear" "both" ] [ class "MyCss.Clearing" ] []
         ]

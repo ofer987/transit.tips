@@ -2,18 +2,11 @@ module View.Schedule exposing (view)
 
 import Html.Styled exposing (Html, styled, div, span, text)
 import Html.Styled.Attributes exposing (class, id)
+import Css exposing (padding2, px, property, margin4, float, left, right, fontWeight, bold)
 import Model exposing (..)
 import MyCss exposing (..)
-
-
--- import Html.CssHelpers
-
 import Model.Common exposing (..)
 import View.Routes
-
-
--- { class, classList } =
---     Html.CssHelpers.withNamespace "TransitTips"
 
 
 view : Routes -> Html Controller
@@ -27,9 +20,19 @@ view routes =
 
 head : Html Controller
 head =
-    div
+    styled div
+        [ margin4 (px 15) (px 0) (px 5) (px 0) ]
         [ class "MyCss.Headings" ]
-        [ span [ id "direction", class "MyCss.Direction" ] [ text "Direction" ]
-        , span [ id "arrival", class "MyCss.Arrival" ] [ text "Arrival (in minutes)" ]
-        , div [ class "MyCss.Clearing" ] []
+        [ styled span
+            [ float left, fontWeight bold ]
+            [ id "direction", class "MyCss.Direction" ]
+            [ text "Direction" ]
+        , styled span
+            [ float right, fontWeight bold ]
+            [ id "arrival", class "MyCss.Arrival" ]
+            [ text "Arrival (in minutes)" ]
+        , styled div
+            [ property "clear" "both" ]
+            [ class "MyCss.Clearing" ]
+            []
         ]
