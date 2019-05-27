@@ -16,8 +16,8 @@ import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
 
 
-view : Arguments -> Model.Nearby.Model -> Html Msg
-view arguments model =
+view : Input -> Model.Nearby.Model -> Html Msg
+view inputs model =
     case model of
         Model.Nearby.Nil ->
             fromUnstyled <|
@@ -53,7 +53,7 @@ view arguments model =
                         []
                         [ CDN.stylesheet
                         , alert
-                        , toUnstyled (View.Search.searchFormView arguments)
+                        , toUnstyled (View.Search.searchFormView inputs)
                         , div
                             [ onClick InitialNearby ]
                             [ toUnstyled <| View.Schedule.view schedule.routes ]

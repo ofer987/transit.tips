@@ -24,10 +24,10 @@ view model =
                 [ View.Search.view model.inputs subModel ]
 
 
-viewArguments : Arguments -> Html Msg
-viewArguments arguments =
+viewArguments : Input -> Html Msg
+viewArguments inputs =
     div
         []
-        [ text ("routeId = " ++ arguments.routeId)
-        , text ("agencyIds = " ++ (String.join ", " arguments.agencyIds))
+        [ text ("routeId = " ++ inputs.routeId)
+        , text ("agencyIds = " ++ (String.join ", " inputs.agencyIds))
         ]
