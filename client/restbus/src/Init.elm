@@ -12,9 +12,8 @@ init : Location -> ( Model, Cmd Msg )
 init location =
     let
         model =
-            { inputs = emptyInput
-            , nearby = Model.Nearby.HasLocation location
-            , search = Model.Search.Nil
+            { inputs = { emptyInput | location = location }
+            , results = DisplayNearby (Model.Nearby.HasLocation location)
             }
 
         --

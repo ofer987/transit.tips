@@ -3,6 +3,7 @@ module Workflow.Search exposing (update)
 import Task
 import Utility.Task
 import Result exposing (Result)
+import List
 import Maybe
 import Http
 import String exposing (fromInt, fromFloat)
