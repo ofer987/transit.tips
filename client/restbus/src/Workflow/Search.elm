@@ -97,15 +97,23 @@ update msg model =
                         |> List.map .routes
                         |> List.concatMap toRoutesList
 
-                -- TODO get location from Model.inputs
-                -- But how to pass it to here?
-                location =
-                    Location 0.0 0.0
+                schedules =
+                    json
+                        |> List.map Json.Convert.Predictions.toSchedule
 
-                schedule =
+                location =
+                    case List.head schedules of
+                        Just schedule ->
+                            schedule.location
+
+                        -- no schedules found
+                        Nothing ->
+                            Location 0.0 0.0
+
+                flattenedSchedule =
                     Model.Common.Schedule location Nothing (Routes convertedRoutes)
             in
-                ( ReceivedPredictions schedule, Cmd.none )
+                ( ReceivedPredictions flattenedSchedule, Cmd.none )
 
         ReceivePredictions (Err error) ->
             let
