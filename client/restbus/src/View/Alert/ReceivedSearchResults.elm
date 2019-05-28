@@ -5,7 +5,7 @@ import Model exposing (..)
 import Bootstrap.Alert as Alert
 
 
-view : Html Controller
+view : Html Msg
 view =
     Alert.simpleInfo
         []

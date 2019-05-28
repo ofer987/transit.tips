@@ -15,7 +15,7 @@ import Model.Common exposing (..)
 --     Html.CssHelpers.withNamespace "TransitTips"
 
 
-view : Routes -> Html Controller
+view : Routes -> Html Msg
 view routes =
     let
         list =
@@ -28,7 +28,7 @@ view routes =
             (List.map routeView list)
 
 
-routeView : Route -> Html Controller
+routeView : Route -> Html Msg
 routeView route =
     div
         [ class "MyCss.Route" ]
@@ -37,7 +37,7 @@ routeView route =
         ]
 
 
-directionsView : Directions -> Html Controller
+directionsView : Directions -> Html Msg
 directionsView directions =
     let
         list =
@@ -51,7 +51,7 @@ directionsView directions =
             (List.map directionView list)
 
 
-directionView : Direction -> Html Controller
+directionView : Direction -> Html Msg
 directionView direction =
     let
         agencyId =
@@ -68,7 +68,7 @@ directionView direction =
             ]
 
 
-stopsView : Stops -> Html Controller
+stopsView : Stops -> Html Msg
 stopsView stops =
     let
         list =
@@ -81,14 +81,14 @@ stopsView stops =
             (List.map stopView list)
 
 
-stopView : Stop -> Html Controller
+stopView : Stop -> Html Msg
 stopView stop =
     div
         [ class "MyCss.Stop" ]
         [ arrivalsView stop.arrivals ]
 
 
-arrivalsView : Arrivals -> Html Controller
+arrivalsView : Arrivals -> Html Msg
 arrivalsView arrivals =
     let
         list =
@@ -102,7 +102,7 @@ arrivalsView arrivals =
             (List.map (\arrival -> arrivalView arrival.parent.title arrival.minutes) list)
 
 
-arrivalView : String -> Int -> Html Controller
+arrivalView : String -> Int -> Html Msg
 arrivalView location minutes =
     styled div
         [ margin2 (px 20) (px 0) ]

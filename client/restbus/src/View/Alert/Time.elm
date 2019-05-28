@@ -9,7 +9,7 @@ import Bootstrap.Alert as Alert
 import String exposing (fromFloat)
 
 
-view : Float -> Float -> Posix -> Html Controller
+view : Float -> Float -> Posix -> Html Msg
 view latitude longitude date =
     let
         mapsUrl =

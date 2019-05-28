@@ -16,13 +16,13 @@ import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid exposing (container)
 
 
-view : Arguments -> Model.Nearby.Model -> Html Controller
-view arguments model =
+view : Input -> Model.Nearby.Model -> Html Msg
+view inputs model =
     case model of
         Model.Nearby.Nil ->
             fromUnstyled <|
                 container
-                    [ (onClick NearbyController) ]
+                    [ (onClick InitialNearby) ]
                     [ CDN.stylesheet
                     , View.Alert.GetSchedule.view
                     , toUnstyled View.Loading.view
@@ -32,7 +32,7 @@ view arguments model =
         Model.Nearby.HasLocation _ ->
             fromUnstyled <|
                 container
-                    [ onClick NearbyController ]
+                    [ onClick InitialNearby ]
                     [ CDN.stylesheet
                     , View.Alert.GetSchedule.view
                     , toUnstyled View.Loading.view
@@ -53,16 +53,16 @@ view arguments model =
                         []
                         [ CDN.stylesheet
                         , alert
-                        , toUnstyled (View.Search.searchFormView arguments)
+                        , toUnstyled (View.Search.searchFormView inputs)
                         , div
-                            [ onClick NearbyController ]
+                            [ onClick InitialNearby ]
                             [ toUnstyled <| View.Schedule.view schedule.routes ]
                         ]
 
         Model.Nearby.Error error ->
             fromUnstyled <|
                 container
-                    [ onClick NearbyController ]
+                    [ onClick InitialNearby ]
                     [ CDN.stylesheet
                     , View.Alert.Error.view error
                     ]

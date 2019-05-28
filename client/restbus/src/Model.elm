@@ -5,35 +5,37 @@ import Model.Nearby as Nearby
 import Model.Search as Search
 
 
-type Controller
-    = NearbyController
-    | SearchController (List String) String
-    | UpdateArguments Arguments
-    | Process Msg
-
-
 type Msg
-    = Nearby Arguments Nearby.Model Nearby.Msg
-    | Search Arguments Search.Model Search.Msg
+    = InitialNearby
+    | InitialSearch (List String) String
+    | Update Input
+    | Process Workflow
 
 
-type Model
-    = Nil
-    | NearbyModel Arguments Nearby.Model
-    | SearchModel Arguments Search.Model
+type Workflow
+    = Nearby Nearby.Msg
+    | Search Search.Msg
 
 
-type alias Arguments =
+type alias Model =
+    { inputs : Input
+    , results : Results
+    }
+
+
+type alias Input =
     { agencyIds : List String
     , routeId : String
     , location : Location
     }
 
 
+type Results
+    = Nil
+    | DisplayNearby Nearby.Model
+    | DisplaySearch Search.Model
 
--- TODO: create a new model that stores all data in it
 
-
-newArguments : Arguments
-newArguments =
-    Arguments [] "" (Location 0.0 0.0)
+emptyInput : Input
+emptyInput =
+    Input [] "" (Location 0.0 0.0)

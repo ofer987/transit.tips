@@ -5,7 +5,7 @@ import Model exposing (..)
 import Bootstrap.Alert as Alert
 
 
-view : String -> Html Controller
+view : String -> Html Msg
 view error =
     Alert.simpleDanger
         []

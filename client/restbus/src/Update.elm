@@ -5,129 +5,132 @@ import Model.Common exposing (Location)
 import Model.Nearby
 import Model.Search
 import Model.Schedule
-import Update.Nearby
-import Update.Search
+import Workflow.Nearby
+import Workflow.Search
 import Task
 import Tuple
 import Platform.Cmd
 
 
-update : Controller -> Model -> ( Model, Cmd Controller )
-update controller model =
-    case controller of
-        NearbyController ->
+update : Msg -> Model -> ( Model, Cmd Msg )
+update message model =
+    case message of
+        InitialNearby ->
             let
-                arguments =
-                    case model of
-                        Nil ->
-                            newArguments
-
-                        NearbyModel args _ ->
-                            args
-
-                        SearchModel args _ ->
-                            args
+                inputs =
+                    model.inputs
 
                 initalCmd =
-                    Model.Nearby.RequestSchedule arguments.location
+                    -- Task x Nearby.Msg
+                    -- perform (Nearby.Msg -> Workflow)
+                    -- map (Workflow -> Msg)
+                    Model.Nearby.RequestSchedule inputs.location
                         |> Task.succeed
-                        |> Task.perform (Nearby arguments (Model.Nearby.HasLocation arguments.location))
+                        |> Task.perform Nearby
                         |> Platform.Cmd.map Process
 
                 nextModel =
-                    NearbyModel arguments Model.Nearby.Nil
+                    { model | inputs = inputs, results = DisplayNearby Model.Nearby.Nil }
             in
                 ( nextModel, initalCmd )
 
         -- Do nothing
-        SearchController _ "" ->
+        InitialSearch _ "" ->
             ( model, Cmd.none )
 
-        SearchController [] _ ->
+        InitialSearch [] _ ->
             ( model, Cmd.none )
 
-        SearchController agencyIds routeId ->
+        InitialSearch agencyIds routeId ->
             let
                 nextCmd =
-                    Model.Search.RequestRoute agencyIds routeId arguments.location
+                    Model.Search.RequestRoute agencyIds routeId inputs.location
                         |> Task.succeed
-                        |> Task.perform (Search arguments Model.Search.Nil)
+                        |> Task.perform Search
                         |> Platform.Cmd.map Process
 
-                arguments =
-                    case model of
-                        Nil ->
-                            newArguments
-
-                        NearbyModel arguments_ _ ->
-                            arguments_
-
-                        SearchModel arguments_ _ ->
-                            arguments_
+                inputs =
+                    model.inputs
 
                 nextModel =
-                    SearchModel arguments Model.Search.Nil
+                    { model | inputs = inputs, results = DisplaySearch Model.Search.Nil }
             in
                 ( nextModel, nextCmd )
 
-        UpdateArguments arguments ->
+        Update inputs ->
             let
                 nextModel =
-                    case model of
-                        Nil ->
-                            Nil
-
-                        NearbyModel _ nearby ->
-                            NearbyModel arguments nearby
-
-                        SearchModel _ search ->
-                            SearchModel arguments search
+                    { model | inputs = inputs }
             in
                 ( nextModel, Cmd.none )
 
-        Process (Nearby arguments mdl msg) ->
+        Process (Nearby msg) ->
             let
+                nearbyModel =
+                    case model.results of
+                        Nil ->
+                            Model.Nearby.Nil
+
+                        DisplayNearby subModel ->
+                            subModel
+
+                        DisplaySearch _ ->
+                            Model.Nearby.Nil
+
                 result =
-                    Update.Nearby.update msg mdl
+                    Workflow.Nearby.update msg nearbyModel
 
                 nearby =
                     Tuple.first result
 
                 nextModel =
-                    NearbyModel nextArguments nearby
+                    { model | results = DisplayNearby nearby }
 
                 nextCmd =
                     Tuple.second result
-                        |> Platform.Cmd.map (Nearby nextArguments (Tuple.first result))
+                        |> Platform.Cmd.map Nearby
                         |> Platform.Cmd.map Process
 
-                nextArguments =
-                    case nearby of
-                        Model.Nearby.Nil ->
-                            arguments
-
-                        Model.Nearby.HasLocation location ->
-                            arguments
-
-                        Model.Nearby.ReceivedDate schedule _ ->
-                            { arguments | agencyIds = Model.Schedule.agencyIds schedule }
-
-                        Model.Nearby.Error _ ->
-                            arguments
+                -- case nearby of
+                --     Model.Nearby.Nil ->
+                --         arguments
+                --
+                --     Model.Nearby.HasLocation location ->
+                --         arguments
+                --
+                --     Model.Nearby.ReceivedDate schedule _ ->
+                --         { arguments | agencyIds = Model.Schedule.agencyIds schedule }
+                --
+                --     Model.Nearby.Error _ ->
+                --         arguments
             in
                 ( nextModel, nextCmd )
 
-        Process (Search arguments mdl msg) ->
+        Process (Search msg) ->
             let
+                searchModel =
+                    case model.results of
+                        Nil ->
+                            Model.Search.Nil
+
+                        DisplayNearby _ ->
+                            Model.Search.Nil
+
+                        DisplaySearch subModel ->
+                            subModel
+
                 result =
-                    Update.Search.update msg mdl
+                    Workflow.Search.update msg searchModel
+
+                search =
+                    Tuple.first result
 
                 nextModel =
-                    SearchModel arguments (Tuple.first result)
+                    { model | results = DisplaySearch search }
 
                 nextCmd =
                     Tuple.second result
-                        |> Platform.Cmd.map (Search arguments (Tuple.first result))
+                        |> Platform.Cmd.map Search
                         |> Platform.Cmd.map Process
             in
                 ( nextModel, nextCmd )

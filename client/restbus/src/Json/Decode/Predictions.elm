@@ -26,8 +26,7 @@ schedule latitude longitude =
                 (list route)
 
         result =
-            Json.list
-                item
+            Json.list item
     in
         result
 

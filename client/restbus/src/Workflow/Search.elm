@@ -1,8 +1,9 @@
-module Update.Search exposing (update)
+module Workflow.Search exposing (update)
 
 import Task
 import Utility.Task
 import Result exposing (Result)
+import List
 import Maybe
 import Http
 import String exposing (fromInt, fromFloat)
@@ -96,13 +97,23 @@ update msg model =
                         |> List.map .routes
                         |> List.concatMap toRoutesList
 
-                location =
-                    Location 0.0 0.0
+                schedules =
+                    json
+                        |> List.map Json.Convert.Predictions.toSchedule
 
-                schedule =
+                location =
+                    case List.head schedules of
+                        Just schedule ->
+                            schedule.location
+
+                        -- no schedules found
+                        Nothing ->
+                            Location 0.0 0.0
+
+                flattenedSchedule =
                     Model.Common.Schedule location Nothing (Routes convertedRoutes)
             in
-                ( ReceivedPredictions schedule, Cmd.none )
+                ( ReceivedPredictions flattenedSchedule, Cmd.none )
 
         ReceivePredictions (Err error) ->
             let

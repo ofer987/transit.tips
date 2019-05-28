@@ -5,16 +5,16 @@ import Platform.Cmd
 import Model exposing (..)
 import Model.Common exposing (Location)
 import Model.Nearby
+import Model.Search
 
 
-init : Location -> ( Model, Cmd Controller )
+init : Location -> ( Model, Cmd Msg )
 init location =
     let
-        arguments =
-            Arguments [] "" location
-
         model =
-            NearbyModel arguments (Model.Nearby.HasLocation location)
+            { inputs = { emptyInput | location = location }
+            , results = DisplayNearby (Model.Nearby.HasLocation location)
+            }
 
         --
         -- msg =
@@ -22,7 +22,7 @@ init location =
         cmd =
             Model.Nearby.RequestSchedule location
                 |> Task.succeed
-                |> Task.perform (Nearby arguments (Model.Nearby.HasLocation location))
+                |> Task.perform Nearby
                 |> Platform.Cmd.map Process
     in
         ( model, cmd )
