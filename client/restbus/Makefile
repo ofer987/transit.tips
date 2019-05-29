@@ -6,7 +6,7 @@ install: clean build
 
 build: src/Constants.elm main.js
 
-main.js: src/*.elm src/Workflow/*.elm src/Model/*.elm src/View/*.elm src/View/Alert/*.elm src/View/Search/*.elm src/Json/*.elm src/Json/Convert/*.elm src/Json/Decode/*.elm
+main.js: src/*.elm src/Workflow/*.elm src/Model/*.elm src/View/*.elm src/View/Alert/*.elm src/Json/*.elm src/Json/Convert/*.elm src/Json/Decode/*.elm
 	elm make src/Main.elm --output main.js
 
 # index.css: Stylesheets.elm MyCss.elm
