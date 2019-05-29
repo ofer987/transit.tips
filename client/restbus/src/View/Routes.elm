@@ -1,6 +1,6 @@
 module View.Routes exposing (view)
 
-import MyCss exposing (CssClasses)
+import MyCss
 import Html.Styled exposing (Html, styled, div, span, text)
 import Html.Styled.Attributes exposing (class)
 import Css exposing (padding2, px, property, margin2, float, left, right)
@@ -23,14 +23,14 @@ view routes =
                 Routes value ->
                     value
     in
-        div
+        MyCss.routes
             [ class "MyCss.Routes" ]
             (List.map routeView list)
 
 
 routeView : Route -> Html Msg
 routeView route =
-    div
+    MyCss.route
         [ class "MyCss.Route" ]
         [ text route.title
         , directionsView route.directions
@@ -45,8 +45,7 @@ directionsView directions =
                 Directions value ->
                     value
     in
-        styled div
-            []
+        MyCss.directions
             [ class "MyCss.Directions" ]
             (List.map directionView list)
 
@@ -60,8 +59,7 @@ directionView direction =
         agency =
             Model.Route.toAgency agencyId
     in
-        styled div
-            [ padding2 (px 5) (px 20) ]
+        MyCss.direction
             [ class "MyCss.Direction" ]
             [ text (Model.Direction.title agency direction.title)
             , stopsView direction.stops
@@ -76,14 +74,14 @@ stopsView stops =
                 Stops value ->
                     value
     in
-        div
+        MyCss.stops
             [ class "MyCss.Stops" ]
             (List.map stopView list)
 
 
 stopView : Stop -> Html Msg
 stopView stop =
-    div
+    MyCss.stop
         [ class "MyCss.Stop" ]
         [ arrivalsView stop.arrivals ]
 
@@ -96,16 +94,14 @@ arrivalsView arrivals =
                 Arrivals value ->
                     value
     in
-        styled div
-            [ margin2 (px 5) (px 0) ]
+        MyCss.arrivals
             [ class "MyCss.Arrivals" ]
             (List.map (\arrival -> arrivalView arrival.parent.title arrival.minutes) list)
 
 
 arrivalView : String -> Int -> Html Msg
 arrivalView location minutes =
-    styled div
-        [ margin2 (px 20) (px 0) ]
+    MyCss.arrival
         [ class "MyCss.Arrival" ]
         [ styled span [ float left ] [ class "MyCss.Location" ] [ text location ]
         , styled span [ float right ] [ class "MyCss.Minutes" ] [ text (fromInt minutes) ]
