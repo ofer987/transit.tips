@@ -1,6 +1,5 @@
 module Workflow.Nearby exposing (update)
 
-import Json.Convert.Predictions
 import Task
 import Time
 import Http
@@ -11,6 +10,8 @@ import Model.Common exposing (..)
 import Json.Predictions
 import Json.Decode.Predictions
 import Json.Decode.Trains
+import Json.Convert.Predictions
+import Json.Convert.Trains
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -110,7 +111,7 @@ requestNearby latitude longitude =
             }
 
 
-receivedError : Error -> ( Model, Cmd Msg )
+receivedError : Http.Error -> ( Model, Cmd Msg )
 receivedError error =
     let
         message =

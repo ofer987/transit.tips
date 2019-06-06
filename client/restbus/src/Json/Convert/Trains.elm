@@ -30,7 +30,7 @@ toSchedule json =
             Model.Schedule
                 (Model.Location json.latitude json.longitude)
                 json.otherSchedule.address
-                (Model.Routes [ List.map (toRoute self) json.lines ])
+                (Model.Routes (List.map (toRoute self) json.lines))
 
         routes =
             case schedule.routes of
@@ -68,6 +68,16 @@ toRoute parent json =
                 |> List.map .directions
                 |> List.concat
 
+        directionModelsForStation : Station -> List Model.Direction
+        directionModelsForStation jsonStation =
+            toDirections self jsonStation
+
+        directionModels : List Model.Direction
+        directionModels =
+            json.stations
+                |> List.map directionModelsForStation
+                |> List.concat
+
         self =
             Model.Route
                 (fromInt json.id)
@@ -82,54 +92,59 @@ toRoute parent json =
                 parent
                 json.name
                 "ttc"
-                (Model.Directions (List.map (toDirection self directions) json.stations))
+                (Model.Directions directionModels)
     in
         route
 
 
-toDirection : Model.Route -> List Direction -> Station -> Model.Direction
-toDirection parent directions json =
+toDirections : Model.Route -> Station -> List Model.Direction
+toDirections route jsonStation =
     let
-        self =
+        self : Direction -> Model.Direction
+        self jsonDirection =
             Model.Direction
                 Nothing
-                parent
-                ""
-                ""
+                route
+                jsonDirection.destination_station
+                jsonDirection.destination_station
                 (Model.Stops [])
 
-        myDirection : List Direction -> String -> Maybe Direction
-        myDirection list stopId =
-            list
-                |> List.filter (\dir -> List.any (\stop -> stop == stopId) dir.stops)
-                |> List.head
-
-        direction dir =
-            Model.Direction
-                dir.id
-                parent
-                dir.shortTitle
-                dir.title
-                (Model.Stops [ toStop self json ])
+        direction : Direction -> Model.Direction
+        direction jsonDirection =
+            let
+                directionSelf =
+                    self jsonDirection
+            in
+                { directionSelf | stops = Model.Stops [ (toStop directionSelf jsonStation jsonDirection) ] }
     in
-        case myDirection directions json.id of
-            Just value ->
-                direction value
-
-            Nothing ->
-                Model.Direction
-                    Nothing
-                    parent
-                    ""
-                    ""
-                    (Model.Stops [ toStop self json ])
+        jsonStation.directions
+            |> List.map direction
 
 
-toStop : Model.Direction -> Station -> Model.Stop
-toStop parent json =
-    Model.Stop
-        json.id
-        parent
-        json.title
-        Nothing
-        (Model.Arrivals [])
+toStop : Model.Direction -> Station -> Direction -> Model.Stop
+toStop direction jsonStation jsonDirection =
+    let
+        self =
+            Model.Stop
+                (fromInt jsonStation.id)
+                direction
+                jsonStation.name
+                (Just { latitude = jsonStation.latitude, longitude = jsonStation.longitude })
+                (Model.Arrivals [])
+    in
+        { self | arrivals = Model.Arrivals (List.map (toArrival self) jsonDirection.events) }
+
+
+toArrival : Model.Stop -> Event -> Model.Arrival
+toArrival stop jsonEvent =
+    let
+        minutes =
+            floor jsonEvent.precisely_in
+
+        seconds =
+            truncate <| 60 * (jsonEvent.precisely_in - (toFloat minutes))
+    in
+        Model.Arrival
+            stop
+            minutes
+            seconds
