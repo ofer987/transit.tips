@@ -55,8 +55,13 @@ update msg model =
                 schedule =
                     json
                         |> Json.Convert.Trains.toModel
+
+                cmd =
+                    schedule
+                        |> Task.succeed
+                        |> Task.perform RequestTime
             in
-                ( model, Cmd.none )
+                ( model, cmd )
 
         ReceivedTrains (Err err) ->
             receivedError err
