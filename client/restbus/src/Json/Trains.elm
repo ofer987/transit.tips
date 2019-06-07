@@ -1,9 +1,12 @@
-module Json exposing (..)
+module Json.Trains exposing (..)
+
+import Model.Common as Model
 
 
 type alias Schedule =
     { latitude : Float
     , longitude : Float
+    , otherSchedule : Model.Schedule
     , lines : List Line
     }
 

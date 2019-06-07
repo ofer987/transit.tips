@@ -1,22 +1,24 @@
-module Json.Decoder exposing (model)
+module Json.Decode.Trains exposing (model)
 
 import Json.Decode as Json exposing (Decoder, field, at, maybe, string, float, int, list, succeed, oneOf, null)
-import Json exposing (..)
+import Json.Trains exposing (..)
+import Model.Common as Model
 
 
-model : Float -> Float -> Decoder Schedule
+model : Float -> Float -> Model.Schedule -> Decoder Schedule
 model =
     schedule
 
 
-schedule : Float -> Float -> Decoder Schedule
-schedule latitude longitude =
+schedule : Float -> Float -> Model.Schedule -> Decoder Schedule
+schedule latitude longitude scheduleModel =
     -- It is ignoring the latitude and longitude values from the response
     -- TODO: change this!
-    Json.map3
+    Json.map4
         Schedule
         (succeed latitude)
         (succeed longitude)
+        (succeed scheduleModel)
         (field "lines" (list line))
 
 

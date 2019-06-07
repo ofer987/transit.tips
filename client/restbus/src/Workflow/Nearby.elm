@@ -1,6 +1,5 @@
 module Workflow.Nearby exposing (update)
 
-import Json.Convert.Predictions
 import Task
 import Time
 import Http
@@ -10,6 +9,9 @@ import Model.Nearby exposing (..)
 import Model.Common exposing (..)
 import Json.Predictions
 import Json.Decode.Predictions
+import Json.Decode.Trains
+import Json.Convert.Predictions
+import Json.Convert.Trains
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -19,47 +21,79 @@ update msg model =
             let
                 cmd =
                     requestNearby location.latitude location.longitude
-
-                -- cmd =
-                --     Http.send ReceiveSchedule request
             in
                 ( model, cmd )
 
         ReceiveSchedule (Ok json) ->
             let
+                schedule =
+                    json
+                        |> Json.Convert.Predictions.toSchedule
+
+                location =
+                    schedule.location
+
                 cmd =
-                    Json.Convert.Predictions.toSchedule json
+                    schedule
+                        |> Task.succeed
+                        |> Task.perform (RequestTrains location)
+            in
+                ( model, cmd )
+
+        ReceiveSchedule (Err error) ->
+            receivedError error
+
+        RequestTrains location currentSchedule ->
+            let
+                cmd =
+                    requestTrains location.latitude location.longitude currentSchedule
+            in
+                ( model, cmd )
+
+        ReceivedTrains (Ok json) ->
+            let
+                schedule =
+                    json
+                        |> Json.Convert.Trains.toModel
+
+                cmd =
+                    schedule
                         |> Task.succeed
                         |> Task.perform RequestTime
             in
                 ( model, cmd )
 
-        ReceiveSchedule (Err error) ->
-            let
-                message =
-                    case error of
-                        Http.BadUrl value ->
-                            value
-
-                        Http.Timeout ->
-                            "Timeout"
-
-                        Http.NetworkError ->
-                            "Network error"
-
-                        Http.BadStatus status ->
-                            fromInt status
-
-                        Http.BadBody value ->
-                            "Error: " ++ value
-            in
-                ( Error message, Cmd.none )
+        ReceivedTrains (Err err) ->
+            receivedError err
 
         RequestTime schedule ->
             ( model, Task.perform (ReceiveTime schedule) Time.now )
 
         ReceiveTime schedule date ->
             ( ReceivedDate schedule date, Cmd.none )
+
+
+requestTrains : Float -> Float -> Schedule -> Cmd Msg
+requestTrains latitude longitude schedule =
+    let
+        baseUrl : String
+        baseUrl =
+            restbusUrl
+
+        url : String
+        url =
+            baseUrl ++ "/ttc/train/schedules/show?latitude=" ++ (String.fromFloat latitude) ++ "&longitude=" ++ (String.fromFloat longitude)
+
+        expect : Http.Expect Msg
+        expect =
+            Http.expectJson
+                ReceivedTrains
+                (Json.Decode.Trains.model latitude longitude schedule)
+    in
+        Http.get
+            { url = url
+            , expect = expect
+            }
 
 
 requestNearby : Float -> Float -> Cmd Msg
@@ -80,3 +114,26 @@ requestNearby latitude longitude =
             { url = url
             , expect = expect
             }
+
+
+receivedError : Http.Error -> ( Model, Cmd Msg )
+receivedError error =
+    let
+        message =
+            case error of
+                Http.BadUrl value ->
+                    value
+
+                Http.Timeout ->
+                    "Timeout"
+
+                Http.NetworkError ->
+                    "Network error"
+
+                Http.BadStatus status ->
+                    fromInt status
+
+                Http.BadBody value ->
+                    "Error: " ++ value
+    in
+        ( Error message, Cmd.none )
