@@ -43,6 +43,9 @@
                                             <constraint firstAttribute="height" constant="20" id="qys-pG-5WP"/>
                                         </constraints>
                                         <state key="normal" title="Get Local"/>
+                                        <connections>
+                                            <action selector="setSchedule:" destination="BYZ-38-t0r" eventType="touchDown" id="tur-65-gdL"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Schedule" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDu-Y7-InH">
                                         <rect key="frame" x="0.0" y="84.5" width="375" height="20.5"/>
@@ -75,6 +78,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="localButton" destination="neZ-JC-oqd" id="XJK-IL-lCX"/>
+                        <outlet property="resultsText" destination="gQq-e1-xaq" id="MFg-7b-RQO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
