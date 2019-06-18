@@ -7,21 +7,32 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: Properties
     @IBOutlet weak var localButton : UIButton!
     @IBOutlet weak var resultsText : UITextView!
     
+    var locationManager: CLLocationManager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.requestAlwaysAuthorization()
+            locationManager.startUpdatingLocation()
+        }
     }
     
     // MARK: Actions
     @IBAction func setSchedule(_ sender: UIButton) {
-        let results = [ "Line1", "Line 2" ]
-    setBusSchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
+        setBusSchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
     }
     
     func setBusSchedule(_ path: String) {
@@ -37,5 +48,12 @@ class ViewController: UIViewController {
             }
             task.resume()
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last! as CLLocation
+        
+        resultsText.text = "locations = \(location.coordinate.latitude) \(location.coordinate.longitude)"
     }
 }
