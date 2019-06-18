@@ -21,7 +21,21 @@ class ViewController: UIViewController {
     // MARK: Actions
     @IBAction func setSchedule(_ sender: UIButton) {
         let results = [ "Line1", "Line 2" ]
-        
-        resultsText.text = results.joined(separator: ", ")
+    setBusSchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
+    }
+    
+    func setBusSchedule(_ path: String) {
+        let url = URL(string: path)
+        if let absoluteUrl = url?.absoluteURL {
+            let task = URLSession.shared.dataTask(with: absoluteUrl) { (data, response, error) in
+                guard let data = data else {
+                    self.resultsText.text = "COULD NOT GET DATA"
+                    return
+                }
+                
+                self.resultsText.text = String(data: data, encoding: .utf8)!
+            }
+            task.resume()
+        }
     }
 }
