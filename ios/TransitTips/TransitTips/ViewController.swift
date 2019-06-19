@@ -31,20 +31,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     // MARK: Actions
-    @IBAction func setSchedule(_ sender: UIButton) {
-        setBusSchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
+    @IBAction func setSchedule(_ sender: UIButton) {        setBusSchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
     }
     
     func setBusSchedule(_ path: String) {
         let url = URL(string: path)
         if let absoluteUrl = url?.absoluteURL {
             let task = URLSession.shared.dataTask(with: absoluteUrl) { (data, response, error) in
-                guard let data = data else {
-                    self.resultsText.text = "COULD NOT GET DATA"
-                    return
+                var result: String
+                if let data = data {
+                    result = String(data: data, encoding: .utf8)!
+                } else {
+                    result = "COULD NOT GET DATA"
                 }
                 
-                self.resultsText.text = String(data: data, encoding: .utf8)!
+                DispatchQueue.main.async {
+                    self.resultsText.text = result
+                }
             }
             task.resume()
         }
