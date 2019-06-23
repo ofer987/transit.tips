@@ -12,4 +12,8 @@ class Schedule {
     var routes: [Route]
     var requestedLocation: Location
     
+    init() {
+        self.routes = Array()
+        self.requestedLocation = Location(0.00, 1.012)
+    }
 }

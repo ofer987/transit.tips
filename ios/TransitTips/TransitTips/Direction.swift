@@ -17,5 +17,10 @@ class Direction {
     var stops: [Stop]
     
     init() {
+        self.id = "one"
+        self.title = "two"
+        self.shortTitle = self.title
+        self.agency = "three"
+        self.stops = Array()
     }
 }
