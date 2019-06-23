@@ -15,5 +15,9 @@ class Route {
     var directions: [Direction] = Array()
     
     init() {
+        id = "1"
+        agencyId = "2"
+        title = "3"
+        directions = Array()
     }
 }

@@ -8,6 +8,6 @@
 
 import Foundation
 
-func parseBusSchedule(rawData: String)-> Schedule {
-    <#function body#>
+func parseBusSchedule(rawData: String) -> Schedule {
+    return Schedule()
 }

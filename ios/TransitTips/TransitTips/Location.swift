@@ -19,7 +19,7 @@ class Location {
         self.longitude = longitude
     }
     
-    static prefix func -(_ other: Location) -> Double {
-        return (pow(self.latitude - other.latitude, 2) + pow(self.longitude - other.longitude, 2)).squareRoot()
+    static func -(_ source: Location, _ target: Location) -> Double {
+        return (pow(source.latitude - target.latitude, 2) + pow(source.longitude - target.longitude, 2)).squareRoot()
     }
 }

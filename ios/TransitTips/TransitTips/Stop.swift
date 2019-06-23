@@ -15,7 +15,7 @@ class Stop {
         self.location = location
     }
 
-    func distanceFrom(_ other: Location) -> Double {
-        return self.location - other
+    func distanceFrom(_ target: Location) -> Double {
+        return self.location - target
     }
 }
