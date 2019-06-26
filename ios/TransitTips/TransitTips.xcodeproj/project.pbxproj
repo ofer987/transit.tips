@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EA5B0ABF22BEC86500DEEE71 /* Arrival.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5B0ABE22BEC86500DEEE71 /* Arrival.swift */; };
+		EA19F2B822C3095B00214D2B /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B722C3095A00214D2B /* Schedule.swift */; };
+		EA19F2B922C3095B00214D2B /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B122C3095200214D2B /* Stop.swift */; };
+		EA19F2BA22C3095B00214D2B /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B622C3095A00214D2B /* Agency.swift */; };
+		EA19F2BB22C3095B00214D2B /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B322C3095A00214D2B /* Route.swift */; };
+		EA19F2BC22C3095B00214D2B /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B522C3095A00214D2B /* Location.swift */; };
+		EA19F2BD22C3095B00214D2B /* Arrival.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B222C3095A00214D2B /* Arrival.swift */; };
+		EA19F2BE22C3095B00214D2B /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B422C3095A00214D2B /* Direction.swift */; };
 		EAD350D522BE683200458930 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD350D422BE683200458930 /* Parser.swift */; };
-		EAD350D722BE688500458930 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD350D622BE688500458930 /* Schedule.swift */; };
-		EAD350D922BE6A0000458930 /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD350D822BE6A0000458930 /* Agency.swift */; };
-		EAD350DB22BE6A9B00458930 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD350DA22BE6A9B00458930 /* Route.swift */; };
-		EAD350DD22BE775D00458930 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD350DC22BE775D00458930 /* Direction.swift */; };
-		EAD350DF22BE77AA00458930 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD350DE22BE77AA00458930 /* Stop.swift */; };
-		EAD350E122BEC03E00458930 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD350E022BEC03E00458930 /* Location.swift */; };
+		EAD4311A22C3026C00EBDC6D /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD4311922C3026B00EBDC6D /* Json.swift */; };
 		EADB479F22B56E6700907F8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB479E22B56E6700907F8F /* AppDelegate.swift */; };
 		EADB47A122B56E6700907F8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB47A022B56E6700907F8F /* ViewController.swift */; };
 		EADB47A422B56E6700907F8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EADB47A222B56E6700907F8F /* Main.storyboard */; };
@@ -34,14 +35,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EA5B0ABE22BEC86500DEEE71 /* Arrival.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrival.swift; sourceTree = "<group>"; };
+		EA19F2B122C3095200214D2B /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = TransitTips.Models/../Stop.swift; sourceTree = "<group>"; };
+		EA19F2B222C3095A00214D2B /* Arrival.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Arrival.swift; path = TransitTips.Models/../Arrival.swift; sourceTree = "<group>"; };
+		EA19F2B322C3095A00214D2B /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Route.swift; path = TransitTips.Models/../Route.swift; sourceTree = "<group>"; };
+		EA19F2B422C3095A00214D2B /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Direction.swift; path = TransitTips.Models/../Direction.swift; sourceTree = "<group>"; };
+		EA19F2B522C3095A00214D2B /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Location.swift; path = TransitTips.Models/../Location.swift; sourceTree = "<group>"; };
+		EA19F2B622C3095A00214D2B /* Agency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Agency.swift; path = TransitTips.Models/../Agency.swift; sourceTree = "<group>"; };
+		EA19F2B722C3095A00214D2B /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Schedule.swift; path = TransitTips.Models/../Schedule.swift; sourceTree = "<group>"; };
 		EAD350D422BE683200458930 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		EAD350D622BE688500458930 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
-		EAD350D822BE6A0000458930 /* Agency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
-		EAD350DA22BE6A9B00458930 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
-		EAD350DC22BE775D00458930 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
-		EAD350DE22BE77AA00458930 /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
-		EAD350E022BEC03E00458930 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		EAD4311922C3026B00EBDC6D /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		EADB479B22B56E6700907F8F /* TransitTips.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransitTips.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EADB479E22B56E6700907F8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EADB47A022B56E6700907F8F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,20 +95,21 @@
 		EADB479D22B56E6700907F8F /* TransitTips */ = {
 			isa = PBXGroup;
 			children = (
+				EA19F2B622C3095A00214D2B /* Agency.swift */,
 				EADB479E22B56E6700907F8F /* AppDelegate.swift */,
-				EADB47A022B56E6700907F8F /* ViewController.swift */,
-				EADB47A222B56E6700907F8F /* Main.storyboard */,
+				EA19F2B222C3095A00214D2B /* Arrival.swift */,
 				EADB47A522B56E6900907F8F /* Assets.xcassets */,
-				EADB47A722B56E6900907F8F /* LaunchScreen.storyboard */,
+				EA19F2B422C3095A00214D2B /* Direction.swift */,
 				EADB47AA22B56E6900907F8F /* Info.plist */,
+				EAD4311922C3026B00EBDC6D /* Json.swift */,
+				EADB47A722B56E6900907F8F /* LaunchScreen.storyboard */,
+				EA19F2B522C3095A00214D2B /* Location.swift */,
+				EADB47A222B56E6700907F8F /* Main.storyboard */,
 				EAD350D422BE683200458930 /* Parser.swift */,
-				EAD350D622BE688500458930 /* Schedule.swift */,
-				EAD350D822BE6A0000458930 /* Agency.swift */,
-				EAD350DA22BE6A9B00458930 /* Route.swift */,
-				EAD350DC22BE775D00458930 /* Direction.swift */,
-				EAD350DE22BE77AA00458930 /* Stop.swift */,
-				EAD350E022BEC03E00458930 /* Location.swift */,
-				EA5B0ABE22BEC86500DEEE71 /* Arrival.swift */,
+				EA19F2B322C3095A00214D2B /* Route.swift */,
+				EA19F2B722C3095A00214D2B /* Schedule.swift */,
+				EA19F2B122C3095200214D2B /* Stop.swift */,
+				EADB47A022B56E6700907F8F /* ViewController.swift */,
 			);
 			path = TransitTips;
 			sourceTree = "<group>";
@@ -221,16 +224,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAD350DD22BE775D00458930 /* Direction.swift in Sources */,
 				EADB47A122B56E6700907F8F /* ViewController.swift in Sources */,
 				EADB479F22B56E6700907F8F /* AppDelegate.swift in Sources */,
-				EAD350DF22BE77AA00458930 /* Stop.swift in Sources */,
-				EAD350E122BEC03E00458930 /* Location.swift in Sources */,
-				EAD350D722BE688500458930 /* Schedule.swift in Sources */,
-				EAD350DB22BE6A9B00458930 /* Route.swift in Sources */,
-				EA5B0ABF22BEC86500DEEE71 /* Arrival.swift in Sources */,
-				EAD350D922BE6A0000458930 /* Agency.swift in Sources */,
+				EA19F2BA22C3095B00214D2B /* Agency.swift in Sources */,
+				EAD4311A22C3026C00EBDC6D /* Json.swift in Sources */,
+				EA19F2BC22C3095B00214D2B /* Location.swift in Sources */,
+				EA19F2B822C3095B00214D2B /* Schedule.swift in Sources */,
+				EA19F2BE22C3095B00214D2B /* Direction.swift in Sources */,
+				EA19F2BB22C3095B00214D2B /* Route.swift in Sources */,
+				EA19F2BD22C3095B00214D2B /* Arrival.swift in Sources */,
 				EAD350D522BE683200458930 /* Parser.swift in Sources */,
+				EA19F2B922C3095B00214D2B /* Stop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
