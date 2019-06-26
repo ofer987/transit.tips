@@ -8,14 +8,17 @@
 
 import Foundation
 
-class Stop {
-    var location: Location
+// TODO: add valdid functions
+class StationModel {
+    var name: String = ""
+    var location: LocationModel = LocationModel(0.00, 0.00)
+    var directions = [DirectionModel]()
     
-    init(_ location: Location) {
+    init(_ name: String, _ location: LocationModel) {
         self.location = location
     }
 
-    func distanceFrom(_ target: Location) -> Double {
+    func distanceFrom(_ target: LocationModel) -> Double {
         return self.location - target
     }
 }

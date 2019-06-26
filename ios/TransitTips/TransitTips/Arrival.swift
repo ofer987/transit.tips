@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Arrival {
+class ArrivalModel {
     var minutes: Int
     var seconds: Int
     

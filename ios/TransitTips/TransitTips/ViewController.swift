@@ -68,11 +68,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 }
                 
                 DispatchQueue.main.async {
-                    do {
-                        try Parser.decodeSchedule(result)
-                    } catch {
-                        // do nothing
-                    }
+//                    do {
+//                        try Parser.decodeSchedule(result)
+//                    } catch {
+//                        // do nothing
+//                    }
                     self.resultsText.text += result
                 }
             }

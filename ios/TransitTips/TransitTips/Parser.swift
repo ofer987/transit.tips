@@ -8,10 +8,6 @@
 
 import Foundation
 
-enum ParserError: Error {
-    case invalidJson
-}
-
 // TODO:
 // 1. Rename to Buses
 // 2. Make it instantiable
@@ -31,14 +27,11 @@ class Parser {
         return parsedData
     }
     
-    static func decodeSchedule(_ rawData: String) throws -> Schedule {
-        guard let jsonData = rawData.data(using: String.Encoding.utf8) else {
-            throw ParserError.invalidJson
-        }
-        
-        let decoder = JSONDecoder()
-        let result = try decoder.decode(Schedule.self, from: jsonData)
-        
-        return result
-    }
+//    static func decodeSchedule(_ rawData: String) throws -> Json.Schedule {
+//        guard let jsonData = rawData.data(using: String.Encoding.utf8) else {
+//            throw ParserError.invalidJson
+//        }
+//        
+//        return try JSONDecoder().decode(Json.Schedule.self, from: jsonData)
+//    }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Location {
+class LocationModel {
     var latitude: Double
     var longitude: Double
     // Maybe use inheritance instead: LocationWithAddress: Location
@@ -19,7 +19,7 @@ class Location {
         self.longitude = longitude
     }
     
-    static func -(_ source: Location, _ target: Location) -> Double {
+    static func -(_ source: LocationModel, _ target: LocationModel) -> Double {
         return (pow(source.latitude - target.latitude, 2) + pow(source.longitude - target.longitude, 2)).squareRoot()
     }
 }
