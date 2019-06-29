@@ -81,18 +81,7 @@ class TrainJson {
         func toModel() -> DirectionModel {
             let result = DirectionModel()
             result.destinationStationName = destinationStation
-            for event in self.events {
-//                do {
-//                    let arrival = try event.toModel()
-//                    result.arrivals.append(arrival)
-//                } catch {
-//                    // Ignore invalid arrivals
-//                }
-                
-                if let arrival = event.toOptionalModel() {
-                    result.arrivals.append(arrival)
-                }
-            }
+            result.arrivals.append(contentsOf: self.events.map{$0.toPreciseModel()})
             
             return result
         }
@@ -119,13 +108,20 @@ class TrainJson {
         }
         
         func toOptionalModel() -> ArrivalModel? {
-            let maybeMinutes = Int(self.approximatelyIn)
+            let maybeMinutes = Double(self.approximatelyIn)
             
             guard let minutes = maybeMinutes else {
                 return nil
             }
             
-            return ArrivalModel(minutes, 0)
+            return ArrivalModel(Int(minutes), Int(minutes.truncatingRemainder(dividingBy: 1) * 60))
+        }
+        
+        func toPreciseModel() -> ArrivalModel {
+            let minutes = Int(self.preciselyIn)
+            let seconds = Int(self.preciselyIn.truncatingRemainder(dividingBy: 1) * 60)
+            
+            return ArrivalModel(minutes, seconds)
         }
     }
 }
