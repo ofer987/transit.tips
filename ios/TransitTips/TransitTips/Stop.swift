@@ -15,6 +15,7 @@ class StationModel {
     var directions = [DirectionModel]()
     
     init(_ name: String, _ location: LocationModel) {
+        self.name = name
         self.location = location
     }
 
