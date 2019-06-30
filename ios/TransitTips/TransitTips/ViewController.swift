@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setMockedSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
         // Do any additional setup after loading the view.
         
 //        if CLLocationManager.locationServicesEnabled() {
@@ -74,7 +76,7 @@ class ViewController: UIViewController {
                         let transformedSchedule = TransformedModels.convertToSchedule(schedule)
                         
                         for station in transformedSchedule.stations {
-                            self.containerView.addSubview(self.getStationView(station))
+                            self.containerView.addSubview(self.getStationView(station, 0))
                         }
                     } catch {
                         // do nothing
@@ -94,8 +96,11 @@ class ViewController: UIViewController {
                 let schedule = try TrainJson.decode(result).toModel()
                 let transformedSchedule = TransformedModels.convertToSchedule(schedule)
                 
+                var i = 0
                 for station in transformedSchedule.stations {
-                    self.containerView.addSubview(self.getStationView(station))
+                    self.containerView.addSubview(self.getStationView(station, i))
+                    
+                    i += 1
                 }
                 
 //                for route in schedule.routes {
@@ -108,32 +113,19 @@ class ViewController: UIViewController {
         }
 
     }
-    
-    func getRouteView(_ line: TransformedModels.Line) -> UIView {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 20))
-        
-        for direction in line.directions {
-            let lineLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
-            lineLabel.textAlignment = .justified
-            lineLabel.text = "Line \(line.id) to \(direction.destinationStationName)"
-            container.addSubview(lineLabel)
-            
-            container.addSubview(getArrivalsView(direction.arrivals))
-        }
-        
-        return container
-    }
 
-    func getStationView(_ station: TransformedModels.Station) -> UIView {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
+    func getStationView(_ station: TransformedModels.Station, _ i: Int) -> UIView {
+        let container = UIView(frame: CGRect(x: 0, y: 0 + 20*i, width: 1000, height: 200))
         
-        let nameLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 20))
+        let nameLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 1000, height: 20))
         nameLabel.textAlignment = .left
         nameLabel.text = station.name
         container.addSubview(nameLabel)
         
+        var i = 0
         for line in station.lines {
-            container.addSubview(getRouteView(line))
+            container.addSubview(getRouteView(line, y: 50*i))
+            i += 1
         }
         
         return container
@@ -159,32 +151,51 @@ class ViewController: UIViewController {
 //        return UILabel()
     }
     
-    func getArrivalsLabel(_ direction: DirectionModel) -> UILabel {
-        let text = direction.arrivals
-            .map({ "(\($0.minutes):\($0.seconds))" })
-            .joined(separator: ", ")
+    func getRouteView(_ line: TransformedModels.Line, x: Int = 0, y: Int = 0) -> UIView {
+        let container = UIView(frame: CGRect(x: 0, y: 20 + y, width: 1000, height: 20))
         
-        let label = UILabel(frame: CGRect(
-            x: 0,
-            y: 30,
-            width: 200,
-            height: 21))
-        //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
-        label.textAlignment =  .center
-        label.text = text
+        var j = 0
+        for direction in line.directions {
+            let lineLabel = UILabel(frame: CGRect(x: 10, y: 40*j, width: 1000, height: 20))
+            lineLabel.textAlignment = .justified
+            lineLabel.text = "Line \(line.id) to \(direction.destinationStationName)"
+            container.addSubview(lineLabel)
+            
+            container.addSubview(getArrivalsView(direction.arrivals, x: 10, y: 40*j))
+            j += 1
+        }
         
-        return label
+        return container
     }
     
-    func getArrivalsView(_ arrivals: [TransformedModels.Arrival]) -> UIView {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: 400, height: 20))
+//    func getArrivalsLabel(_ direction: DirectionModel) -> UILabel {
+//        let text = direction.arrivals
+//            .map({ "(\($0.minutes):\($0.seconds))" })
+//            .joined(separator: ", ")
+//
+//        let label = UILabel(frame: CGRect(
+//            x: 0,
+//            y: 30,
+//            width: 200,
+//            height: 21))
+//        //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
+//        label.textAlignment =  .center
+//        label.text = text
+//
+//        return label
+//    }
+    
+    func getArrivalsView(_ arrivals: [TransformedModels.Arrival], x: Int = 0, y: Int = 0) -> UIView {
+        let container = UIView(frame: CGRect(x: x + 50, y: 20 + y, width: 1000, height: 20))
         
+        var i = 0
         for arrival in arrivals {
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
+            let label = UILabel(frame: CGRect(x: 20 + 60*i, y: 0, width: 60, height: 20))
             label.textAlignment = .center
             label.text = "(\(arrival.minutes):\(arrival.seconds))"
             
             container.addSubview(label)
+            i += 1
         }
         
         return container
