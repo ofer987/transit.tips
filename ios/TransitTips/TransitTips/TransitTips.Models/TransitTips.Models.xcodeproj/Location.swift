@@ -8,18 +8,18 @@
 
 import Foundation
 
-public class Location {
-    public var latitude: Double
-    public var longitude: Double
+class Location {
+    var latitude: Double
+    var longitude: Double
     // Maybe use inheritance instead: LocationWithAddress: Location
-    public var address: String?
+    var address: String?
     
-    public init(latitude: Double, longitude: Double) {
+    init(_ latitude: Double, _ longitude: Double) {
         self.latitude = latitude
         self.longitude = longitude
     }
     
-    public static func -(_ source: Location, _ target: Location) -> Double {
+    static func -(_ source: Location, _ target: Location) -> Double {
         return (pow(source.latitude - target.latitude, 2) + pow(source.longitude - target.longitude, 2)).squareRoot()
     }
 }

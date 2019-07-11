@@ -14,8 +14,8 @@ import Foundation
 // 3. Subclass Decodable
 // 4. Make it create the Schedule. Route, et cetera models
 // 5. Refactor Schedule.Kye and Route.Key here because they are Buses' concerns
-class Parser {
-    static func parseBusSchedule(_ rawData: String) -> NSDictionary {
+public class Parser {
+    public static func parseBusSchedule(_ rawData: String) -> NSDictionary {
         guard let jsonData = rawData.data(using: String.Encoding.utf8) else {
             return NSDictionary()
         }

@@ -1,44 +1,65 @@
 //
-//  ViewController.swift
-//  TransitTips
+//  TodayViewController.swift
+//  TransitTipsToday
 //
-//  Created by Dan Jakob Ofer on 2019-06-15.
+//  Created by Dan Jakob Ofer on 2019-07-07.
 //  Copyright © 2019 Dan Jakob Ofer. All rights reserved.
 //
 
 import UIKit
 import MapKit
 import CoreLocation
+import NotificationCenter
 import Common
 import Common_Models
 
-class ViewController: UIViewController {
-    // MARK: Properties
-    @IBOutlet weak var localButton : UIButton!
-//    @IBOutlet weak var resultsText : UITextView!
-    @IBOutlet weak var containerView : UIView!
-    
+class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManagerDelegate {
+
+    @IBOutlet weak var scrollView: UIScrollView!
     var locationManager: CLLocationManager!
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.scrollView.alwaysBounceVertical = true
+        self.scrollView.isScrollEnabled = true
+        self.scrollView.showsVerticalScrollIndicator = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setMockedSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
         // Do any additional setup after loading the view.
+
+        self.preferredContentSize = CGSize(width: 359, height: 200)
+        self.extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager = CLLocationManager()
-//            locationManager.delegate = self
-//            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-//            locationManager.requestAlwaysAuthorization()
-//            locationManager.startUpdatingLocation()
-//        }
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.requestAlwaysAuthorization()
+            locationManager.startUpdatingLocation()
+        }
+//        setMockedSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
     }
     
-    // MARK: Actions
-    @IBAction func setSchedule(_ sender: UIButton) {
-//        resultsText.text = ""
-        setBusSchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
-        setMockedSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
+    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        if (activeDisplayMode == .compact) {
+            self.preferredContentSize = maxSize;
+        }
+        else {
+            self.preferredContentSize = CGSize(width: 359, height: 400)
+        }
+    }
+    
+    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
+        // Perform any setup necessary in order to update the view.
+        
+        // If an error is encountered, use NCUpdateResult.Failed
+        // If there's no update required, use NCUpdateResult.NoData
+        // If there's an update, use NCUpdateResult.NewData
+        
+        completionHandler(NCUpdateResult.newData)
     }
     
     func setBusSchedule(_ path: String) {
@@ -52,9 +73,9 @@ class ViewController: UIViewController {
                     result = "COULD NOT GET DATA"
                 }
                 
-//                DispatchQueue.main.async {
-//                    self.resultsText.text += result
-//                }
+                //                DispatchQueue.main.async {
+                //                    self.resultsText.text += result
+                //                }
             }
             task.resume()
         }
@@ -76,12 +97,12 @@ class ViewController: UIViewController {
                         let schedule = try TrainJson.toModel(TrainJson.decode(result))
                         
                         for station in schedule.stations {
-                            self.containerView.addSubview(self.getStationView(station, 0))
+                            self.scrollView.addSubview(self.getStationView(station, 0))
                         }
                     } catch {
                         // do nothing
                     }
-//                    self.resultsText.text += result
+                    //                    self.resultsText.text += result
                 }
             }
             task.resume()
@@ -97,22 +118,22 @@ class ViewController: UIViewController {
                 
                 var i = 0
                 for station in schedule.stations {
-                    self.containerView.addSubview(self.getStationView(station, i))
+                    self.scrollView.addSubview(self.getStationView(station, i))
                     
                     i += 1
                 }
                 
-//                for route in schedule.routes {
-//                    self.containerView.addSubview(self.getRouteLabel(route))
-//                }
+                //                for route in schedule.routes {
+                //                    self.scrollView.addSubview(self.getRouteLabel(route))
+                //                }
             } catch {
                 // do nothing
             }
             //                    self.resultsText.text += result
         }
-
+        
     }
-
+    
     func getStationView(_ station: Common_Models.Station, _ i: Int) -> UIView {
         let container = UIView(frame: CGRect(x: 0, y: 0 + 20*i, width: 1000, height: 200))
         
@@ -129,25 +150,25 @@ class ViewController: UIViewController {
         
         return container
         
-//        for direction in station.directions {
-//
-//            let text = "\(station.name) to \(direction.destinationStationName)"
-//
-//            let label = UILabel(frame: CGRect(
-//                x: 100,
-//                y: 50 + 20*getRouteCount(),
-//                width: 400,
-//                height: 21))
-//            //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
-//            label.textAlignment =  .left
-//            label.text = text
-//
-//            label.addSubview(getArrivalsLabel(direction))
-//
-//            return label
-//        }
-//
-//        return UILabel()
+        //        for direction in station.directions {
+        //
+        //            let text = "\(station.name) to \(direction.destinationStationName)"
+        //
+        //            let label = UILabel(frame: CGRect(
+        //                x: 100,
+        //                y: 50 + 20*getRouteCount(),
+        //                width: 400,
+        //                height: 21))
+        //            //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
+        //            label.textAlignment =  .left
+        //            label.text = text
+        //
+        //            label.addSubview(getArrivalsLabel(direction))
+        //
+        //            return label
+        //        }
+        //
+        //        return UILabel()
     }
     
     func getRouteView(_ line: Common_Models.Line, x: Int = 0, y: Int = 0) -> UIView {
@@ -167,22 +188,22 @@ class ViewController: UIViewController {
         return container
     }
     
-//    func getArrivalsLabel(_ direction: DirectionModel) -> UILabel {
-//        let text = direction.arrivals
-//            .map({ "(\($0.minutes):\($0.seconds))" })
-//            .joined(separator: ", ")
-//
-//        let label = UILabel(frame: CGRect(
-//            x: 0,
-//            y: 30,
-//            width: 200,
-//            height: 21))
-//        //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
-//        label.textAlignment =  .center
-//        label.text = text
-//
-//        return label
-//    }
+    //    func getArrivalsLabel(_ direction: DirectionModel) -> UILabel {
+    //        let text = direction.arrivals
+    //            .map({ "(\($0.minutes):\($0.seconds))" })
+    //            .joined(separator: ", ")
+    //
+    //        let label = UILabel(frame: CGRect(
+    //            x: 0,
+    //            y: 30,
+    //            width: 200,
+    //            height: 21))
+    //        //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
+    //        label.textAlignment =  .center
+    //        label.text = text
+    //
+    //        return label
+    //    }
     
     func getArrivalsView(_ arrivals: [Common_Models.Arrival], x: Int = 0, y: Int = 0) -> UIView {
         let container = UIView(frame: CGRect(x: x + 50, y: 20 + y, width: 1000, height: 20))
@@ -199,15 +220,14 @@ class ViewController: UIViewController {
         
         return container
     }
-//
-//    func getRouteCount() -> Int {
-//        return self.containerView.subviews.count
-//    }
     
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         let location = locations.last! as CLLocation
+        setSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")
         
-//        resultsText.text = "locations = \(location.coordinate.latitude) \(location.coordinate.longitude)"
+//        setSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
+        
+        //        resultsText.text = "locations = \(location.coordinate.latitude) \(location.coordinate.longitude)"
     }
 }

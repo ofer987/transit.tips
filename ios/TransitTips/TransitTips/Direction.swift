@@ -8,11 +8,11 @@
 
 import Foundation
 
-class DirectionModel {
-    // TODO: why can id be null?
-    var id: String? = ""
-    var title: String = ""
-    var shortTitle: String = ""
-    var destinationStationName: String = ""
-    var arrivals: [ArrivalModel] = [ArrivalModel]()
+public class Direction {
+    public var arrivals: [Arrival] = [Arrival]()
+    public var destinationStationName: String = ""
+    
+    public init(_ destinationStationName: String) {
+        self.destinationStationName = destinationStationName
+    }
 }
