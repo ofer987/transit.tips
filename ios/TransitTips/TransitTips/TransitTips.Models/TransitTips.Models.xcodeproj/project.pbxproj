@@ -1,0 +1,84 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXFileReference section */
+		EA19F2AA22C307DD00214D2B /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Schedule.swift; path = ../Schedule.swift; sourceTree = "<group>"; };
+		EA19F2AB22C307DD00214D2B /* Arrival.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Arrival.swift; path = ../Arrival.swift; sourceTree = "<group>"; };
+		EA19F2AC22C307DD00214D2B /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Route.swift; path = ../Route.swift; sourceTree = "<group>"; };
+		EA19F2AD22C307DE00214D2B /* Agency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Agency.swift; path = ../Agency.swift; sourceTree = "<group>"; };
+		EA19F2AE22C307DE00214D2B /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Direction.swift; path = ../Direction.swift; sourceTree = "<group>"; };
+		EA19F2AF22C307DE00214D2B /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = ../Stop.swift; sourceTree = "<group>"; };
+		EA19F2B022C307DE00214D2B /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Location.swift; path = ../Location.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		EA19F29922C3070300214D2B = {
+			isa = PBXGroup;
+			children = (
+				EA19F2AD22C307DE00214D2B /* Agency.swift */,
+				EA19F2AB22C307DD00214D2B /* Arrival.swift */,
+				EA19F2AE22C307DE00214D2B /* Direction.swift */,
+				EA19F2B022C307DE00214D2B /* Location.swift */,
+				EA19F2AC22C307DD00214D2B /* Route.swift */,
+				EA19F2AA22C307DD00214D2B /* Schedule.swift */,
+				EA19F2AF22C307DE00214D2B /* Stop.swift */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		EA19F29A22C3070300214D2B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+			};
+			buildConfigurationList = EA19F29D22C3070300214D2B /* Build configuration list for PBXProject "TransitTips.Models" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EA19F29922C3070300214D2B;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		EA19F29E22C3070300214D2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		EA19F29F22C3070300214D2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EA19F29D22C3070300214D2B /* Build configuration list for PBXProject "TransitTips.Models" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA19F29E22C3070300214D2B /* Debug */,
+				EA19F29F22C3070300214D2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EA19F29A22C3070300214D2B /* Project object */;
+}

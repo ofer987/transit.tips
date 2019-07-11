@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class Arrival {
-    public var minutes: Int = 0
-    public var seconds: Int = 0
+class Arrival {
+    var minutes: Int
+    var seconds: Int
     
-    public init(_ minutes: Int, _ seconds: Int) {
+    init(_ minutes: Int, _ seconds: Int) {
         self.minutes = minutes
         self.seconds = seconds
     }

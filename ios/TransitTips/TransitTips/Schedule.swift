@@ -8,7 +8,11 @@
 
 import Foundation
 
-class ScheduleModel {
-    var routes: [RouteModel] = [RouteModel]()
-    var requestedLocation: LocationModel = LocationModel(0.00, 0.00)
+public class Schedule {
+    public var requestedAddress: Location
+    public var stations: [Station] = [Station]()
+    
+    public init(_ requestedAddress: Location) {
+        self.requestedAddress = requestedAddress
+    }
 }

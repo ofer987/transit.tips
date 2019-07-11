@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Today View Controller-->
+        <scene sceneID="cwh-vc-ff4">
+            <objects>
+                <viewController id="M4Y-Lb-cyx" customClass="TodayViewController" customModule="TransitTipsToday" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="87q-tc-slx">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="322"/>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="87q-tc-slx" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="3Ii-sz-IkJ"/>
+                            <constraint firstItem="87q-tc-slx" firstAttribute="bottom" secondItem="ssy-KU-ocm" secondAttribute="bottom" constant="156" id="S99-9X-qIa"/>
+                            <constraint firstItem="ssy-KU-ocm" firstAttribute="trailing" secondItem="87q-tc-slx" secondAttribute="trailing" id="TbC-a4-LJZ"/>
+                            <constraint firstItem="87q-tc-slx" firstAttribute="top" secondItem="S3S-Oj-5AN" secondAttribute="top" id="aWb-V0-NEf"/>
+                        </constraints>
+                        <edgeInsets key="layoutMargins" top="0.0" left="20" bottom="0.0" right="20"/>
+                        <viewLayoutGuide key="safeArea" id="ssy-KU-ocm" userLabel="MyLayout" colorLabel="IBBuiltInLabel-Purple"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="200"/>
+                    <connections>
+                        <outlet property="scrollView" destination="87q-tc-slx" id="qwt-tK-h3b"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="663.768115942029" y="36.160714285714285"/>
+        </scene>
+    </scenes>
+</document>

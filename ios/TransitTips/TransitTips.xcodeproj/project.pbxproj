@@ -7,16 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EA19F2B822C3095B00214D2B /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B722C3095A00214D2B /* Schedule.swift */; };
-		EA19F2B922C3095B00214D2B /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B122C3095200214D2B /* Stop.swift */; };
-		EA19F2BA22C3095B00214D2B /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B622C3095A00214D2B /* Agency.swift */; };
-		EA19F2BB22C3095B00214D2B /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B322C3095A00214D2B /* Route.swift */; };
-		EA19F2BC22C3095B00214D2B /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B522C3095A00214D2B /* Location.swift */; };
-		EA19F2BD22C3095B00214D2B /* Arrival.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B222C3095A00214D2B /* Arrival.swift */; };
-		EA19F2BE22C3095B00214D2B /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19F2B422C3095A00214D2B /* Direction.swift */; };
-		EA59EF8A22C7B2570082C14D /* TransformedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA59EF8922C7B2570082C14D /* TransformedModels.swift */; };
-		EAD350D522BE683200458930 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD350D422BE683200458930 /* Parser.swift */; };
-		EAD4311A22C3026C00EBDC6D /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD4311922C3026B00EBDC6D /* Json.swift */; };
+		EA3EA97422D00E7B000B9131 /* Common_Models.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA3EA95C22D00E0F000B9131 /* Common_Models.framework */; };
+		EA3EA97B22D24B14000B9131 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA59EF9122C994130082C14D /* NotificationCenter.framework */; };
+		EA3EA97E22D24B14000B9131 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3EA97D22D24B14000B9131 /* TodayViewController.swift */; };
+		EA3EA98122D24B14000B9131 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA3EA97F22D24B14000B9131 /* MainInterface.storyboard */; };
+		EA3EA98522D24B14000B9131 /* TransitTipsToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EA3EA97A22D24B14000B9131 /* TransitTipsToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EA59EFD022C99F2F0082C14D /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA59EFCD22C99D7C0082C14D /* Common.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		EADB479F22B56E6700907F8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB479E22B56E6700907F8F /* AppDelegate.swift */; };
 		EADB47A122B56E6700907F8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB47A022B56E6700907F8F /* ViewController.swift */; };
 		EADB47A422B56E6700907F8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EADB47A222B56E6700907F8F /* Main.storyboard */; };
@@ -26,6 +22,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		EA3EA95B22D00E0F000B9131 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA3EA95622D00E0E000B9131 /* Common.Models.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EA3EA93C22D00E0E000B9131;
+			remoteInfo = Common.Models;
+		};
+		EA3EA95D22D00E0F000B9131 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA3EA95622D00E0E000B9131 /* Common.Models.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EA3EA94522D00E0E000B9131;
+			remoteInfo = Common.ModelsTests;
+		};
+		EA3EA98322D24B14000B9131 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EADB479322B56E6700907F8F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA3EA97922D24B14000B9131;
+			remoteInfo = TransitTipsToday;
+		};
+		EA59EFCC22C99D7C0082C14D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA59EFC722C99D7B0082C14D /* Common.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EA59EFAD22C99D7B0082C14D;
+			remoteInfo = Common;
+		};
+		EA59EFCE22C99D7C0082C14D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA59EFC722C99D7B0082C14D /* Common.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EA59EFB622C99D7B0082C14D;
+			remoteInfo = CommonTests;
+		};
 		EADB47B022B56E6900907F8F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EADB479322B56E6700907F8F /* Project object */;
@@ -35,17 +66,28 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		EA59EFA022C994130082C14D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EA3EA98522D24B14000B9131 /* TransitTipsToday.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		EA19F2B122C3095200214D2B /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = TransitTips.Models/../Stop.swift; sourceTree = "<group>"; };
-		EA19F2B222C3095A00214D2B /* Arrival.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Arrival.swift; path = TransitTips.Models/../Arrival.swift; sourceTree = "<group>"; };
-		EA19F2B322C3095A00214D2B /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Route.swift; path = TransitTips.Models/../Route.swift; sourceTree = "<group>"; };
-		EA19F2B422C3095A00214D2B /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Direction.swift; path = TransitTips.Models/../Direction.swift; sourceTree = "<group>"; };
-		EA19F2B522C3095A00214D2B /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Location.swift; path = TransitTips.Models/../Location.swift; sourceTree = "<group>"; };
-		EA19F2B622C3095A00214D2B /* Agency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Agency.swift; path = TransitTips.Models/../Agency.swift; sourceTree = "<group>"; };
-		EA19F2B722C3095A00214D2B /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Schedule.swift; path = TransitTips.Models/../Schedule.swift; sourceTree = "<group>"; };
-		EA59EF8922C7B2570082C14D /* TransformedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformedModels.swift; sourceTree = "<group>"; };
-		EAD350D422BE683200458930 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		EAD4311922C3026B00EBDC6D /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
+		EA3EA95622D00E0E000B9131 /* Common.Models.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Common.Models.xcodeproj; path = Common.Models/Common.Models.xcodeproj; sourceTree = "<group>"; };
+		EA3EA97A22D24B14000B9131 /* TransitTipsToday.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TransitTipsToday.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA3EA97D22D24B14000B9131 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		EA3EA98022D24B14000B9131 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		EA3EA98222D24B14000B9131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA59EF9122C994130082C14D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		EA59EFC722C99D7B0082C14D /* Common.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Common.xcodeproj; path = Common/Common.xcodeproj; sourceTree = "<group>"; };
 		EADB479B22B56E6700907F8F /* TransitTips.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransitTips.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EADB479E22B56E6700907F8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EADB47A022B56E6700907F8F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,10 +101,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EA3EA97722D24B14000B9131 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA3EA97B22D24B14000B9131 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EADB479822B56E6700907F8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA3EA97422D00E7B000B9131 /* Common_Models.framework in Frameworks */,
+				EA59EFD022C99F2F0082C14D /* Common.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,11 +128,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA3EA95722D00E0E000B9131 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA3EA95C22D00E0F000B9131 /* Common_Models.framework */,
+				EA3EA95E22D00E0F000B9131 /* Common.ModelsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA3EA97C22D24B14000B9131 /* TransitTipsToday */ = {
+			isa = PBXGroup;
+			children = (
+				EA3EA97D22D24B14000B9131 /* TodayViewController.swift */,
+				EA3EA97F22D24B14000B9131 /* MainInterface.storyboard */,
+				EA3EA98222D24B14000B9131 /* Info.plist */,
+			);
+			path = TransitTipsToday;
+			sourceTree = "<group>";
+		};
+		EA59EF9022C994120082C14D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA59EF9122C994130082C14D /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA59EFC822C99D7B0082C14D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA59EFCD22C99D7C0082C14D /* Common.framework */,
+				EA59EFCF22C99D7C0082C14D /* CommonTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		EADB479222B56E6700907F8F = {
 			isa = PBXGroup;
 			children = (
+				EA3EA95622D00E0E000B9131 /* Common.Models.xcodeproj */,
+				EA59EFC722C99D7B0082C14D /* Common.xcodeproj */,
 				EADB479D22B56E6700907F8F /* TransitTips */,
 				EADB47B222B56E6900907F8F /* TransitTipsTests */,
+				EA3EA97C22D24B14000B9131 /* TransitTipsToday */,
+				EA59EF9022C994120082C14D /* Frameworks */,
 				EADB479C22B56E6700907F8F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +182,7 @@
 			children = (
 				EADB479B22B56E6700907F8F /* TransitTips.app */,
 				EADB47AF22B56E6900907F8F /* TransitTipsTests.xctest */,
+				EA3EA97A22D24B14000B9131 /* TransitTipsToday.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,22 +190,12 @@
 		EADB479D22B56E6700907F8F /* TransitTips */ = {
 			isa = PBXGroup;
 			children = (
-				EA19F2B622C3095A00214D2B /* Agency.swift */,
 				EADB479E22B56E6700907F8F /* AppDelegate.swift */,
-				EA19F2B222C3095A00214D2B /* Arrival.swift */,
 				EADB47A522B56E6900907F8F /* Assets.xcassets */,
-				EA19F2B422C3095A00214D2B /* Direction.swift */,
 				EADB47AA22B56E6900907F8F /* Info.plist */,
-				EAD4311922C3026B00EBDC6D /* Json.swift */,
 				EADB47A722B56E6900907F8F /* LaunchScreen.storyboard */,
-				EA19F2B522C3095A00214D2B /* Location.swift */,
 				EADB47A222B56E6700907F8F /* Main.storyboard */,
-				EAD350D422BE683200458930 /* Parser.swift */,
-				EA19F2B322C3095A00214D2B /* Route.swift */,
-				EA19F2B722C3095A00214D2B /* Schedule.swift */,
-				EA19F2B122C3095200214D2B /* Stop.swift */,
 				EADB47A022B56E6700907F8F /* ViewController.swift */,
-				EA59EF8922C7B2570082C14D /* TransformedModels.swift */,
 			);
 			path = TransitTips;
 			sourceTree = "<group>";
@@ -129,6 +212,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EA3EA97922D24B14000B9131 /* TransitTipsToday */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA3EA98622D24B14000B9131 /* Build configuration list for PBXNativeTarget "TransitTipsToday" */;
+			buildPhases = (
+				EA3EA97622D24B14000B9131 /* Sources */,
+				EA3EA97722D24B14000B9131 /* Frameworks */,
+				EA3EA97822D24B14000B9131 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TransitTipsToday;
+			productName = TransitTipsToday;
+			productReference = EA3EA97A22D24B14000B9131 /* TransitTipsToday.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		EADB479A22B56E6700907F8F /* TransitTips */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EADB47B822B56E6900907F8F /* Build configuration list for PBXNativeTarget "TransitTips" */;
@@ -136,10 +236,12 @@
 				EADB479722B56E6700907F8F /* Sources */,
 				EADB479822B56E6700907F8F /* Frameworks */,
 				EADB479922B56E6700907F8F /* Resources */,
+				EA59EFA022C994130082C14D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EA3EA98422D24B14000B9131 /* PBXTargetDependency */,
 			);
 			name = TransitTips;
 			productName = TransitTips;
@@ -174,6 +276,9 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Dan Jakob Ofer";
 				TargetAttributes = {
+					EA3EA97922D24B14000B9131 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
 					EADB479A22B56E6700907F8F = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
@@ -194,15 +299,65 @@
 			mainGroup = EADB479222B56E6700907F8F;
 			productRefGroup = EADB479C22B56E6700907F8F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = EA3EA95722D00E0E000B9131 /* Products */;
+					ProjectRef = EA3EA95622D00E0E000B9131 /* Common.Models.xcodeproj */;
+				},
+				{
+					ProductGroup = EA59EFC822C99D7B0082C14D /* Products */;
+					ProjectRef = EA59EFC722C99D7B0082C14D /* Common.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				EADB479A22B56E6700907F8F /* TransitTips */,
 				EADB47AE22B56E6900907F8F /* TransitTipsTests */,
+				EA3EA97922D24B14000B9131 /* TransitTipsToday */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		EA3EA95C22D00E0F000B9131 /* Common_Models.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Common_Models.framework;
+			remoteRef = EA3EA95B22D00E0F000B9131 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA3EA95E22D00E0F000B9131 /* Common.ModelsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Common.ModelsTests.xctest;
+			remoteRef = EA3EA95D22D00E0F000B9131 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA59EFCD22C99D7C0082C14D /* Common.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Common.framework;
+			remoteRef = EA59EFCC22C99D7C0082C14D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EA59EFCF22C99D7C0082C14D /* CommonTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CommonTests.xctest;
+			remoteRef = EA59EFCE22C99D7C0082C14D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
+		EA3EA97822D24B14000B9131 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA3EA98122D24B14000B9131 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EADB479922B56E6700907F8F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -223,22 +378,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EA3EA97622D24B14000B9131 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA3EA97E22D24B14000B9131 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EADB479722B56E6700907F8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				EADB47A122B56E6700907F8F /* ViewController.swift in Sources */,
 				EADB479F22B56E6700907F8F /* AppDelegate.swift in Sources */,
-				EA19F2BA22C3095B00214D2B /* Agency.swift in Sources */,
-				EAD4311A22C3026C00EBDC6D /* Json.swift in Sources */,
-				EA19F2BC22C3095B00214D2B /* Location.swift in Sources */,
-				EA19F2B822C3095B00214D2B /* Schedule.swift in Sources */,
-				EA19F2BE22C3095B00214D2B /* Direction.swift in Sources */,
-				EA19F2BB22C3095B00214D2B /* Route.swift in Sources */,
-				EA19F2BD22C3095B00214D2B /* Arrival.swift in Sources */,
-				EAD350D522BE683200458930 /* Parser.swift in Sources */,
-				EA19F2B922C3095B00214D2B /* Stop.swift in Sources */,
-				EA59EF8A22C7B2570082C14D /* TransformedModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +406,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		EA3EA98422D24B14000B9131 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA3EA97922D24B14000B9131 /* TransitTipsToday */;
+			targetProxy = EA3EA98322D24B14000B9131 /* PBXContainerItemProxy */;
+		};
 		EADB47B122B56E6900907F8F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EADB479A22B56E6700907F8F /* TransitTips */;
@@ -261,6 +419,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		EA3EA97F22D24B14000B9131 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA3EA98022D24B14000B9131 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		EADB47A222B56E6700907F8F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -280,6 +446,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		EA3EA98722D24B14000B9131 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5C2RRQX4HS;
+				INFOPLIST_FILE = TransitTipsToday/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.otium.TransitTips.TransitTipsToday;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EA3EA98822D24B14000B9131 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5C2RRQX4HS;
+				INFOPLIST_FILE = TransitTipsToday/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.otium.TransitTips.TransitTipsToday;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		EADB47B622B56E6900907F8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -399,6 +603,7 @@
 		EADB47B922B56E6900907F8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5C2RRQX4HS;
@@ -418,6 +623,7 @@
 		EADB47BA22B56E6900907F8F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5C2RRQX4HS;
@@ -479,6 +685,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EA3EA98622D24B14000B9131 /* Build configuration list for PBXNativeTarget "TransitTipsToday" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA3EA98722D24B14000B9131 /* Debug */,
+				EA3EA98822D24B14000B9131 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EADB479622B56E6700907F8F /* Build configuration list for PBXProject "TransitTips" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

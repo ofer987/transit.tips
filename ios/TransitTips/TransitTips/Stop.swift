@@ -9,17 +9,17 @@
 import Foundation
 
 // TODO: add valdid functions
-class StationModel {
-    var name: String = ""
-    var location: LocationModel = LocationModel(0.00, 0.00)
-    var directions = [DirectionModel]()
+public class StationModel {
+    public var name: String = ""
+    public var location: Location = Location(latitude: 0.00, longitude: 0.00)
+    public var directions = [Direction]()
     
-    init(_ name: String, _ location: LocationModel) {
+    public init(_ name: String, _ location: Location) {
         self.name = name
         self.location = location
     }
 
-    func distanceFrom(_ target: LocationModel) -> Double {
+    public func distanceFrom(_ target: Location) -> Double {
         return self.location - target
     }
 }
