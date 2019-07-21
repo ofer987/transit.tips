@@ -20,7 +20,7 @@ public class TrainJson {
     }
     
     public static func toModel(_ json: Schedule) -> Common_Models.Schedule {
-        return json.toModel()
+        return convertToSchedule(json)
     }
     
     public init() {        
@@ -35,10 +35,6 @@ public class TrainJson {
             self.longitude = 0
             self.latitude = 0
             self.lines = [Line]()
-        }
-        
-        public func toModel() -> Common_Models.Schedule {
-            return convertToSchedule(self)
         }
     }
     

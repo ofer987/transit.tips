@@ -14,7 +14,6 @@
 		EA3EA96B22D00E45000B9131 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3EA96222D00E44000B9131 /* Direction.swift */; };
 		EA3EA96C22D00E45000B9131 /* Arrival.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3EA96722D00E45000B9131 /* Arrival.swift */; };
 		EA3EA96D22D00E45000B9131 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3EA96122D00E44000B9131 /* Schedule.swift */; };
-		EA3EA96E22D00E45000B9131 /* TransformedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3EA96322D00E44000B9131 /* TransformedModels.swift */; };
 		EA3EA96F22D00E45000B9131 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3EA96422D00E45000B9131 /* Stop.swift */; };
 		EA4173FA22D6958B00DE7581 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4173F922D6958B00DE7581 /* Station.swift */; };
 		EA4173FC22D6959D00DE7581 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4173FB22D6959D00DE7581 /* Line.swift */; };
@@ -39,7 +38,6 @@
 		EA3EA94C22D00E0E000B9131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA3EA96122D00E44000B9131 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Schedule.swift; path = /Users/ofer987/work/transit.tips/ios/TransitTips/TransitTips/TransitTips.Models/../Schedule.swift; sourceTree = "<absolute>"; };
 		EA3EA96222D00E44000B9131 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Direction.swift; path = /Users/ofer987/work/transit.tips/ios/TransitTips/TransitTips/TransitTips.Models/../Direction.swift; sourceTree = "<absolute>"; };
-		EA3EA96322D00E44000B9131 /* TransformedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformedModels.swift; sourceTree = "<group>"; };
 		EA3EA96422D00E45000B9131 /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = /Users/ofer987/work/transit.tips/ios/TransitTips/TransitTips/TransitTips.Models/../Stop.swift; sourceTree = "<absolute>"; };
 		EA3EA96522D00E45000B9131 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Location.swift; path = /Users/ofer987/work/transit.tips/ios/TransitTips/TransitTips/TransitTips.Models/../Location.swift; sourceTree = "<absolute>"; };
 		EA3EA96722D00E45000B9131 /* Arrival.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Arrival.swift; path = /Users/ofer987/work/transit.tips/ios/TransitTips/TransitTips/TransitTips.Models/../Arrival.swift; sourceTree = "<absolute>"; };
@@ -90,7 +88,6 @@
 				EA3EA96222D00E44000B9131 /* Direction.swift */,
 				EA3EA96122D00E44000B9131 /* Schedule.swift */,
 				EA3EA96422D00E45000B9131 /* Stop.swift */,
-				EA3EA96322D00E44000B9131 /* TransformedModels.swift */,
 				EA3EA96522D00E45000B9131 /* Location.swift */,
 				EA3EA96722D00E45000B9131 /* Arrival.swift */,
 				EA3EA93F22D00E0E000B9131 /* Common_Models.h */,
@@ -224,7 +221,6 @@
 				EA3EA96C22D00E45000B9131 /* Arrival.swift in Sources */,
 				EA3EA96D22D00E45000B9131 /* Schedule.swift in Sources */,
 				EA3EA96B22D00E45000B9131 /* Direction.swift in Sources */,
-				EA3EA96E22D00E45000B9131 /* TransformedModels.swift in Sources */,
 				EA4173FC22D6959D00DE7581 /* Line.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
