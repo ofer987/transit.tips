@@ -19,6 +19,8 @@
 		EADB47A622B56E6900907F8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EADB47A522B56E6900907F8F /* Assets.xcassets */; };
 		EADB47A922B56E6900907F8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EADB47A722B56E6900907F8F /* LaunchScreen.storyboard */; };
 		EADB47B422B56E6900907F8F /* TransitTipsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB47B322B56E6900907F8F /* TransitTipsTests.swift */; };
+		EAF46F9722DBDB8800EE0EE5 /* Common_Models.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA3EA95C22D00E0F000B9131 /* Common_Models.framework */; };
+		EAF46F9822DBDB8800EE0EE5 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA59EFCD22C99D7C0082C14D /* Common.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAF46F9722DBDB8800EE0EE5 /* Common_Models.framework in Frameworks */,
+				EAF46F9822DBDB8800EE0EE5 /* Common.framework in Frameworks */,
 				EA3EA97B22D24B14000B9131 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
