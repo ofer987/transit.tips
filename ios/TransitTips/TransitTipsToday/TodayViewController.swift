@@ -15,7 +15,7 @@ import Common_Models
 
 class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManagerDelegate {
 
-    @IBOutlet weak var scrollView: UIScrollView!
+//    @IBOutlet weak var scrollView: UIScrollView!
     var locationManager: CLLocationManager!
     var trainsView: UIView!
     var busesView: UIView!
@@ -24,15 +24,20 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.scrollView.alwaysBounceVertical = true
-        self.scrollView.isScrollEnabled = true
-        self.scrollView.showsVerticalScrollIndicator = true
-
-        self.trainsView = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
-        self.scrollView.addSubview(trainsView)
-
+//        self.trainsView = UIView()
+//        self.busesView = UIView()
+        
+//        self.scrollView.alwaysBounceVertical = true
+//        self.scrollView.isScrollEnabled = true
+//        self.scrollView.showsVerticalScrollIndicator = true
+//
+        self.view.frame = CGRect(x: 0.0, y: 0.0, width: 1000, height: 750)
+        self.trainsView = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 250))
+        self.view.addSubview(trainsView)
+//        self.scrollView.addSubview(trainsView)
+//
         self.busesView = UIView(frame: CGRect(x: 0, y: 200, width: 500, height: 500))
-        self.scrollView.addSubview(busesView)
+        self.view.addSubview(busesView)
         
         self.updated = false
     }
@@ -74,6 +79,35 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         completionHandler(NCUpdateResult.newData)
     }
     
+    func addScheduleViews(_ views: [UIView] = [UIView]()) {
+        let initialHeight = Double(self.view.subviews.last?.frame.maxY ?? 0)
+        var maxY = initialHeight
+        
+        for view in views {
+            maxY += Double(view.frame.maxY)
+        }
+        
+        self.view.frame = CGRect(x: 0.0, y: 0.0, width: 1000, height: maxY)
+        self.preferredContentSize = CGSize(width: 1000, height: maxY)
+        
+        var startY = initialHeight
+        for view in views {
+            let height = Double(view.frame.maxY)
+            let container = UIView(
+                frame: CGRect(
+                    x: 0.0,
+                    y: startY,
+                    width: 1000.0,
+                    height: height
+                )
+            )
+            container.addSubview(view)
+            self.view.addSubview(container)
+            
+            startY = height
+        }
+    }
+    
     func setBusSchedule(_ path: String) {
         let url = URL(string: path)
         if let absoluteUrl = url?.absoluteURL {
@@ -94,34 +128,29 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
                         var i = 0
                         var stationViews = [UIView]()
                         for station in schedule.stations {
-//                            if i >= 3 {
-//                                break
-//                            }
-                            
                             let stationView = self.getStationView(station, x: Int(startX), y: Int(startY))
                             stationViews.append(stationView)
-//
-//                            self.busesView.addSubview(stationView)
-//
+
                             startX = Double(stationView.frame.maxX)
                             startY = Double(stationView.frame.maxY)
                             
                             i += 1
                         }
                         
-                        // TODO: Get start X and Y coordinates
-                        self.busesView = UIView(
-                            frame: CGRect(
-                                x: 0.0,
-                                y: 0.0,
-                                width: stationViews.last?.frame.maxX ?? 0.0,
-                                height: stationViews.last?.frame.maxY ?? 0.0
-                            )
-                        )
-                        self.scrollView.addSubview(self.busesView)
+//                        self.busesView = UIView(
+//                            frame: CGRect(
+//                                x: 0.0,
+//                                y: 0.0,
+//                                width: stationViews.last?.frame.maxX ?? 0.0,
+//                                height: stationViews.last?.frame.maxY ?? 0.0
+//                            )
+//                        )
+                        
                         for view in stationViews {
                             self.busesView.addSubview(view)
                         }
+                        
+//                        self.addScheduleViews([self.busesView])
                     } catch {
                         // do nothing
                     }
@@ -149,13 +178,32 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
                         
                         var startX = 0.0
                         var startY = 0.0
+                        var i = 0
+                        var stationViews = [UIView]()
                         for station in schedule.stations {
                             let stationView = self.getStationView(station, x: Int(startX), y: Int(startY))
-                            self.trainsView.addSubview(stationView)
+                            stationViews.append(stationView)
                             
                             startX = Double(stationView.frame.maxX)
-                            startY = Double(stationView.frame.maxY) + 20
+                            startY = Double(stationView.frame.maxY)
+                            
+                            i += 1
                         }
+                        
+//                        self.trainsView = UIView(
+//                            frame: CGRect(
+//                                x: 0.0,
+//                                y: 0.0,
+//                                width: stationViews.last?.frame.maxX ?? 0.0,
+//                                height: stationViews.last?.frame.maxY ?? 0.0
+//                            )
+//                        )
+                        
+                        for view in stationViews {
+                            self.trainsView.addSubview(view)
+                        }
+                        
+//                        self.addScheduleViews([self.trainsView])
                     } catch {
                         // do nothing
                     }
@@ -315,7 +363,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
         self.updated = true
         
         let location = locations.last! as CLLocation
-//        setSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")
+        setSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")
         
         setBusSchedule("https://restbus.transit.tips?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")
 //        setSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
