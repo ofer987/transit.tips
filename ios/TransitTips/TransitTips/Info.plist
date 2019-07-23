@@ -47,5 +47,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>com.otium.TransitTips</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fromTodayExtension</string>
+      </array>
+    </dict>
+  </array>
 </dict>
 </plist>

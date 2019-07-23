@@ -21,6 +21,15 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
     var busesView: UIView!
     var updated: Bool!
     
+    @IBAction func openMainApp(_ sender: UIButton) {
+        let appUrl = NSURL(string: "com.otium.TransitTips://fromTodayExtension")!
+        extensionContext?.open(appUrl as URL, completionHandler: { (success) in
+            if !success {
+                // Do nothing for now
+            }
+        })
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -31,8 +40,17 @@ class TodayViewController: UIViewController, NCWidgetProviding, CLLocationManage
 //        self.scrollView.isScrollEnabled = true
 //        self.scrollView.showsVerticalScrollIndicator = true
 //
+        let openMainAppButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 1000, height: 36))
+        openMainAppButton.backgroundColor = .red
+        openMainAppButton.translatesAutoresizingMaskIntoConstraints = false
+        openMainAppButton.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
+        openMainAppButton.widthAnchor.constraint(equalToConstant: 1000).isActive = true
+        openMainAppButton.addTarget(self, action: #selector(openMainApp(_:)), for: .touchDown)
+        //openMainAppButton.addGestureRecognizer(UIGestureRecognizer(target: self, action: Selector(("openMainApp:"))))
+        
+        self.view.addSubview(openMainAppButton)
         self.view.frame = CGRect(x: 0.0, y: 0.0, width: 1000, height: 750)
-        self.trainsView = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 250))
+        self.trainsView = UIView(frame: CGRect(x: 0, y: 36, width: 500, height: 250))
         self.view.addSubview(trainsView)
 //        self.scrollView.addSubview(trainsView)
 //
