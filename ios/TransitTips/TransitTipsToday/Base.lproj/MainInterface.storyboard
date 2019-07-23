@@ -17,6 +17,23 @@
                     <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scs-Dv-QIq">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
+                                <state key="normal" title="Open Main App"/>
+                                <connections>
+                                    <action selector="openMainApp:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="BKu-9V-7XL"/>
+                                    <action selector="openMainApp:" destination="M4Y-Lb-cyx" eventType="touchUpOutside" id="LXJ-Vd-Spo"/>
+                                    <action selector="openMainApp:" destination="M4Y-Lb-cyx" eventType="touchDown" id="e0J-u6-jBa"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="scs-Dv-QIq" firstAttribute="top" secondItem="S3S-Oj-5AN" secondAttribute="top" id="aXZ-XY-MaH"/>
+                            <constraint firstItem="ssy-KU-ocm" firstAttribute="top" secondItem="scs-Dv-QIq" secondAttribute="bottom" constant="8" symbolic="YES" id="bHh-fb-TIR"/>
+                            <constraint firstItem="scs-Dv-QIq" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="fLC-DU-CsB"/>
+                            <constraint firstAttribute="trailing" secondItem="scs-Dv-QIq" secondAttribute="trailing" id="yAG-oa-MtU"/>
+                        </constraints>
                         <edgeInsets key="layoutMargins" top="0.0" left="20" bottom="0.0" right="20"/>
                         <viewLayoutGuide key="safeArea" id="ssy-KU-ocm" userLabel="MyLayout" colorLabel="IBBuiltInLabel-Purple"/>
                     </view>

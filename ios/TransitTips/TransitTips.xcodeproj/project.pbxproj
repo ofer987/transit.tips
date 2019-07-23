@@ -88,6 +88,8 @@
 		EA3EA97D22D24B14000B9131 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		EA3EA98022D24B14000B9131 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EA3EA98222D24B14000B9131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA44F1A722E69C6D001CDDE4 /* TransitTips.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TransitTips.entitlements; sourceTree = "<group>"; };
+		EA44F1A822E69C86001CDDE4 /* TransitTipsToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TransitTipsToday.entitlements; sourceTree = "<group>"; };
 		EA59EF9122C994130082C14D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		EA59EFC722C99D7B0082C14D /* Common.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Common.xcodeproj; path = Common/Common.xcodeproj; sourceTree = "<group>"; };
 		EADB479B22B56E6700907F8F /* TransitTips.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransitTips.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +146,7 @@
 		EA3EA97C22D24B14000B9131 /* TransitTipsToday */ = {
 			isa = PBXGroup;
 			children = (
+				EA44F1A822E69C86001CDDE4 /* TransitTipsToday.entitlements */,
 				EA3EA97D22D24B14000B9131 /* TodayViewController.swift */,
 				EA3EA97F22D24B14000B9131 /* MainInterface.storyboard */,
 				EA3EA98222D24B14000B9131 /* Info.plist */,
@@ -194,6 +197,7 @@
 		EADB479D22B56E6700907F8F /* TransitTips */ = {
 			isa = PBXGroup;
 			children = (
+				EA44F1A722E69C6D001CDDE4 /* TransitTips.entitlements */,
 				EADB479E22B56E6700907F8F /* AppDelegate.swift */,
 				EADB47A522B56E6900907F8F /* Assets.xcassets */,
 				EADB47AA22B56E6900907F8F /* Info.plist */,
@@ -282,9 +286,19 @@
 				TargetAttributes = {
 					EA3EA97922D24B14000B9131 = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					EADB479A22B56E6700907F8F = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					EADB47AE22B56E6900907F8F = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -453,6 +467,7 @@
 		EA3EA98722D24B14000B9131 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TransitTipsToday/TransitTipsToday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5C2RRQX4HS;
 				INFOPLIST_FILE = TransitTipsToday/Info.plist;
@@ -472,6 +487,7 @@
 		EA3EA98822D24B14000B9131 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TransitTipsToday/TransitTipsToday.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5C2RRQX4HS;
 				INFOPLIST_FILE = TransitTipsToday/Info.plist;
@@ -609,6 +625,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TransitTips/TransitTips.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5C2RRQX4HS;
 				INFOPLIST_FILE = TransitTips/Info.plist;
@@ -629,6 +646,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TransitTips/TransitTips.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5C2RRQX4HS;
 				INFOPLIST_FILE = TransitTips/Info.plist;
