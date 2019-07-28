@@ -12,33 +12,60 @@ import CoreLocation
 import Common
 import Common_Models
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: Properties
     @IBOutlet weak var localButton : UIButton!
 //    @IBOutlet weak var resultsText : UITextView!
-    @IBOutlet weak var containerView : UIView!
-    
+    @IBOutlet weak var containerView : UIScrollView!
     var locationManager: CLLocationManager!
+    var trainsView: UIView!
+    var busesView: UIView!
+    var updated: Bool!
+    var location: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setMockedSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
+//        setMockedSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
         // Do any additional setup after loading the view.
         
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager = CLLocationManager()
-//            locationManager.delegate = self
-//            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-//            locationManager.requestAlwaysAuthorization()
-//            locationManager.startUpdatingLocation()
-//        }
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.requestAlwaysAuthorization()
+            locationManager.startUpdatingLocation()
+            //            locationManager.requestLocation()
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.containerView.alwaysBounceVertical = true
+        self.containerView.isScrollEnabled = true
+        self.containerView.showsVerticalScrollIndicator = true
+        
+        self.trainsView = UIView(frame: CGRect(x: 0, y: 36, width: 500, height: 250))
+        self.containerView.addSubview(trainsView)
+        
+//        let helloLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 100))
+//        helloLabel.text = "Hello"
+//        helloLabel.textAlignment = .center
+//        self.trainsView.addSubview(helloLabel)
+        //        self.scrollView.addSubview(trainsView)
+        //
+        self.busesView = UIView(frame: CGRect(x: 0, y: 200, width: 500, height: 500))
+        self.containerView.addSubview(busesView)
+        
+        self.updated = false
     }
     
     // MARK: Actions
     @IBAction func setSchedule(_ sender: UIButton) {
 //        resultsText.text = ""
-        setBusSchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
-        setMockedSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
+        setSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")
+        
+        setBusSchedule("https://restbus.transit.tips?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")
     }
     
     func setBusSchedule(_ path: String) {
@@ -52,9 +79,43 @@ class ViewController: UIViewController {
                     result = "COULD NOT GET DATA"
                 }
                 
-//                DispatchQueue.main.async {
-//                    self.resultsText.text += result
-//                }
+                DispatchQueue.main.async {
+                    do {
+                        let schedule = try BusJson.toModel(BusJson.decode(result))
+                        
+                        var startX = 0.0
+                        var startY = 0.0
+                        var i = 0
+                        var stationViews = [UIView]()
+                        for station in schedule.stations {
+                            let stationView = self.getStationView(station, x: Int(startX), y: Int(startY))
+                            stationViews.append(stationView)
+                            
+                            startX = Double(stationView.frame.maxX)
+                            startY = Double(stationView.frame.maxY)
+                            
+                            i += 1
+                        }
+                        
+                        //                        self.busesView = UIView(
+                        //                            frame: CGRect(
+                        //                                x: 0.0,
+                        //                                y: 0.0,
+                        //                                width: stationViews.last?.frame.maxX ?? 0.0,
+                        //                                height: stationViews.last?.frame.maxY ?? 0.0
+                        //                            )
+                        //                        )
+                        
+                        for view in stationViews {
+                            self.busesView.addSubview(view)
+                        }
+                        
+                        //                        self.addScheduleViews([self.busesView])
+                    } catch {
+                        // do nothing
+                    }
+                    //                    self.resultsText.text += result
+                }
             }
             task.resume()
         }
@@ -75,13 +136,38 @@ class ViewController: UIViewController {
                     do {
                         let schedule = try TrainJson.toModel(TrainJson.decode(result))
                         
+                        var startX = 0.0
+                        var startY = 0.0
+                        var i = 0
+                        var stationViews = [UIView]()
                         for station in schedule.stations {
-                            self.containerView.addSubview(self.getStationView(station, 0))
+                            let stationView = self.getStationView(station, x: Int(startX), y: Int(startY))
+                            stationViews.append(stationView)
+                            
+                            startX = Double(stationView.frame.maxX)
+                            startY = Double(stationView.frame.maxY)
+                            
+                            i += 1
                         }
+                        
+                        //                        self.trainsView = UIView(
+                        //                            frame: CGRect(
+                        //                                x: 0.0,
+                        //                                y: 0.0,
+                        //                                width: stationViews.last?.frame.maxX ?? 0.0,
+                        //                                height: stationViews.last?.frame.maxY ?? 0.0
+                        //                            )
+                        //                        )
+                        
+                        for view in stationViews {
+                            self.trainsView.addSubview(view)
+                        }
+                        
+                        //                        self.addScheduleViews([self.trainsView])
                     } catch {
                         // do nothing
                     }
-//                    self.resultsText.text += result
+                    //                    self.resultsText.text += result
                 }
             }
             task.resume()
@@ -97,101 +183,129 @@ class ViewController: UIViewController {
                 
                 var i = 0
                 for station in schedule.stations {
-                    self.containerView.addSubview(self.getStationView(station, i))
+                    //                    self.scrollView.addSubview(self.getStationView(station, i))
                     
                     i += 1
                 }
                 
-//                for route in schedule.routes {
-//                    self.containerView.addSubview(self.getRouteLabel(route))
-//                }
+                //                for route in schedule.routes {
+                //                    self.scrollView.addSubview(self.getRouteLabel(route))
+                //                }
             } catch {
                 // do nothing
             }
             //                    self.resultsText.text += result
         }
-
+        
     }
 
-    func getStationView(_ station: Common_Models.Station, _ i: Int) -> UIView {
-        let container = UIView(frame: CGRect(x: 0, y: 0 + 20*i, width: 1000, height: 200))
+    func getStationView(_ station: Common_Models.Station, x: Int = 0, y: Int = 0) -> UIView {
+        var views = [UIView]()
+        //        let lineCount = station.lines.count
+        //        let container = UIView(frame: CGRect(x: 0, y: y, width: 1000, height: 20 + lineCount * 40))
         
         let nameLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 1000, height: 20))
         nameLabel.textAlignment = .left
         nameLabel.text = station.name
-        container.addSubview(nameLabel)
+        views.append(nameLabel)
+        //        container.addSubview(nameLabel)
         
-        var i = 0
+        var startX = 0.0
+        var startY = 20.0
         for line in station.lines {
-            container.addSubview(getRouteView(line, y: 50*i))
-            i += 1
+            let routeView = getRouteView(line, x: Int(startX), y: Int(startY))
+            views.append(routeView)
+            //            container.addSubview(routeView)
+            
+            startX = Double(routeView.frame.maxX)
+            startY = Double(routeView.frame.maxY)
         }
+        
+        let maxX = 1000.0
+        let maxY = Double(views.last?.frame.maxY ?? 0)
+        let container = UIView(frame: CGRect(x: 0.0, y: Double(y), width: maxX, height: maxY))
+        
+        for view in views {
+            container.addSubview(view)
+        }
+        
+        // NOTE: should we redraw the container's frame?
+        // NOTE: YES
         
         return container
         
-//        for direction in station.directions {
-//
-//            let text = "\(station.name) to \(direction.destinationStationName)"
-//
-//            let label = UILabel(frame: CGRect(
-//                x: 100,
-//                y: 50 + 20*getRouteCount(),
-//                width: 400,
-//                height: 21))
-//            //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
-//            label.textAlignment =  .left
-//            label.text = text
-//
-//            label.addSubview(getArrivalsLabel(direction))
-//
-//            return label
-//        }
-//
-//        return UILabel()
+        //        for direction in station.directions {
+        //
+        //            let text = "\(station.name) to \(direction.destinationStationName)"
+        //
+        //            let label = UILabel(frame: CGRect(
+        //                x: 100,
+        //                y: 50 + 20*getRouteCount(),
+        //                width: 400,
+        //                height: 21))
+        //            //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
+        //            label.textAlignment =  .left
+        //            label.text = text
+        //
+        //            label.addSubview(getArrivalsLabel(direction))
+        //
+        //            return label
+        //        }
+        //
+        //        return UILabel()
     }
     
     func getRouteView(_ line: Common_Models.Line, x: Int = 0, y: Int = 0) -> UIView {
-        let container = UIView(frame: CGRect(x: 0, y: 20 + y, width: 1000, height: 20))
-        
         var j = 0
+        var views = [UIView]()
         for direction in line.directions {
             let lineLabel = UILabel(frame: CGRect(x: 10, y: 40*j, width: 1000, height: 20))
             lineLabel.textAlignment = .justified
             lineLabel.text = "Line \(line.id) to \(direction.destinationStationName)"
-            container.addSubview(lineLabel)
+            //            container.addSubview(lineLabel)
+            views.append(lineLabel)
             
-            container.addSubview(getArrivalsView(direction.arrivals, x: 10, y: 40*j))
+            let arrivalsView = getArrivalsView(direction.arrivals, x: 10, y: 20 + 40*j)
+            views.append(arrivalsView)
+            //            container.addSubview(arrivalsView)
             j += 1
+        }
+        
+        let maxX = 0.0
+        let maxY = Double(views.last?.frame.maxY ?? 0)
+        let container = UIView(frame: CGRect(x: 0.0, y: Double(y), width: maxX, height: maxY))
+        for view in views {
+            container.addSubview(view)
         }
         
         return container
     }
     
-//    func getArrivalsLabel(_ direction: DirectionModel) -> UILabel {
-//        let text = direction.arrivals
-//            .map({ "(\($0.minutes):\($0.seconds))" })
-//            .joined(separator: ", ")
-//
-//        let label = UILabel(frame: CGRect(
-//            x: 0,
-//            y: 30,
-//            width: 200,
-//            height: 21))
-//        //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
-//        label.textAlignment =  .center
-//        label.text = text
-//
-//        return label
-//    }
+    //    func getArrivalsLabel(_ direction: DirectionModel) -> UILabel {
+    //        let text = direction.arrivals
+    //            .map({ "(\($0.minutes):\($0.seconds))" })
+    //            .joined(separator: ", ")
+    //
+    //        let label = UILabel(frame: CGRect(
+    //            x: 0,
+    //            y: 30,
+    //            width: 200,
+    //            height: 21))
+    //        //                            label.center = CGPoint(x: 160, y: 285 + 20*count)
+    //        label.textAlignment =  .center
+    //        label.text = text
+    //
+    //        return label
+    //    }
     
     func getArrivalsView(_ arrivals: [Common_Models.Arrival], x: Int = 0, y: Int = 0) -> UIView {
-        let container = UIView(frame: CGRect(x: x + 50, y: 20 + y, width: 1000, height: 20))
+        let container = UIView(frame: CGRect(x: x, y: y, width: 1000, height: 20))
         
         var i = 0
         for arrival in arrivals {
-            let label = UILabel(frame: CGRect(x: 20 + 60*i, y: 0, width: 60, height: 20))
+            let label = UILabel(frame: CGRect(x: 20 + 20*i, y: 0, width: 100, height: 20))
             label.textAlignment = .center
-            label.text = "(\(arrival.minutes):\(arrival.seconds))"
+            label.text = "\(arrival.minutes)"
             
             container.addSubview(label)
             i += 1
@@ -199,15 +313,20 @@ class ViewController: UIViewController {
         
         return container
     }
-//
-//    func getRouteCount() -> Int {
-//        return self.containerView.subviews.count
-//    }
     
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
-        let location = locations.last! as CLLocation
+        locationManager.stopUpdatingLocation()
+        if self.updated {
+            return
+        }
+        self.updated = true
         
-//        resultsText.text = "locations = \(location.coordinate.latitude) \(location.coordinate.longitude)"
+        self.location = locations.last! as CLLocation
+        setSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")
+        setBusSchedule("https://restbus.transit.tips?latitude=\(location.coordinate.latitude)&longitude=\(location.coordinate.longitude)")
+        //        setSubwaySchedule("https://restbus.transit.tips/ttc/train/schedules/show?latitude=43.6427628186868&longitude=-79.38223111800772")
+        
+        //        resultsText.text = "locations = \(location.coordinate.latitude) \(location.coordinate.longitude)"
     }
 }
