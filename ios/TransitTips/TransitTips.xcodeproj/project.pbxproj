@@ -157,6 +157,8 @@
 		EA59EF9022C994120082C14D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA59EFC722C99D7B0082C14D /* Common.xcodeproj */,
+				EA3EA95622D00E0E000B9131 /* Common.Models.xcodeproj */,
 				EA59EF9122C994130082C14D /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -174,8 +176,6 @@
 		EADB479222B56E6700907F8F = {
 			isa = PBXGroup;
 			children = (
-				EA3EA95622D00E0E000B9131 /* Common.Models.xcodeproj */,
-				EA59EFC722C99D7B0082C14D /* Common.xcodeproj */,
 				EADB479D22B56E6700907F8F /* TransitTips */,
 				EADB47B222B56E6900907F8F /* TransitTipsTests */,
 				EA3EA97C22D24B14000B9131 /* TransitTipsToday */,
