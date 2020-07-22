@@ -1,10 +1,6 @@
 class Ttc::Train::SchedulesController < ApplicationController
   def show
     render json: as_json
-  rescue HttpStatusError => exception
-    render status: exception.code, json: { error: exception.message, backtrace: exception.backtrace }
-  rescue => exception
-    render status: 500, json: { error: exception.message, backtrace: exception.backtrace }
   end
 
   private
@@ -15,8 +11,8 @@ class Ttc::Train::SchedulesController < ApplicationController
 
   def as_json(_ = nil)
     {
-      longitude: longitude,
       latitude: latitude,
+      longitude: longitude,
       lines: lines
     }
   end
@@ -29,8 +25,8 @@ class Ttc::Train::SchedulesController < ApplicationController
         stations: [{
           id: station[:id],
           name: station[:name],
-          longitude: station[:longitude],
           latitude: station[:latitude],
+          longitude: station[:longitude],
           directions: Array(events(line[:id], station[:id]))
         }],
       }

@@ -9,7 +9,7 @@ describe Endpoints do
 
     context '#routes' do
       it 'returns back a JSON object' do
-        expect(subject.routes).to be_a Array
+        expect(subject.routes).to be_an Array
       end
     end
 
@@ -26,7 +26,7 @@ describe Endpoints do
 
     context '#address' do
       it 'returns an address' do
-        expect(subject.address).to eq('85 Joicey Blvd, North York, ON M5M 2T4, Canada')
+        expect(subject.address).to eq('82 Joicey Blvd, North York, ON M5M 2T5, Canada')
       end
     end
   end

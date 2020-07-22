@@ -32,6 +32,10 @@ module Ttc
 
         nearest_stations
           .reject { |_, station| station.nil? }
+      rescue => exception
+        Rails.logger.error exception.full_message
+
+        []
       end
 
       def shortest_ordered_distance_to(stations, threshold_kilometres = 2)
