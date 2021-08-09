@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+# frozen_string_literal true
+
+width = ARGV[0]
+`convert 60x60.original.png -resize #{width}x#{width} #{width}x#{width}.png`

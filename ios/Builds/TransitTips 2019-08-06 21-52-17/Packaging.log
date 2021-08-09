@@ -1,0 +1,186 @@
+2019-08-07 01:52:12 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x7fb636832450; archive(resolved)='<IDEArchive: 0x7fb631badae0>', distributionTask(resolved)='2', distributionDestination(resolved)='1', distributionMethod(resolved)='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team(resolved)='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	Chain (12, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x7fb636832450; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionProcessingPipelineContext: 0x7fb636a093a0; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionContext: 0x7fb635b722c0; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionContext: 0x7fb635f530b0; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionContext: 0x7fb635f82b40; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionContext: 0x7fb633ac04d0; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionContext: 0x7fb633a88a70; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionContext: 0x7fb635fb62b0; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionContext: 0x7fb635fa03c0; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='<IDEProvisioningDisambiguatableBasicTeam: 0x7fb62d2b2e40; teamID='5C2RRQX4HS', teamName='Dan Ofer', teamType='Individual', username='dan@ofer.to', isFreeProvisioningTeam='0'>'>
+	<IDEDistributionContext: 0x7fb635f0b9d0; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='(null)'>
+	<IDEDistributionContext: 0x7fb632c47e70; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='<IDEDistributionMethodiOSAppStoreDistribution: 0x7fb635047900>', team='(null)'>
+	<IDEDistributionContext: 0x7fb62c06f4b0; archive = '<IDEArchive: 0x7fb631badae0>', distributionMethod='(null)', team='(null)'>
+</IDEDistributionProcessingPipelineContext: 0x7fb636832450>
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCreateDestRootStep
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCopyItemStep
+2019-08-07 01:52:12 +0000  Running /usr/bin/ditto '-V' '/Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/Products/Applications/TransitTips.app' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/Payload/TransitTips.app'
+2019-08-07 01:52:12 +0000  >>> Copying /Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/Products/Applications/TransitTips.app 
+2019-08-07 01:52:12 +0000  copying file ./_CodeSignature/CodeResources ... 
+2019-08-07 01:52:12 +0000  7386 bytes for ./_CodeSignature/CodeResources
+2019-08-07 01:52:12 +0000  copying file ./PlugIns/TransitTipsToday.appex/_CodeSignature/CodeResources ... 
+2019-08-07 01:52:12 +0000  2962 bytes for ./PlugIns/TransitTipsToday.appex/_CodeSignature/CodeResources
+2019-08-07 01:52:12 +0000  copying file ./PlugIns/TransitTipsToday.appex/TransitTipsToday ... 
+2019-08-07 01:52:12 +0000  225344 bytes for ./PlugIns/TransitTipsToday.appex/TransitTipsToday
+2019-08-07 01:52:12 +0000  copying file ./PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/UIViewController-M4Y-Lb-cyx.nib ... 
+2019-08-07 01:52:12 +0000  1024 bytes for ./PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/UIViewController-M4Y-Lb-cyx.nib
+2019-08-07 01:52:12 +0000  copying file ./PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/M4Y-Lb-cyx-view-S3S-Oj-5AN.nib ... 
+2019-08-07 01:52:12 +0000  3064 bytes for ./PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/M4Y-Lb-cyx-view-S3S-Oj-5AN.nib
+copying file ./PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/Info.plist ... 
+2019-08-07 01:52:12 +0000  258 bytes for ./PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/Info.plist
+2019-08-07 01:52:12 +0000  copying file ./PlugIns/TransitTipsToday.appex/embedded.mobileprovision ... 
+2019-08-07 01:52:12 +0000  9711 bytes for ./PlugIns/TransitTipsToday.appex/embedded.mobileprovision
+copying file ./PlugIns/TransitTipsToday.appex/Info.plist ... 
+2019-08-07 01:52:12 +0000  926 bytes for ./PlugIns/TransitTipsToday.appex/Info.plist
+2019-08-07 01:52:12 +0000  copying file ./AppIcon60x60@2x.png ... 
+2019-08-07 01:52:12 +0000  1921 bytes for ./AppIcon60x60@2x.png
+2019-08-07 01:52:12 +0000  copying file ./LaunchImage-2-700-568h@2x.png ... 
+2019-08-07 01:52:12 +0000  14942 bytes for ./LaunchImage-2-700-568h@2x.png
+2019-08-07 01:52:12 +0000  copying file ./Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib ... 
+2019-08-07 01:52:12 +0000  983 bytes for ./Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib
+2019-08-07 01:52:12 +0000  copying file ./Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib ... 
+2019-08-07 01:52:12 +0000  5624 bytes for ./Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib
+copying file ./Base.lproj/Main.storyboardc/Info.plist ... 
+2019-08-07 01:52:12 +0000  258 bytes for ./Base.lproj/Main.storyboardc/Info.plist
+2019-08-07 01:52:12 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib ... 
+2019-08-07 01:52:12 +0000  1136 bytes for ./Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib
+copying file ./Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib ... 
+2019-08-07 01:52:12 +0000  832 bytes for ./Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib
+2019-08-07 01:52:12 +0000  copying file ./Base.lproj/LaunchScreen.storyboardc/Info.plist ... 
+2019-08-07 01:52:12 +0000  258 bytes for ./Base.lproj/LaunchScreen.storyboardc/Info.plist
+copying file ./Assets.car ... 
+2019-08-07 01:52:12 +0000  66680 bytes for ./Assets.car
+2019-08-07 01:52:12 +0000  copying file ./AppIcon76x76@2x~ipad.png ... 
+2019-08-07 01:52:12 +0000  2449 bytes for ./AppIcon76x76@2x~ipad.png
+copying file ./TransitTips ... 
+2019-08-07 01:52:12 +0000  262112 bytes for ./TransitTips
+2019-08-07 01:52:12 +0000  copying file ./embedded.mobileprovision ... 
+2019-08-07 01:52:12 +0000  9660 bytes for ./embedded.mobileprovision
+copying file ./Info.plist ... 
+2019-08-07 01:52:12 +0000  1892 bytes for ./Info.plist
+2019-08-07 01:52:12 +0000  copying file ./PkgInfo ... 
+2019-08-07 01:52:12 +0000  8 bytes for ./PkgInfo
+2019-08-07 01:52:12 +0000  /usr/bin/ditto exited with 0
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionEmbedProfileStep
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionItemRemovalStep
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2019-08-07 01:52:12 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCompileBitcodeStep
+2019-08-07 01:52:12 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCodeSlimmingStep
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
+2019-08-07 01:52:12 +0000  Running /usr/bin/ditto '-V' '/Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/BCSymbolMaps/CF663CEB-B14D-35D5-92F0-8AE3FE69CD48.bcsymbolmap' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/BCSymbolMaps/CF663CEB-B14D-35D5-92F0-8AE3FE69CD48.bcsymbolmap'
+2019-08-07 01:52:12 +0000  >>> Copying /Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/BCSymbolMaps/CF663CEB-B14D-35D5-92F0-8AE3FE69CD48.bcsymbolmap 
+2019-08-07 01:52:12 +0000  copying file ./CF663CEB-B14D-35D5-92F0-8AE3FE69CD48.bcsymbolmap ... 
+2019-08-07 01:52:12 +0000  19053 bytes for ./CF663CEB-B14D-35D5-92F0-8AE3FE69CD48.bcsymbolmap
+2019-08-07 01:52:12 +0000  /usr/bin/ditto exited with 0
+2019-08-07 01:52:12 +0000  Running /usr/bin/ditto '-V' '/Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/BCSymbolMaps/A40F46FB-D924-3E6C-B693-DA64F372D9A6.bcsymbolmap' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/BCSymbolMaps/A40F46FB-D924-3E6C-B693-DA64F372D9A6.bcsymbolmap'
+2019-08-07 01:52:12 +0000  >>> Copying /Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/BCSymbolMaps/A40F46FB-D924-3E6C-B693-DA64F372D9A6.bcsymbolmap 
+2019-08-07 01:52:12 +0000  copying file ./A40F46FB-D924-3E6C-B693-DA64F372D9A6.bcsymbolmap ... 
+2019-08-07 01:52:12 +0000  21911 bytes for ./A40F46FB-D924-3E6C-B693-DA64F372D9A6.bcsymbolmap
+2019-08-07 01:52:12 +0000  /usr/bin/ditto exited with 0
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionSymbolsStep
+2019-08-07 01:52:12 +0000  Excluding symbols for TransitTipsToday.appex
+2019-08-07 01:52:12 +0000  Excluding symbols for TransitTips.app
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCopyAppleProvidedContentStep
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionAppThinningStep
+2019-08-07 01:52:12 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionArchThinningStep
+2019-08-07 01:52:12 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/TransitTipsToday' '-verify_arch' 'arm64e'
+2019-08-07 01:52:12 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2019-08-07 01:52:12 +0000  Skipping architecture thinning for item "TransitTipsToday" because arch "arm64e" wasn't found
+2019-08-07 01:52:12 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/Payload/TransitTips.app/TransitTips' '-verify_arch' 'arm64e'
+2019-08-07 01:52:12 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2019-08-07 01:52:12 +0000  Skipping architecture thinning for item "TransitTips" because arch "arm64e" wasn't found
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionODRStep
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionStripXattrsStep
+2019-08-07 01:52:12 +0000  Skipping stripping extended attributes of item: <IDEDistributionItem: 0x7fb6358577b0 'com.otium.TransitTips.TransitTipsToday' '<DVTFilePath:0x7fb62dba5e90:'/Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/Products/Applications/TransitTips.app/PlugIns/TransitTipsToday.appex'>'>
+2019-08-07 01:52:12 +0000  Running /usr/bin/xattr '-crs' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/Payload/TransitTips.app'
+2019-08-07 01:52:12 +0000  /usr/bin/xattr exited with 0
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCodesignStep
+2019-08-07 01:52:12 +0000  Entitlements for <IDEDistributionItem: 0x7fb6358577b0 'com.otium.TransitTips.TransitTipsToday' '<DVTFilePath:0x7fb62dba5e90:'/Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/Products/Applications/TransitTips.app/PlugIns/TransitTipsToday.appex'>'>: {
+    "application-identifier" = "5C2RRQX4HS.com.otium.TransitTips.TransitTipsToday";
+    "beta-reports-active" = 1;
+    "com.apple.developer.team-identifier" = 5C2RRQX4HS;
+    "com.apple.security.application-groups" =     (
+        "group.TransitTips"
+    );
+    "get-task-allow" = 0;
+}
+2019-08-07 01:52:12 +0000  Writing entitlements for <IDEDistributionItem: 0x7fb6358577b0 'com.otium.TransitTips.TransitTipsToday' '<DVTFilePath:0x7fb62dba5e90:'/Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/Products/Applications/TransitTips.app/PlugIns/TransitTipsToday.appex'>'> to: /var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/entitlements~~~G7SC9d
+2019-08-07 01:52:12 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '97D041CA1D71E695E8EAA9E0B9F4222B3C852CBF' '--entitlements' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/entitlements~~~G7SC9d' '--preserve-metadata=identifier,flags,runtime' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/Payload/TransitTips.app/PlugIns/TransitTipsToday.appex'
+2019-08-07 01:52:12 +0000  /var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/Payload/TransitTips.app/PlugIns/TransitTipsToday.appex: signed bundle with Mach-O thin (arm64) [com.otium.TransitTips.TransitTipsToday]
+2019-08-07 01:52:12 +0000  /usr/bin/codesign exited with 0
+2019-08-07 01:52:12 +0000  Entitlements for <IDEDistributionItem: 0x7fb635bc4630 'com.otium.TransitTips' '<DVTFilePath:0x7fb63392a230:'/Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/Products/Applications/TransitTips.app'>'>: {
+    "application-identifier" = "5C2RRQX4HS.com.otium.TransitTips";
+    "beta-reports-active" = 1;
+    "com.apple.developer.team-identifier" = 5C2RRQX4HS;
+    "com.apple.security.application-groups" =     (
+        "group.TransitTips"
+    );
+    "get-task-allow" = 0;
+}
+2019-08-07 01:52:12 +0000  Writing entitlements for <IDEDistributionItem: 0x7fb635bc4630 'com.otium.TransitTips' '<DVTFilePath:0x7fb63392a230:'/Users/ofer987/Library/Developer/Xcode/Archives/2019-08-06/TransitTips 2019-08-06, 21.43.xcarchive/Products/Applications/TransitTips.app'>'> to: /var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/entitlements~~~1WSow1
+2019-08-07 01:52:12 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '97D041CA1D71E695E8EAA9E0B9F4222B3C852CBF' '--entitlements' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/entitlements~~~1WSow1' '--preserve-metadata=identifier,flags,runtime' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/Payload/TransitTips.app'
+2019-08-07 01:52:12 +0000  /var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root/Payload/TransitTips.app: signed app bundle with Mach-O thin (arm64) [com.otium.TransitTips]
+2019-08-07 01:52:12 +0000  /usr/bin/codesign exited with 0
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionZipODRItemStep
+2019-08-07 01:52:12 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2019-08-07 01:52:12 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCreateIPAStep
+2019-08-07 01:52:12 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root' '/var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Packages/TransitTips.ipa'
+2019-08-07 01:52:12 +0000  >>> Copying /var/folders/z5/0stly3ld4kg5yskqhy85m7sc0000gn/T/XcodeDistPipeline.~~~hSXNXR/Root 
+2019-08-07 01:52:12 +0000  copying file ./BCSymbolMaps/A40F46FB-D924-3E6C-B693-DA64F372D9A6.bcsymbolmap ... 
+2019-08-07 01:52:12 +0000  21911 bytes for ./BCSymbolMaps/A40F46FB-D924-3E6C-B693-DA64F372D9A6.bcsymbolmap
+copying file ./BCSymbolMaps/CF663CEB-B14D-35D5-92F0-8AE3FE69CD48.bcsymbolmap ... 
+2019-08-07 01:52:12 +0000  19053 bytes for ./BCSymbolMaps/CF663CEB-B14D-35D5-92F0-8AE3FE69CD48.bcsymbolmap
+2019-08-07 01:52:12 +0000  copying file ./Payload/TransitTips.app/_CodeSignature/CodeResources ... 
+2019-08-07 01:52:12 +0000  7386 bytes for ./Payload/TransitTips.app/_CodeSignature/CodeResources
+copying file ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/_CodeSignature/CodeResources ... 
+2019-08-07 01:52:12 +0000  2962 bytes for ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/_CodeSignature/CodeResources
+copying file ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/TransitTipsToday ... 
+2019-08-07 01:52:12 +0000  176256 bytes for ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/TransitTipsToday
+2019-08-07 01:52:12 +0000  copying file ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/UIViewController-M4Y-Lb-cyx.nib ... 
+1024 bytes for ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/UIViewController-M4Y-Lb-cyx.nib
+copying file ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/M4Y-Lb-cyx-view-S3S-Oj-5AN.nib ... 
+2019-08-07 01:52:12 +0000  3064 bytes for ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/M4Y-Lb-cyx-view-S3S-Oj-5AN.nib
+copying file ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/Info.plist ... 
+2019-08-07 01:52:12 +0000  258 bytes for ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/Base.lproj/MainInterface.storyboardc/Info.plist
+copying file ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/embedded.mobileprovision ... 
+2019-08-07 01:52:12 +0000  7731 bytes for ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/embedded.mobileprovision
+copying file ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/Info.plist ... 
+2019-08-07 01:52:12 +0000  926 bytes for ./Payload/TransitTips.app/PlugIns/TransitTipsToday.appex/Info.plist
+copying file ./Payload/TransitTips.app/AppIcon60x60@2x.png ... 
+2019-08-07 01:52:12 +0000  1921 bytes for ./Payload/TransitTips.app/AppIcon60x60@2x.png
+copying file ./Payload/TransitTips.app/LaunchImage-2-700-568h@2x.png ... 
+14942 bytes for ./Payload/TransitTips.app/LaunchImage-2-700-568h@2x.png
+2019-08-07 01:52:12 +0000  copying file ./Payload/TransitTips.app/Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib ... 
+983 bytes for ./Payload/TransitTips.app/Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib
+copying file ./Payload/TransitTips.app/Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib ... 
+2019-08-07 01:52:12 +0000  5624 bytes for ./Payload/TransitTips.app/Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib
+2019-08-07 01:52:12 +0000  copying file ./Payload/TransitTips.app/Base.lproj/Main.storyboardc/Info.plist ... 
+258 bytes for ./Payload/TransitTips.app/Base.lproj/Main.storyboardc/Info.plist
+copying file ./Payload/TransitTips.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib ... 
+2019-08-07 01:52:12 +0000  1136 bytes for ./Payload/TransitTips.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib
+copying file ./Payload/TransitTips.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib ... 
+2019-08-07 01:52:12 +0000  832 bytes for ./Payload/TransitTips.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib
+copying file ./Payload/TransitTips.app/Base.lproj/LaunchScreen.storyboardc/Info.plist ... 
+258 bytes for ./Payload/TransitTips.app/Base.lproj/LaunchScreen.storyboardc/Info.plist
+copying file ./Payload/TransitTips.app/Assets.car ... 
+2019-08-07 01:52:12 +0000  66680 bytes for ./Payload/TransitTips.app/Assets.car
+copying file ./Payload/TransitTips.app/AppIcon76x76@2x~ipad.png ... 
+2019-08-07 01:52:12 +0000  2449 bytes for ./Payload/TransitTips.app/AppIcon76x76@2x~ipad.png
+copying file ./Payload/TransitTips.app/TransitTips ... 
+2019-08-07 01:52:12 +0000  204064 bytes for ./Payload/TransitTips.app/TransitTips
+copying file ./Payload/TransitTips.app/embedded.mobileprovision ... 
+2019-08-07 01:52:12 +0000  7680 bytes for ./Payload/TransitTips.app/embedded.mobileprovision
+copying file ./Payload/TransitTips.app/Info.plist ... 
+2019-08-07 01:52:12 +0000  1892 bytes for ./Payload/TransitTips.app/Info.plist
+copying file ./Payload/TransitTips.app/PkgInfo ... 
+8 bytes for ./Payload/TransitTips.app/PkgInfo
+2019-08-07 01:52:12 +0000  /usr/bin/ditto exited with 0
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionAppStoreInformationStep
+2019-08-07 01:52:12 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2019-08-07 01:52:12 +0000  Processing step: IDEDistributionCreateManifestStep
+2019-08-07 01:52:12 +0000  Skipping step: IDEDistributionCreateManifestStep because it said so
