@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'awesome_print', '~> 1.8.0'
 
   spec.add_dependency 'droplet_kit', '~> 2.4.0'
-  spec.add_dependency 'activesupport', '~> 5.2.0'
+  spec.add_dependency 'activesupport', '>= 5.2', '< 6.1'
   spec.add_dependency 'chef', '~> 13.6.4'
   spec.add_dependency 'chef-vault', '~> 3.4.3'
 end
